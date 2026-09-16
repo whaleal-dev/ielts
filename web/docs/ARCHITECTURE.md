@@ -122,5 +122,4 @@ npm run dev           # http://127.0.0.1:5173
 - `web/docs/*/legacy-*.md`、`PORT-NOTES.md`、`PARITY-CHECKLIST.md`：各模块 legacy 规范与决策
 - `web/docs/audio-player/ENHANCER-PLAN.md`：audio 系统词库增强（数据驱动方案，待专项）
 - `web/docs/PRODUCT-INTEGRATION-PLAN.md`：统一学习中心、备份边界和首轮事件链路
-- 备份：legacy 页面整体保留于仓库 `legacy/`，另有 2026-09 的整库备份副本
-  （`~/Desktop/ielts-dev-backup-20260909-205928/`）。
+- 备份：legacy 页面整体保留于仓库 `legacy/`。

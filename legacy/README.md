@@ -17,4 +17,3 @@
 2. `_root/` 下旧脚本与数据为“原样归档”：其中的路径若仍写 `words/…`、`listening-word/…`
    在旧版结构下有效；如需运行请先自行改为 `legacy/words/…` 等。
 3. 各旧模块自带 version/release 文档，可作历史审查。
-4. 另有 2026-09 整库备份副本于仓库外（`~/Desktop/ielts-dev-backup-20260909-205928/`）。

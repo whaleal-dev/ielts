@@ -1,10 +1,13 @@
-# IELTS Tool
+# IELTS
+
+[简体中文](README.md) ｜ [English](README_EN.md)
+
+[GitHub 仓库](https://github.com/whaleal-dev/ielts)
 
 一个面向雅思学习的本地前端工具集合仓库，2026-09 起完成现代化重构：
 
 > ✅ 旧「单文件 HTML」工具已全部重构为 **Vue 3 + Vite + TypeScript** 现代应用（`web/`）。
-> ✅ 全部旧文件与数据源已归档至 **`legacy/`**（可继续作为样式/数据对照；另有整库备份
-> `~/Desktop/ielts-dev-backup-20260909-205928/`）。
+> ✅ 全部旧文件与数据源已归档至 **`legacy/`**，可继续作为样式、数据和行为对照。
 
 仓库顶层仅保留新版应用、旧版归档和项目治理文档：
 
@@ -15,13 +18,26 @@
 
 ## 快速开始
 
+环境要求：Node.js 20.19 或更高版本（或 22.12 及以上）、npm 10 或更高版本，以及现代桌面浏览器。
+
+```bash
+git clone https://github.com/whaleal-dev/ielts.git
+cd ielts/web
+npm install
+npm run dev
+```
+
+开发与验证命令：
+
 ```bash
 cd web
-npm install
 npm run dev        # http://127.0.0.1:5173
 npm run test       # 单元测试（95 项）
 npm run build      # vue-tsc 类型检查 + 产物
+npm run preview    # 本地预览构建产物
 ```
+
+应用使用 Hash 路由，开发服务器启动后访问 `http://127.0.0.1:5173/#/`。
 
 ## 一级入口
 
@@ -88,6 +104,7 @@ cd web && node scripts/scope-legacy-css.mjs <html> <scopeClass> <out.css>
 - 详细规范见 `CLAUDE.md`，阶段进度见 `ROADMAP.md`。
 
 ## 特点
+
 - 数据/进度/备份均存本地（沿用 legacy 的 localStorage / IndexedDB 键，旧数据直接兼容）。
 - 应用完整备份使用版本化全局信封；既有模块快照和存储键保持兼容。
 - `localStorage` 大记录超过 200,000 字符时自动分块，兼容旧版未分块值，并在写入失败时保留上一版数据。
@@ -95,7 +112,16 @@ cd web && node scripts/scope-legacy-css.mjs <html> <scopeClass> <out.css>
 - 语料听写、词汇掌握、今日工作台和记录复盘通过共享学习事件形成首条闭环。
 - 学习数据 100% 本地，无账号体系。
 
+## 数据与隐私
+
+- 学习记录、设置和练习状态默认仅保存在当前浏览器中。
+- 更换浏览器、清理站点数据或重装系统前，请在“全局设置”中导出完整 JSON 备份。
+- 音频 Blob 不包含在完整 JSON 备份中，需要单独保留原始音频文件。
+- 项目不需要账号，也不会主动上传学习数据。
+
 ## 文档索引
+
+- 英文指南：`README_EN.md`
 - 项目规范与进度：`CLAUDE.md`、`ROADMAP.md`
 - 架构与开发：`web/docs/ARCHITECTURE.md`、`web/README.md`
 - 产品整合方案：`web/docs/PRODUCT-INTEGRATION-PLAN.md`
