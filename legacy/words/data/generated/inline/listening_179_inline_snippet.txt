@@ -1,0 +1,20 @@
+      const LISTENING_179_BASE64 =
+        'WyJyZXNlcnZlIiwiaW4gYWR2YW5jZSIsImhhdmUgdG8iLCJhZGp1c3QiLCJhbmQiLCJidXQiLCJiZWNhdXNlIiwiZGl2ZXJzaXR5IiwiZmVlIiwiZXN0YWJs' +
+        'aXNoIiwidHJhbnNmZXIiLCJoYWJpdGF0IiwiaW50ZXJuYXRpb25hbCIsImV4cG9ydCIsInZlZ2V0YXRpb24iLCJhbmltYWwiLCJmZWF0dXJlIiwiZW1pZ3Jh' +
+        'dGUiLCJmb29kIiwiYWxsZXJnaWMiLCJmaXRuZXNzIiwidHJhZGl0aW9uIiwiZW50ZXJ0YWlubWVudCIsInByZXNzIiwib25saW5lIiwicHVibGljaXR5Iiwi' +
+        'cGljdHVyZSIsImpld2VsbGVyeSIsImFydHdvcmsiLCJzdGF0dWUiLCJtb3ZpZSIsImdlb2xvZ3kiLCJjb3VudHJ5c2lkZSIsInVyYmFuIiwiY29hc3RsaW5l' +
+        'IiwiZW52aXJvbm1lbnQiLCJub2lzeSIsImNhcGFjaXR5Iiwib3V0ZG9vciIsImFjY29tbW9kYXRpb24iLCJwbGFjZSIsIm5lYXIiLCJyZW1vdGUiLCJhZHZh' +
+        'bnRhZ2UiLCJkaXNhZHZhbnRhZ2UiLCJlZHVjYXRpb24iLCJvcmRpbmFyeSBwZW9wbGUiLCJzdHVkZW50IiwicHVycG9zZSIsImxlYXJuIiwic3RydWN0dXJl' +
+        'Iiwic3RhdGlzdGljcyIsIm1heGltdW0iLCJtaW5pbXVtIiwiaW5pdGlhbCIsImxpbWl0ZWQiLCJzaG9ydGVuIiwiZGVjcmVhc2UiLCJsYWNrIiwibGFyZ2Ui' +
+        'LCJhbW91bnQgb2YiLCJtYWpvcml0eSIsImRvdWJsZSIsIm1vcmUgdGhhbiIsImF0IHByZXNlbnQiLCJ1cGRhdGUiLCJuZXdlc3QiLCJzb29uIiwib3V0IG9m' +
+        'IGRhdGUiLCJhbmNpZW50IiwidGVtcG9yYXJ5IiwiZGVhZGxpbmUiLCJwZXJtYW5lbnQiLCJtb3JlIG9mdGVuIiwiYW5udWFsIiwiZXZlcnkgbW9udGgiLCJl' +
+        'dmVyeSBkYXkiLCJjbGFzc2lmeSIsImVudHJhbmNlIiwiYmVoaW5kIiwiYmVsb3ciLCJiZXNpZGUiLCJhdmFpbGFibGUiLCJib3JpbmciLCJ0cmVuZCIsInJp' +
+        'c2t5IiwicG9pc29ub3VzIiwid2FybmluZyIsImNhcmUiLCJzdGVhbCIsInByb3RlY3QiLCJpbmp1cnkiLCJtaWxpdGFyeSIsInRhY3RpY3MiLCJyZWx5IG9u' +
+        'IiwidHJhdmVsIiwic3BhY2UgdHJhdmVsIiwidHJhbnNwb3J0Iiwic3BlY2lmaWMiLCJyZXF1ZXN0IiwiY2xlYXIiLCJmcmVlemUiLCJvcmdhbml6YXRpb24i' +
+        'LCJvcmdhbml6ZSIsInByb2R1Y2UiLCJhZG1pbmlzdGVyIiwib2NjdXBhdGlvbiIsImFsbCBhZ2VzIiwieW91dGgiLCJtYXRlIiwic3RhZmYiLCJzYWxlIiwi' +
+        'Y2hlYXAiLCJkaXNjb3VudCIsInJvdW5kIiwib3JkZXIiLCJyZW5vdmF0ZSIsImFsb25lIiwiaG9zcGl0YWxpdHkiLCJzaGFwZSBsaWtlIiwiZGVwcmVzcyIs' +
+        'IndlbGwta25vd24iLCJzcGVjaWFsaXplIGluIiwicGFydCIsInR5cGljYWwiLCJ1bmNvbW1vbiIsImFjY3VyYXRlbHkiLCJleHBhbmQiLCJjbGltYiIsImVu' +
+        'aGFuY2UiLCJwb3dlciIsImZ1ZWwiLCJyZWZ1cmJpc2giLCJwcmVmZXJlbmNlIiwidHJ1c3QiLCJjb21wdXRlciIsImhhbmR5IiwiZGVtb25zdHJhdGUiLCJp' +
+        'bXBvcnRhbnQiLCJzdHJhaWdodGZvcndhcmQiLCJkaXN1c2VkIiwiZG9uYXRlIiwid29yayIsInR1cm4iLCJpbmZvcm1hdGlvbiIsInZpc3VhbGl6ZSIsInJl' +
+        'cGV0aXRpb24iLCJwb29yIiwiZHVyYWJsZSIsInBvbGx1dGFudCIsImNvbnRpbnVlIl0=';
+      window.LISTENING_179_DATA = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(LISTENING_179_BASE64), (char) => char.charCodeAt(0))));

@@ -1,0 +1,1081 @@
+.study-tracker-app {
+			--page-bg: radial-gradient(circle at top left, rgba(120, 177, 255, 0.18), transparent 24%), radial-gradient(circle at top right, rgba(255, 255, 255, 0.86), transparent 30%), linear-gradient(180deg, #f5f5f7 0%, #eef2f7 48%, #f7f8fa 100%);
+			--card-bg: rgba(255, 255, 255, 0.78);
+			--card-bg-strong: rgba(255, 255, 255, 0.94);
+			--border-color: rgba(29, 29, 31, 0.08);
+			--text-main: #1d1d1f;
+			--text-secondary: #6e6e73;
+			--accent: #0071e3;
+			--accent-soft: rgba(0, 113, 227, 0.1);
+			--accent-secondary: #2d2d2f;
+			--shadow-lg: 0 18px 48px rgba(15, 23, 42, 0.08);
+		}
+.study-tracker-app {
+			margin: 0;
+			font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+			color: var(--text-main);
+			background: var(--page-bg);
+			min-height: 100%;
+			line-height: 1.5;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+
+
+		.study-tracker-app * {
+			box-sizing: border-box;
+		}
+
+		.study-tracker-app [v-cloak] {
+			display: none;
+		}
+
+		.study-tracker-app .page-shell {
+			min-height: 100vh;
+			padding: 28px;
+		}
+
+		.study-tracker-app .container {
+			max-width: 1460px;
+			margin: 0 auto;
+			position: relative;
+		}
+
+		.study-tracker-app .hero-card,
+		.study-tracker-app .content-card,
+		.study-tracker-app .stats-card,
+		.study-tracker-app .tips-card {
+			background: var(--card-bg);
+			border: 1px solid rgba(255, 255, 255, 0.72);
+			box-shadow: var(--shadow-lg);
+			backdrop-filter: blur(28px);
+			border-radius: 28px;
+		}
+
+		.study-tracker-app .hero-card {
+			padding: 36px;
+			margin-bottom: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 20px;
+			flex-wrap: wrap;
+			position: relative;
+			overflow: hidden;
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(244, 247, 251, 0.94));
+		}
+
+		.study-tracker-app .hero-card::before {
+			content: "";
+			position: absolute;
+			inset: auto -40px -60px auto;
+			width: 220px;
+			height: 220px;
+			border-radius: 999px;
+			background: radial-gradient(circle, rgba(37, 99, 235, 0.18), transparent 68%);
+			pointer-events: none;
+		}
+
+		.study-tracker-app .hero-title {
+			margin: 0;
+			font-size: 40px;
+			line-height: 1.2;
+			letter-spacing: -0.03em;
+			font-weight: 700;
+		}
+
+		.study-tracker-app .hero-desc {
+			margin: 10px 0 0;
+			color: var(--text-secondary);
+			font-size: 16px;
+			line-height: 1.75;
+			max-width: 820px;
+		}
+
+		.study-tracker-app .hero-tags {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .hero-tag {
+			padding: 10px 15px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.96);
+			border: 1px solid rgba(0, 113, 227, 0.1);
+			color: #4a4a4f;
+			font-size: 13px;
+			font-weight: 500;
+		}
+
+		.study-tracker-app .hero-main {
+			flex: 1;
+			min-width: 280px;
+		}
+
+		.study-tracker-app .hero-side {
+			display: grid;
+			gap: 12px;
+			justify-items: end;
+			min-width: 320px;
+		}
+
+		.study-tracker-app .hero-actions {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			justify-content: flex-end;
+		}
+
+		.study-tracker-app .content-card {
+			padding: 26px;
+		}
+
+		.study-tracker-app .section-card {
+			border-radius: 24px;
+			border: 1px solid var(--border-color);
+			box-shadow: none;
+			background: var(--card-bg-strong);
+		}
+
+		.study-tracker-app .toolbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 14px;
+			margin-bottom: 16px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .toolbar-title {
+			font-size: 20px;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.study-tracker-app .toolbar-note {
+			font-size: 13px;
+			color: var(--text-secondary);
+			margin-top: 4px;
+			line-height: 1.65;
+		}
+
+		.study-tracker-app .toolbar-actions,
+		.study-tracker-app .table-actions {
+			display: flex;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .table-toolbar-card,
+		.study-tracker-app .filter-toolbar-card {
+			margin-bottom: 16px;
+		}
+
+		.study-tracker-app .table-toolbar-head {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 16px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .table-toolbar-meta,
+		.study-tracker-app .overview-badges {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+			margin-top: 10px;
+		}
+
+		.study-tracker-app .filter-row {
+			display: flex;
+			gap: 12px;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .filter-row + .filter-row {
+			margin-top: 12px;
+		}
+
+		.study-tracker-app .filter-row .el-date-editor,
+		.study-tracker-app .filter-row .el-select {
+			min-width: 180px;
+		}
+
+		.study-tracker-app .filter-row .el-switch {
+			margin-right: 4px;
+		}
+
+		.study-tracker-app .metric-target-input {
+			width: 120px;
+		}
+
+		.study-tracker-app .metric-target-input .el-input__inner {
+			text-align: center;
+		}
+
+		.study-tracker-app .alerts-panel {
+			display: grid;
+			gap: 10px;
+			margin-bottom: 16px;
+		}
+
+		.study-tracker-app .table-guideline {
+			margin-bottom: 16px;
+			padding: 16px 18px;
+			border-radius: 18px;
+			background: linear-gradient(135deg, rgba(250, 252, 255, 0.96), rgba(241, 245, 249, 0.92));
+			border: 1px solid rgba(148, 163, 184, 0.18);
+			font-size: 13px;
+			line-height: 1.7;
+			color: var(--text-secondary);
+		}
+
+		.study-tracker-app .review-table-card,
+		.study-tracker-app .todo-card,
+		.study-tracker-app .top-todo-card {
+			margin-bottom: 20px;
+		}
+
+		.study-tracker-app .todo-toolbar,
+		.study-tracker-app .todo-input-row,
+		.study-tracker-app .todo-main,
+		.study-tracker-app .todo-actions,
+		.study-tracker-app .dialog-actions-row,
+		.study-tracker-app .note-config-row,
+		.study-tracker-app .config-item-row {
+			display: flex;
+			gap: 12px;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .todo-toolbar,
+		.study-tracker-app .todo-main {
+			justify-content: space-between;
+		}
+
+		.study-tracker-app .todo-input-row {
+			margin-top: 16px;
+		}
+
+		.study-tracker-app .todo-priority-select {
+			width: 120px;
+		}
+
+		.study-tracker-app .todo-priority-group {
+			display: inline-flex;
+		}
+
+		.study-tracker-app .todo-priority-group .el-radio-button__inner {
+			padding: 7px 10px;
+		}
+
+		.study-tracker-app .todo-input-row .el-input {
+			flex: 1;
+			min-width: 220px;
+		}
+
+		.study-tracker-app .todo-summary {
+			margin-top: 14px;
+			font-size: 13px;
+			color: var(--text-secondary);
+		}
+
+		.study-tracker-app .todo-list,
+		.study-tracker-app .note-config-list,
+		.study-tracker-app .config-list,
+		.study-tracker-app .tips-list,
+		.study-tracker-app .overview-list {
+			display: grid;
+			gap: 12px;
+		}
+
+		.study-tracker-app .todo-item,
+		.study-tracker-app .note-config-item,
+		.study-tracker-app .config-item,
+		.study-tracker-app .tips-item,
+		.study-tracker-app .overview-list-item {
+			padding: 16px 18px;
+			border-radius: 18px;
+			background: rgba(255, 255, 255, 0.88);
+			border: 1px solid rgba(148, 163, 184, 0.14);
+		}
+
+		.study-tracker-app .todo-item.is-done {
+			opacity: 0.8;
+			background: rgba(246, 248, 252, 0.88);
+		}
+
+		.study-tracker-app .todo-main {
+			align-items: flex-start;
+			gap: 14px;
+		}
+
+		.study-tracker-app .todo-content {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.study-tracker-app .todo-text {
+			font-size: 15px;
+			line-height: 1.65;
+			word-break: break-word;
+		}
+
+		.study-tracker-app .todo-edit-input {
+			width: 100%;
+		}
+
+		.study-tracker-app .todo-meta {
+			margin-top: 6px;
+			font-size: 12px;
+			color: var(--text-secondary);
+			line-height: 1.6;
+		}
+
+		.study-tracker-app .todo-actions {
+			justify-content: flex-end;
+		}
+
+		.study-tracker-app .todo-priority-tag {
+			margin-left: 8px;
+		}
+
+		.study-tracker-app .todo-empty,
+		.study-tracker-app .overview-empty,
+		.study-tracker-app .accounting-selected-empty,
+		.study-tracker-app .notes-collapsed {
+			padding: 18px;
+			border-radius: 16px;
+			border: 1px dashed rgba(148, 163, 184, 0.24);
+			background: rgba(248, 250, 252, 0.88);
+			color: var(--text-secondary);
+			text-align: center;
+		}
+
+		.study-tracker-app .notes-collapsed.notes-collapsed-hoverable {
+			cursor: help;
+		}
+
+		.study-tracker-app .review-detail-popover {
+			max-width: min(560px, 72vw);
+		}
+
+		.study-tracker-app .review-detail-popover-title {
+			font-size: 13px;
+			font-weight: 600;
+			margin-bottom: 10px;
+			color: var(--text-main);
+		}
+
+		.study-tracker-app .review-detail-popover-list {
+			display: grid;
+			gap: 10px;
+		}
+
+		.study-tracker-app .review-detail-popover-item {
+			padding: 10px 12px;
+			border-radius: 12px;
+			background: rgba(248, 250, 252, 0.82);
+			border: 1px solid rgba(148, 163, 184, 0.22);
+		}
+
+		.study-tracker-app .review-detail-popover-item strong {
+			display: block;
+			font-size: 12px;
+			font-weight: 600;
+			color: #334155;
+			margin-bottom: 6px;
+		}
+
+		.study-tracker-app .review-detail-popover-item p,
+		.study-tracker-app .review-detail-popover-empty {
+			margin: 0;
+			font-size: 12px;
+			line-height: 1.65;
+			color: #475569;
+			white-space: pre-wrap;
+			word-break: break-word;
+		}
+
+		.study-tracker-app .todo-completed-panel {
+			margin-top: 16px;
+			border: 1px solid rgba(148, 163, 184, 0.18);
+			border-radius: 18px;
+			padding: 0 14px;
+			background: rgba(248, 250, 252, 0.68);
+		}
+
+		.study-tracker-app .todo-completed-panel .el-collapse,
+		.study-tracker-app .todo-completed-panel .el-collapse-item__wrap,
+		.study-tracker-app .todo-completed-panel .el-collapse-item__header {
+			background: transparent;
+		}
+
+		.study-tracker-app .todo-completed-panel .el-collapse {
+			border: 0;
+		}
+
+		.study-tracker-app .todo-completed-panel .el-collapse-item__header {
+			border: 0;
+			font-size: 13px;
+			font-weight: 600;
+			color: var(--text-secondary);
+		}
+
+		.study-tracker-app .todo-completed-panel .el-collapse-item__wrap {
+			border: 0;
+		}
+
+		.study-tracker-app .tab-pane-block,
+		.study-tracker-app .overview-layout,
+		.study-tracker-app .accounting-summary,
+		.study-tracker-app .tips-layout {
+			display: grid;
+			gap: 18px;
+		}
+
+		.study-tracker-app .overview-summary-grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+			gap: 16px;
+		}
+
+		.study-tracker-app .overview-card {
+			background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(246, 250, 255, 0.92) 100%);
+		}
+
+		.study-tracker-app .overview-grid,
+		.study-tracker-app .tips-layout {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 18px;
+		}
+
+		.study-tracker-app .overview-panel,
+		.study-tracker-app .accounting-calendar-card,
+		.study-tracker-app .accounting-summary-card,
+		.study-tracker-app .chart-card,
+		.study-tracker-app .tips-card,
+		.study-tracker-app .stats-card {
+			padding: 20px;
+		}
+
+		.study-tracker-app .overview-list-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			margin-bottom: 6px;
+		}
+
+		.study-tracker-app .overview-finance-list {
+			margin-top: 18px;
+		}
+
+		.study-tracker-app .accounting-grid {
+			display: grid;
+			grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+			gap: 18px;
+		}
+
+		.study-tracker-app .accounting-detail-card {
+			margin-bottom: 18px;
+		}
+
+		.study-tracker-app .accounting-calendar-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 12px;
+			flex-wrap: wrap;
+			margin-bottom: 12px;
+		}
+
+		.study-tracker-app .accounting-calendar-card .el-calendar-table .el-calendar-day {
+			height: auto;
+			min-height: 86px;
+			padding: 0;
+		}
+
+		.study-tracker-app .selected-date-pill {
+			display: inline-flex;
+			align-items: center;
+			padding: 8px 14px;
+			border-radius: 999px;
+			background: rgba(37, 99, 235, 0.08);
+			color: #1d4ed8;
+			font-size: 13px;
+			font-weight: 600;
+		}
+
+		.study-tracker-app .tracker-calendar-cell {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			gap: 6px;
+			min-height: 86px;
+			padding: 10px 10px 12px;
+			border-radius: 16px;
+			background: rgba(255, 255, 255, 0.72);
+			transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+		}
+
+		.study-tracker-app .tracker-calendar-cell.is-selected {
+			background: rgba(37, 99, 235, 0.12);
+			box-shadow: inset 0 0 0 1px rgba(37, 99, 235, 0.16);
+		}
+
+		.study-tracker-app .tracker-calendar-cell.is-today {
+			background: rgba(14, 165, 233, 0.12);
+		}
+
+		.study-tracker-app .tracker-calendar-cell.is-outside {
+			opacity: 0.56;
+		}
+
+		.study-tracker-app .tracker-calendar-day {
+			font-size: 13px;
+			font-weight: 700;
+			color: var(--text-main);
+		}
+
+		.study-tracker-app .tracker-calendar-spend {
+			font-size: 16px;
+			font-weight: 700;
+			color: #0f766e;
+			letter-spacing: -0.02em;
+		}
+
+		.study-tracker-app .tracker-calendar-count,
+		.study-tracker-app .tracker-calendar-empty {
+			font-size: 11px;
+			color: var(--text-secondary);
+		}
+
+		.study-tracker-app .calendar-meta,
+		.study-tracker-app .stats-grid,
+		.study-tracker-app .tips-kpis {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+
+		.study-tracker-app .stats-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 18px;
+			margin-top: 8px;
+			margin-bottom: 18px;
+		}
+
+		.study-tracker-app .calendar-meta-card strong,
+		.study-tracker-app .stats-value,
+		.study-tracker-app .tips-kpi strong {
+			display: block;
+			font-size: 24px;
+			font-weight: 700;
+			margin-top: 6px;
+			letter-spacing: -0.03em;
+		}
+
+		.study-tracker-app .stats-value {
+			font-size: 32px;
+			margin-bottom: 10px;
+		}
+
+		.study-tracker-app .stats-label,
+		.study-tracker-app .tips-title {
+			font-size: 13px;
+			color: var(--text-secondary);
+			margin-bottom: 12px;
+		}
+
+		.study-tracker-app .stats-sub,
+		.study-tracker-app .tips-item span,
+		.study-tracker-app .tips-item em {
+			font-size: 13px;
+			color: var(--text-secondary);
+			line-height: 1.6;
+		}
+
+		.study-tracker-app .tips-title {
+			font-size: 18px;
+			font-weight: 600;
+			color: var(--text-main);
+		}
+
+		.study-tracker-app .tips-item strong,
+		.study-tracker-app .accounting-selected-item strong {
+			display: block;
+			margin-bottom: 6px;
+		}
+
+		.study-tracker-app .accounting-form-row {
+			display: flex;
+			gap: 12px;
+			flex-wrap: wrap;
+			margin-bottom: 14px;
+		}
+
+		.study-tracker-app .accounting-form-row .el-input,
+		.study-tracker-app .accounting-form-row .el-input-number,
+		.study-tracker-app .accounting-form-row .el-select {
+			flex: 1;
+			min-width: 160px;
+		}
+
+		.study-tracker-app .duration-input,
+		.study-tracker-app .native-time-input {
+			width: 100%;
+		}
+
+		.study-tracker-app .trend-summary-grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+			margin-top: 16px;
+		}
+
+		.study-tracker-app .trend-summary-card {
+			padding: 16px 18px;
+			border-radius: 18px;
+			background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(242, 247, 255, 0.92));
+			border: 1px solid rgba(148, 163, 184, 0.16);
+		}
+
+		.study-tracker-app .trend-summary-card.reminder-panel {
+			background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(59, 130, 246, 0.04) 54%, rgba(255, 255, 255, 0.96));
+			border-color: rgba(59, 130, 246, 0.18);
+		}
+
+		.study-tracker-app .trend-summary-value {
+			font-size: 22px;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+			margin: 6px 0 8px;
+		}
+
+		.study-tracker-app .reminder-panel {
+			display: grid;
+			gap: 12px;
+		}
+
+		.study-tracker-app .reminder-head {
+			display: flex;
+			justify-content: space-between;
+			align-items: flex-start;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .reminder-title {
+			font-size: 18px;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+		}
+
+		.study-tracker-app .reminder-status-chip {
+			display: inline-flex;
+			align-items: center;
+			padding: 7px 12px;
+			border-radius: 999px;
+			background: rgba(255, 255, 255, 0.82);
+			border: 1px solid rgba(59, 130, 246, 0.14);
+			font-size: 12px;
+			font-weight: 600;
+			color: #2563eb;
+		}
+
+		.study-tracker-app .reminder-controls {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .reminder-control-main {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .reminder-control-box {
+			padding: 12px 14px;
+			border-radius: 16px;
+			background: rgba(255, 255, 255, 0.88);
+			border: 1px solid rgba(148, 163, 184, 0.14);
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .reminder-control-label {
+			font-size: 12px;
+			font-weight: 600;
+			color: var(--text-secondary);
+		}
+
+		.study-tracker-app .reminder-inline-actions {
+			display: flex;
+			gap: 10px;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .reminder-meta {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 10px;
+		}
+
+		.study-tracker-app .reminder-meta-item {
+			padding: 12px 14px;
+			border-radius: 14px;
+			background: rgba(255, 255, 255, 0.74);
+			border: 1px solid rgba(148, 163, 184, 0.12);
+		}
+
+		.study-tracker-app .reminder-meta-item strong {
+			display: block;
+			font-size: 16px;
+			margin-top: 4px;
+		}
+
+		.study-tracker-app .reminder-row,
+		.study-tracker-app .chart-head {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .heatmap-box {
+			height: 360px;
+		}
+
+		.study-tracker-app .report-note {
+			font-size: 12px;
+			color: var(--text-secondary);
+			margin-top: 8px;
+		}
+
+		.study-tracker-app .accounting-form-row .el-button {
+			min-width: 108px;
+		}
+
+		.study-tracker-app .accounting-selected-list {
+			display: grid;
+			gap: 10px;
+			margin-top: 16px;
+		}
+
+		.study-tracker-app .accounting-selected-item {
+			padding: 12px 14px;
+			border-radius: 16px;
+			background: rgba(255, 255, 255, 0.88);
+			border: 1px solid rgba(148, 163, 184, 0.16);
+		}
+
+		.study-tracker-app .category-manager {
+			display: grid;
+			gap: 12px;
+			margin-bottom: 14px;
+		}
+
+		.study-tracker-app .category-manager-row {
+			display: flex;
+			gap: 12px;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .category-tag-list {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+
+		.study-tracker-app .table-wrapper.bookkeeping-table-scroll {
+			max-height: 420px;
+			overflow-y: auto;
+			overflow-x: auto;
+		}
+
+		.study-tracker-app .bookkeeping-load-note {
+			margin-top: 12px;
+			font-size: 12px;
+			color: var(--text-secondary);
+			text-align: right;
+		}
+
+		.study-tracker-app .hidden-file-input {
+			display: none;
+		}
+
+		.study-tracker-app .table-wrapper {
+			border: 1px solid var(--border-color);
+			border-radius: 22px;
+			overflow-x: auto;
+			overflow-y: hidden;
+			background: rgba(255, 255, 255, 0.94);
+		}
+
+		.study-tracker-app .table-wrapper .el-table {
+			min-width: 1120px;
+		}
+
+		.study-tracker-app .table-wrapper .el-table,
+		.study-tracker-app .table-wrapper .el-table th,
+		.study-tracker-app .table-wrapper .el-table td {
+			font-size: 13px;
+		}
+
+		.study-tracker-app .table-wrapper .el-table .cell {
+			padding-left: 8px;
+			padding-right: 8px;
+		}
+
+		.study-tracker-app .core-table-wrapper {
+			--core-table-cell-padding-x: 8px;
+			--core-table-cell-padding-y: 8px;
+		}
+
+		.study-tracker-app .core-table-wrapper .el-table th,
+		.study-tracker-app .core-table-wrapper .el-table td {
+			padding-top: var(--core-table-cell-padding-y);
+			padding-bottom: var(--core-table-cell-padding-y);
+		}
+
+		.study-tracker-app .core-table-wrapper .el-table .cell {
+			padding-left: var(--core-table-cell-padding-x);
+			padding-right: var(--core-table-cell-padding-x);
+		}
+
+		.study-tracker-app .table-spacing-controls {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			flex-wrap: wrap;
+			margin-left: auto;
+		}
+
+		.study-tracker-app .table-spacing-label {
+			font-size: 12px;
+			color: var(--text-secondary);
+		}
+
+		.study-tracker-app .table-spacing-value {
+			font-size: 12px;
+			color: var(--text-secondary);
+			white-space: nowrap;
+		}
+
+		.study-tracker-app .table-spacing-slider {
+			width: 110px;
+		}
+
+		.study-tracker-app .el-table .study-row-today > td {
+			background: rgba(0, 113, 227, 0.06) !important;
+		}
+
+		.study-tracker-app .date-picker,
+		.study-tracker-app .score-input {
+			width: 100%;
+		}
+
+		.study-tracker-app .date-cell {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.study-tracker-app .score-input .el-input__inner {
+			text-align: center;
+			font-weight: 600;
+			height: 32px;
+			line-height: 32px;
+			padding: 0 6px;
+			width: 84px;
+			margin: 0 auto;
+		}
+
+		.study-tracker-app .score-input.score-danger .el-input__inner {
+			color: #f56c6c;
+		}
+
+		.study-tracker-app .dynamic-header {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 2px;
+			line-height: 1.2;
+			padding: 4px 0;
+		}
+
+		.study-tracker-app .dynamic-header strong {
+			font-size: 13px;
+			font-weight: 600;
+			color: var(--text-main);
+			letter-spacing: -0.01em;
+		}
+
+		.study-tracker-app .dynamic-header small,
+		.study-tracker-app .notes-label {
+			font-size: 11px;
+			color: var(--text-secondary);
+			font-weight: 400;
+			text-align: center;
+		}
+
+		.study-tracker-app .notes-editor {
+			display: grid;
+			gap: 10px;
+		}
+
+		.study-tracker-app .notes-item {
+			padding: 12px;
+			border-radius: 16px;
+			background: #f8fbff;
+			border: 1px solid #ebf2f9;
+		}
+
+		.study-tracker-app .notes-input textarea {
+			min-height: 48px !important;
+			resize: vertical;
+			font-size: 12px;
+		}
+
+		.study-tracker-app .row-action-buttons {
+			display: flex;
+			justify-content: center;
+			gap: 8px;
+			align-items: center;
+		}
+
+		.study-tracker-app .row-lock-indicator {
+			font-size: 15px;
+			line-height: 1;
+		}
+
+		.study-tracker-app .table-actions {
+			justify-content: flex-end;
+			margin-top: 16px;
+		}
+
+		.study-tracker-app .chart-grid,
+		.study-tracker-app .project-chart-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 18px;
+		}
+
+		.study-tracker-app .chart-card {
+			background: rgba(255, 255, 255, 0.88);
+			border: 1px solid var(--border-color);
+			border-radius: 22px;
+			min-height: 360px;
+		}
+
+		.study-tracker-app .chart-title {
+			font-size: 18px;
+			font-weight: 600;
+			margin-bottom: 14px;
+		}
+
+		.study-tracker-app .chart-box {
+			height: 320px;
+		}
+
+		.study-tracker-app .chart-empty {
+			height: 320px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border-radius: 18px;
+			background: rgba(248, 250, 252, 0.88);
+			color: var(--text-secondary);
+			border: 1px dashed rgba(148, 163, 184, 0.24);
+		}
+
+		.study-tracker-app .config-section-title {
+			font-size: 15px;
+			font-weight: 600;
+			margin-bottom: 12px;
+		}
+
+		.study-tracker-app .config-help {
+			margin-top: 12px;
+			font-size: 12px;
+			color: var(--text-secondary);
+			line-height: 1.7;
+		}
+
+		@media (max-width: 1080px) {
+			.study-tracker-app .overview-summary-grid,
+			.study-tracker-app .overview-grid,
+			.study-tracker-app .tips-layout,
+			.study-tracker-app .accounting-grid,
+			.study-tracker-app .stats-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		@media (max-width: 768px) {
+			.study-tracker-app .page-shell {
+				padding: 16px;
+			}
+
+			.study-tracker-app .hero-card,
+			.study-tracker-app .content-card {
+				padding: 18px;
+			}
+
+			.study-tracker-app .hero-title {
+				font-size: 32px;
+			}
+
+			.study-tracker-app .hero-side,
+			.study-tracker-app .hero-actions {
+				justify-items: stretch;
+				justify-content: flex-start;
+			}
+
+			.study-tracker-app .table-wrapper .el-table {
+				min-width: 980px;
+			}
+
+			.study-tracker-app .chart-box {
+				height: 260px;
+			}
+
+			.study-tracker-app .trend-summary-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.study-tracker-app .reminder-control-main,
+			.study-tracker-app .reminder-meta {
+				width: 100%;
+				grid-template-columns: 1fr;
+			}
+		}
+	
+
+
+
+/* 角落光斑（原 body::before/::after，容器化） — 若上面已由合并规则生成则忽略 */
+/* 容器占满主区：负 margin 抵消 Element Plus main 的 padding */
+.study-tracker-app {
+  position: relative;
+  isolation: isolate;
+  margin: -20px;
+  padding: 16px 20px 36px;
+  overflow: clip;
+}

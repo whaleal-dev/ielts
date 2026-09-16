@@ -1,0 +1,263 @@
+
+.synonyms-app {
+            margin: 0;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+
+
+        /* 苹果风格微调 */
+        .synonyms-app :root {
+            --el-color-primary: #0071e3;
+            --el-color-primary-light-3: rgba(0,113,227,0.3);
+            --el-color-primary-light-5: rgba(0,113,227,0.15);
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --text-secondary: #86868b;
+            --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', sans-serif;
+        }
+        .synonyms-app .app-container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+        }
+        .synonyms-app .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .synonyms-app .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .synonyms-app .header-title .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0071e3, #005bb5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .synonyms-app .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .synonyms-app .search-input {
+            flex: 1;
+            min-width: 200px;
+        }
+        .synonyms-app .stats-text {
+            white-space: nowrap;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .synonyms-app .auto-play-panel {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(0,113,227,0.08), rgba(0,113,227,0.02));
+            border-radius: 20px;
+            border: 1px solid rgba(0,113,227,0.12);
+            margin-bottom: 18px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background-color: rgba(245,245,247,0.85);
+        }
+        .synonyms-app .auto-play-panel .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .synonyms-app .nav-buttons {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+            margin-right: 6px;
+        }
+        .synonyms-app .nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #0071e3;
+            font-size: 14px;
+        }
+        .synonyms-app .nav-btn:hover {
+            background: #f0f0f2;
+            transform: scale(0.96);
+        }
+        .synonyms-app .play-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--el-color-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(0,113,227,0.3);
+        }
+        .synonyms-app .play-btn:hover {
+            background: #005bb5;
+            transform: scale(1.02);
+        }
+        .synonyms-app .play-btn.playing {
+            background: #e67e22;
+        }
+        .synonyms-app .play-status {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            min-width: 62px;
+        }
+        .synonyms-app .current-word-highlight {
+            color: var(--el-color-primary);
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(0,113,227,0.25);
+            background: rgba(0,113,227,0.08);
+            border-radius: 20px;
+            padding: 2px 10px;
+            display: inline-block;
+            transition: all 0.1s;
+        }
+        .synonyms-app .synonym-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .synonyms-app .synonym-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .synonyms-app .synonym-card:hover {
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .synonyms-app .card-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .synonyms-app .main-word {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--el-color-primary);
+            min-width: 90px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .synonyms-app .speak-btn {
+            cursor: pointer;
+            color: var(--el-color-primary);
+            font-size: 0.7rem;
+            border: 1px solid var(--el-color-primary-light-5);
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            background: rgba(0,113,227,0.06);
+        }
+        .synonyms-app .speak-btn:hover {
+            background: var(--el-color-primary);
+            color: #fff;
+        }
+        .synonyms-app .synonyms-tags {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .synonyms-app .synonym-tag {
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .synonyms-app .synonym-tag:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .synonyms-app .notes-area {
+            min-width: 140px;
+            max-width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .synonyms-app .add-note-btn {
+            font-size: 0.7rem;
+            padding: 0;
+            text-decoration: underline;
+        }
+        .synonyms-app .empty-state {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-secondary);
+        }
+        .synonyms-app .el-dialog__body {
+            padding: 20px 24px;
+        }
+        @media (max-width: 700px) {
+            .synonyms-app .card-content {
+                flex-direction: column;
+            }
+            .synonyms-app .notes-area {
+                max-width: 100%;
+                width: 100%;
+            }
+            .synonyms-app .auto-play-panel {
+                gap: 8px;
+            }
+            .synonyms-app .nav-buttons {
+                margin-left: 0;
+            }
+        }
+    
+
+
+
+/* 角落光斑（原 body::before/::after，容器化） — 若上面已由合并规则生成则忽略 */
+/* 容器占满主区：负 margin 抵消 Element Plus main 的 padding */
+.synonyms-app {
+  position: relative;
+  isolation: isolate;
+  margin: -20px;
+  padding: 16px 20px 36px;
+  overflow: clip;
+}

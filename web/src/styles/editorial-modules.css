@@ -1,0 +1,296 @@
+/* Shared visual shell for migrated training modules.
+ * Keep module behavior and dense practice controls local; only unify the visual language.
+ */
+:where(
+  .audio-player-app,
+  .corpus-dictation-app,
+  .dictation-app,
+  .listen-dictation-app,
+  .pronunciation-app,
+  .study-tracker-app,
+  .synonyms-app,
+  .vocab-app
+) {
+  --accent: var(--color-accent);
+  --accent-strong: var(--color-accent-strong);
+  --accent-deep: var(--color-accent-strong);
+  --accent-soft: var(--color-soft-accent);
+  --blue: var(--color-accent);
+  --blue-strong: var(--color-accent-strong);
+  --blue-soft: var(--color-soft-accent);
+  --ink: var(--color-ink);
+  --text: var(--color-ink);
+  --muted: var(--color-muted);
+  --line: var(--color-line);
+  --line-strong: var(--color-line-strong);
+  --panel: var(--color-surface);
+  --panel-strong: var(--color-surface);
+  --panel-soft: #f2f0eb;
+  --shadow: none;
+  --shadow-soft: none;
+  --radius: 16px;
+  --radius-xl: 16px;
+  --radius-lg: 12px;
+  --radius-md: 9px;
+  min-height: 100%;
+  margin: 0 !important;
+  background: var(--color-canvas) !important;
+  color: var(--color-ink);
+  font-family: var(--font-sans) !important;
+}
+
+:where(.audio-player-app, .corpus-dictation-app, .dictation-app, .listen-dictation-app, .pronunciation-app, .synonyms-app, .vocab-app) {
+  padding: 38px 24px 64px !important;
+}
+
+:where(
+  .audio-player-app .shell,
+  .corpus-dictation-app .shell,
+  .dictation-app .container,
+  .listen-dictation-app .shell,
+  .pronunciation-app .container,
+  .study-tracker-app .container,
+  .synonyms-app .app-container,
+  .vocab-app .shell
+) {
+  width: min(100%, var(--site-width)) !important;
+  max-width: var(--site-width) !important;
+  margin: 0 auto !important;
+}
+
+:where(
+  .audio-player-app .panel,
+  .corpus-dictation-app .panel,
+  .dictation-app .card,
+  .dictation-app .input-card,
+  .dictation-app .control-bar,
+  .dictation-app .dynamic-panel,
+  .listen-dictation-app .glass,
+  .pronunciation-app .main-card,
+  .pronunciation-app .batch-area,
+  .pronunciation-app .current-section,
+  .pronunciation-app .list-container,
+  .study-tracker-app .content-card,
+  .study-tracker-app .section-card,
+  .study-tracker-app .stats-card,
+  .synonyms-app .toolbar,
+  .synonyms-app .auto-play-panel,
+  .synonyms-app .synonym-card,
+  .vocab-app .glass,
+  .vocab-app .page-section,
+  .vocab-app .panel,
+  .vocab-app .card
+) {
+  border-color: var(--color-line) !important;
+  background: var(--color-surface) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+:where(
+  .audio-player-app .hero,
+  .corpus-dictation-app .hero,
+  .listen-dictation-app .hero,
+  .dictation-app .header,
+  .pronunciation-app .header,
+  .study-tracker-app .tracker-header,
+  .synonyms-app .header,
+  .vocab-app .page-tabs
+) {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 18px !important;
+  background:
+    radial-gradient(circle at 88% 0%, rgba(104, 112, 235, 0.46), transparent 36%),
+    var(--color-night) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+:where(.audio-player-app .hero, .corpus-dictation-app .hero) {
+  min-height: 300px;
+  padding: clamp(30px, 5vw, 56px) !important;
+}
+
+:where(.audio-player-app .hero h1, .corpus-dictation-app .title h1) {
+  color: #fff !important;
+  font-size: clamp(42px, 5.6vw, 70px) !important;
+  letter-spacing: -0.06em !important;
+  line-height: 0.96 !important;
+}
+
+:where(
+  .audio-player-app .hero p,
+  .corpus-dictation-app .title p,
+  .listen-dictation-app .hero-copy,
+  .dictation-app .subhead,
+  .pronunciation-app .sub
+) {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+.audio-player-app .hero-note,
+.corpus-dictation-app .hero-note,
+.corpus-dictation-app .stat,
+.listen-dictation-app .badge-card {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  backdrop-filter: none !important;
+}
+
+:where(
+  .audio-player-app .hero-note span,
+  .corpus-dictation-app .hero-note p,
+  .corpus-dictation-app .stat span,
+  .listen-dictation-app .badge-label
+) {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+:where(
+  .audio-player-app .hero-note strong,
+  .corpus-dictation-app .hero-note strong,
+  .corpus-dictation-app .stat strong,
+  .listen-dictation-app .badge-value
+) {
+  color: #fff !important;
+}
+
+:where(
+  .audio-player-app .panel,
+  .corpus-dictation-app .panel,
+  .listen-dictation-app .glass,
+  .synonyms-app .synonym-card,
+  .vocab-app .glass
+) {
+  border-radius: 14px !important;
+}
+
+:where(
+  .audio-player-app input,
+  .audio-player-app select,
+  .audio-player-app textarea,
+  .corpus-dictation-app input,
+  .corpus-dictation-app select,
+  .corpus-dictation-app textarea,
+  .dictation-app input,
+  .dictation-app select,
+  .dictation-app textarea,
+  .listen-dictation-app input,
+  .listen-dictation-app select,
+  .listen-dictation-app textarea,
+  .pronunciation-app input,
+  .pronunciation-app select,
+  .pronunciation-app textarea,
+  .synonyms-app input,
+  .synonyms-app select,
+  .synonyms-app textarea,
+  .vocab-app input,
+  .vocab-app select,
+  .vocab-app textarea
+) {
+  border-color: var(--color-line) !important;
+  border-radius: 8px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+:where(
+  .audio-player-app .btn.primary,
+  .audio-player-app .primary-btn,
+  .corpus-dictation-app .primary,
+  .corpus-dictation-app .btn-primary,
+  .dictation-app .btn-primary,
+  .listen-dictation-app .primary,
+  .pronunciation-app .ctrl-btn-primary,
+  .pronunciation-app .btn-primary,
+  .synonyms-app .primary,
+  .vocab-app .primary
+) {
+  border-color: var(--color-accent) !important;
+  background: var(--color-accent) !important;
+  box-shadow: none !important;
+  color: #fff !important;
+}
+
+:where(
+  .audio-player-app button,
+  .corpus-dictation-app button,
+  .dictation-app button,
+  .listen-dictation-app button,
+  .pronunciation-app button,
+  .synonyms-app button,
+  .vocab-app button
+) {
+  box-shadow: none !important;
+}
+
+:where(
+  .audio-player-app table th,
+  .corpus-dictation-app table th,
+  .study-tracker-app table th,
+  .synonyms-app table th,
+  .vocab-app table th
+) {
+  background: #efede8 !important;
+  color: var(--color-muted) !important;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.vocab-app .page-tabs {
+  padding: 20px 22px !important;
+}
+
+.vocab-app .page-tabs :where(.pill, .chip, .segment-btn) {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.vocab-app .page-tabs .tab-btn {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+.vocab-app .page-tabs .tab-btn.active {
+  background: #fff !important;
+  color: var(--color-night) !important;
+}
+
+.synonyms-app .header :where(h1, h2, .title) {
+  color: #fff !important;
+}
+
+.synonyms-app .header :where(p, .subtitle, .stats) {
+  color: rgba(255, 255, 255, 0.58) !important;
+}
+
+.pronunciation-app .main-card,
+.dictation-app .card {
+  border: 1px solid var(--color-line) !important;
+  border-radius: 18px !important;
+  background: var(--color-surface) !important;
+}
+
+.pronunciation-app .header,
+.dictation-app .header {
+  border: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+@media (max-width: 760px) {
+  :where(.audio-player-app, .corpus-dictation-app, .dictation-app, .listen-dictation-app, .pronunciation-app, .synonyms-app, .vocab-app) {
+    padding: 18px 14px 44px !important;
+  }
+
+  :where(.audio-player-app .hero, .corpus-dictation-app .hero) {
+    min-height: 360px;
+    padding: 28px 22px !important;
+  }
+}

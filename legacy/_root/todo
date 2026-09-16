@@ -1,0 +1,58 @@
+
+ daily-status/学习状态跟踪.html
+ words/study_words.html
+listening-word/王璐语料库_源码.html
+
+
+
+
+
+1 生成一份 完整 丰富 详细 /Users/lhp/Desktop/codeProject/ielts-tool/README.md
+
+
+ daily-status/学习状态跟踪.html
+1 生成这个html涉及到的功能
+导出或补充或丰富信息到 daily-status/version.md   
+2 根据这个version.md 去审查相关功能是否正确，是否关联功能正确，是否联系正确
+3 全文审查 细节优化 交互优化
+4 全文审查是否有bug 漏洞
+5 导出或补充或丰富信息到 daily-status/release.md  
+
+
+words/study_words.html
+1 生成这个html涉及到的功能
+导出或补充或丰富信息到 words/version.md  
+2 根据这个version.md 去审查相关功能是否正确，是否关联功能正确，是否联系正确
+3 全文审查 细节优化 交互优化
+4 全文审查是否有bug 漏洞
+5 导出或补充或丰富信息到 words/release.md  
+
+
+
+listening-word/王璐语料库_源码.html
+1 生成这个html涉及到的功能
+导出或补充或丰富信息到 listening-word/version.md   
+2 根据这个version.md 去审查相关功能是否正确，是否关联功能正确，是否联系正确
+3 全文审查 细节优化 交互优化
+4 全文审查是否有bug 漏洞
+5 导出或补充或丰富信息到 listening-word/release.md  
+
+
+
+1 默认倍速 配置0.6-2 每个梯度是0.2
+2 默认次数 最大10
+
+audio-playlist-player/音频顺序播放器.html
+1 生成这个html涉及到的功能
+导出或补充或丰富信息到 audio-playlist-player/version.md   
+2 根据这个version.md 去审查相关功能是否正确，是否关联功能正确，是否联系正确
+3 全文审查 细节优化 交互优化
+4 全文审查是否有bug 漏洞
+5 导出或补充或丰富信息到 audio-playlist-player/release.md  
+
+
+
+
+在听写单词的时候
+增加一个按钮：标记已掌握
+如果这个词在 错题本里面，则展示这个按钮，用户点击后 该词从错题本移除

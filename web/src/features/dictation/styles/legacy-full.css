@@ -1,0 +1,363 @@
+
+.dictation-app {
+            background: #f5f5f7;
+            font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Inter', system-ui, sans-serif;
+            padding: 32px 20px;
+            color: #1c1c1e;
+        }
+
+
+        .dictation-app * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 苹果风格容器 */
+        .dictation-app .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 主卡片 - 毛玻璃质感 */
+        .dictation-app .card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(0px);
+            border-radius: 44px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 0.5px solid rgba(224, 224, 230, 0.6);
+        }
+
+        /* 头部 */
+        .dictation-app .header {
+            background: linear-gradient(135deg, #1c3e55 0%, #2b5c7a 100%);
+            padding: 28px 32px;
+            color: white;
+        }
+
+        .dictation-app .header-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .dictation-app .header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dictation-app .mode-switch {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            padding: 4px;
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .dictation-app .mode-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 590;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-family: inherit;
+        }
+
+        .dictation-app .mode-btn.active {
+            background: white;
+            color: #1c3e55;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dictation-app .subhead {
+            margin-top: 12px;
+            opacity: 0.85;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* 内容区域 */
+        .dictation-app .content {
+            padding: 28px 32px;
+        }
+
+        /* 输入卡片 */
+        .dictation-app .input-card {
+            background: #f9f9fb;
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 28px;
+            border: 0.5px solid #e9e9ef;
+        }
+
+        .dictation-app .label-icon {
+            font-weight: 590;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c5a72;
+            font-size: 0.95rem;
+        }
+
+        .dictation-app textarea {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 28px;
+            border: 1px solid #e2e2e8;
+            background: white;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: 0.2s;
+        }
+
+        .dictation-app textarea:focus {
+            outline: none;
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.15);
+        }
+
+        .dictation-app .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .dictation-app .btn {
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8e8ed;
+            color: #2c3e50;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dictation-app .btn-primary {
+            background: #1f5e7a;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .dictation-app .btn-primary:hover {
+            background: #134b62;
+            transform: scale(0.97);
+        }
+
+        .dictation-app .btn-danger {
+            background: #fee2e2;
+            color: #bc1c2e;
+        }
+
+        /* 控制栏 */
+        .dictation-app .control-bar {
+            background: #f9f9fb;
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border: 0.5px solid #e9e9ef;
+        }
+
+        .dictation-app .voice-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+            background: white;
+            padding: 6px 18px;
+            border-radius: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .dictation-app .select-voice, .dictation-app .rate-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dictation-app select, .dictation-app .rate-control input {
+            padding: 8px 16px;
+            border-radius: 32px;
+            border: 1px solid #d4d4de;
+            background: white;
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
+        .dictation-app .playback-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* 动态面板 */
+        .dictation-app .dynamic-panel {
+            background: #ffffff;
+            border-radius: 36px;
+            padding: 24px;
+            margin-bottom: 28px;
+            border: 0.5px solid #f0f0f5;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+            text-align: center;
+        }
+
+        .dictation-app .indicator {
+            background: #f2f2f6;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c5a72;
+            margin-bottom: 20px;
+        }
+
+        .dictation-app .spelling-input {
+            width: 80%;
+            max-width: 400px;
+            padding: 16px 20px;
+            font-size: 1.3rem;
+            text-align: center;
+            border: 1.5px solid #e2e2e8;
+            border-radius: 60px;
+            background: white;
+            font-family: monospace;
+        }
+
+        .dictation-app .feedback {
+            margin-top: 18px;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 60px;
+            display: inline-block;
+        }
+
+        .dictation-app .word-list-area {
+            margin-top: 20px;
+        }
+
+        .dictation-app .section-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 8px;
+            border-left: 4px solid #2c7da0;
+            color: #1c3e55;
+        }
+
+        .dictation-app .word-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 6px 0;
+        }
+
+        .dictation-app .word-chip {
+            background: #f2f2f6;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.1s;
+            border: 0.5px solid #e5e5ea;
+        }
+
+        .dictation-app .word-chip.current-highlight {
+            background: #ffe6b3;
+            border-color: #f3b33d;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .dictation-app .record-panel {
+            background: #fff9f0;
+            border-radius: 28px;
+            padding: 18px;
+            margin-top: 24px;
+            border: 0.5px solid #ffe2c4;
+        }
+
+        .dictation-app .record-title {
+            font-weight: 600;
+            color: #b45309;
+        }
+
+        .dictation-app .record-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .dictation-app .record-badge {
+            background: #ffede6;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .dictation-app .status-msg {
+            margin-top: 20px;
+            padding: 10px 18px;
+            background: #eef5f9;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .dictation-app .hidden {
+            display: none;
+        }
+
+        .dictation-app footer {
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 20px;
+            color: #8e8e93;
+            border-top: 0.5px solid #efeff4;
+        }
+
+        @media (max-width: 680px) {
+            .dictation-app .content { padding: 20px; }
+            .dictation-app .control-bar { border-radius: 32px; }
+            .dictation-app .voice-settings { width: 100%; justify-content: space-between; }
+        }
+    
+
+
+
+/* 角落光斑（原 body::before/::after，容器化） — 若上面已由合并规则生成则忽略 */
+/* 容器占满主区：负 margin 抵消 Element Plus main 的 padding */
+.dictation-app {
+  position: relative;
+  isolation: isolate;
+  margin: -20px;
+  padding: 16px 20px 36px;
+  overflow: clip;
+}

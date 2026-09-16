@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>雅思单词学习器 · 听写/只听双模式</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f7;
+            font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', 'Inter', system-ui, sans-serif;
+            padding: 32px 20px;
+            color: #1c1c1e;
+        }
+
+        /* 苹果风格容器 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 主卡片 - 毛玻璃质感 */
+        .card {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(0px);
+            border-radius: 44px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 6px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 0.5px solid rgba(224, 224, 230, 0.6);
+        }
+
+        /* 头部 */
+        .header {
+            background: linear-gradient(135deg, #1c3e55 0%, #2b5c7a 100%);
+            padding: 28px 32px;
+            color: white;
+        }
+
+        .header-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mode-switch {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 100px;
+            padding: 4px;
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .mode-btn {
+            border: none;
+            background: transparent;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-weight: 590;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s ease;
+            font-family: inherit;
+        }
+
+        .mode-btn.active {
+            background: white;
+            color: #1c3e55;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .subhead {
+            margin-top: 12px;
+            opacity: 0.85;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        /* 内容区域 */
+        .content {
+            padding: 28px 32px;
+        }
+
+        /* 输入卡片 */
+        .input-card {
+            background: #f9f9fb;
+            border-radius: 32px;
+            padding: 20px;
+            margin-bottom: 28px;
+            border: 0.5px solid #e9e9ef;
+        }
+
+        .label-icon {
+            font-weight: 590;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2c5a72;
+            font-size: 0.95rem;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 28px;
+            border: 1px solid #e2e2e8;
+            background: white;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #2c7da0;
+            box-shadow: 0 0 0 3px rgba(44, 125, 160, 0.15);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8e8ed;
+            color: #2c3e50;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #1f5e7a;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+
+        .btn-primary:hover {
+            background: #134b62;
+            transform: scale(0.97);
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #bc1c2e;
+        }
+
+        /* 控制栏 */
+        .control-bar {
+            background: #f9f9fb;
+            border-radius: 60px;
+            padding: 12px 20px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border: 0.5px solid #e9e9ef;
+        }
+
+        .voice-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            align-items: center;
+            background: white;
+            padding: 6px 18px;
+            border-radius: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .select-voice, .rate-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        select, .rate-control input {
+            padding: 8px 16px;
+            border-radius: 32px;
+            border: 1px solid #d4d4de;
+            background: white;
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
+        .playback-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* 动态面板 */
+        .dynamic-panel {
+            background: #ffffff;
+            border-radius: 36px;
+            padding: 24px;
+            margin-bottom: 28px;
+            border: 0.5px solid #f0f0f5;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02);
+            text-align: center;
+        }
+
+        .indicator {
+            background: #f2f2f6;
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c5a72;
+            margin-bottom: 20px;
+        }
+
+        .spelling-input {
+            width: 80%;
+            max-width: 400px;
+            padding: 16px 20px;
+            font-size: 1.3rem;
+            text-align: center;
+            border: 1.5px solid #e2e2e8;
+            border-radius: 60px;
+            background: white;
+            font-family: monospace;
+        }
+
+        .feedback {
+            margin-top: 18px;
+            font-weight: 500;
+            padding: 8px 20px;
+            border-radius: 60px;
+            display: inline-block;
+        }
+
+        .word-list-area {
+            margin-top: 20px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-left: 8px;
+            border-left: 4px solid #2c7da0;
+            color: #1c3e55;
+        }
+
+        .word-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 6px 0;
+        }
+
+        .word-chip {
+            background: #f2f2f6;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.1s;
+            border: 0.5px solid #e5e5ea;
+        }
+
+        .word-chip.current-highlight {
+            background: #ffe6b3;
+            border-color: #f3b33d;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .record-panel {
+            background: #fff9f0;
+            border-radius: 28px;
+            padding: 18px;
+            margin-top: 24px;
+            border: 0.5px solid #ffe2c4;
+        }
+
+        .record-title {
+            font-weight: 600;
+            color: #b45309;
+        }
+
+        .record-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .record-badge {
+            background: #ffede6;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        .status-msg {
+            margin-top: 20px;
+            padding: 10px 18px;
+            background: #eef5f9;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            display: inline-block;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 20px;
+            color: #8e8e93;
+            border-top: 0.5px solid #efeff4;
+        }
+
+        @media (max-width: 680px) {
+            .content { padding: 20px; }
+            .control-bar { border-radius: 32px; }
+            .voice-settings { width: 100%; justify-content: space-between; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <div class="header-top">
+                <h1>📖 雅思单词舱</h1>
+                <div class="mode-switch">
+                    <button id="modeDictateBtn" class="mode-btn active">✍️ 听写模式</button>
+                    <button id="modeListenBtn" class="mode-btn">🎧 只听模式</button>
+                </div>
+            </div>
+            <div class="subhead">听写模式：自动校对拼写，正确移除单词 · 只听模式：顺序播放，自由标记掌握</div>
+        </div>
+        <div class="content">
+            <!-- 单词导入 -->
+            <div class="input-card">
+                <div class="label-icon">📋 粘贴单词表 (支持换行 / 英文逗号)</div>
+                <textarea id="wordRawInput" rows="3" placeholder="e.g.&#10;analyze, consequence, environment&#10;significant&#10;therefore, beneficial"></textarea>
+                <div class="btn-group">
+                    <button id="loadWordsBtn" class="btn btn-primary">📖 加载并重置进度</button>
+                    <button id="clearCacheBtn" class="btn btn-danger">🗑 清除缓存</button>
+                </div>
+            </div>
+
+            <!-- 控制栏 (含发音人 + 语速) -->
+            <div class="control-bar">
+                <div class="voice-settings">
+                    <div class="select-voice">
+                        <span>🎙️ 发音人</span>
+                        <select id="voiceSelect"></select>
+                    </div>
+                    <div class="rate-control">
+                        <span>⚡ 语速</span>
+                        <input type="range" id="rateSlider" min="0.5" max="1.5" step="0.05" value="0.9">
+                        <span id="rateValue">0.9</span>
+                    </div>
+                </div>
+                <div class="playback-buttons">
+                    <button id="startPracticeBtn" class="btn btn-primary">▶ 开始</button>
+                    <button id="pausePracticeBtn" class="btn">⏸️ 暂停</button>
+                    <button id="stopPracticeBtn" class="btn">⏹️ 结束</button>
+                    <button id="replayCurrentBtn" class="btn">🔊 重播</button>
+                </div>
+                <div class="interval-box" style="display: flex; align-items: center; gap: 8px; background: white; padding: 4px 16px; border-radius: 40px;">
+                    <span>⏱️ 间隔</span>
+                    <input type="number" id="intervalSec" min="0.5" max="5" step="0.5" value="2.0" style="width: 65px; text-align: center;">
+                    <span>秒</span>
+                </div>
+            </div>
+
+            <!-- 听写模式界面 -->
+            <div id="dictateArea" class="dynamic-panel">
+                <div class="indicator" id="playIndicator">⚪ 等待开始</div>
+                <div>
+                    <input type="text" id="userSpelling" class="spelling-input" placeholder="输入单词拼写..." autocomplete="off" disabled>
+                </div>
+                <div style="margin-top: 16px;">
+                    <button id="submitAnswerBtn" class="btn btn-primary">✏️ 提交答案</button>
+                </div>
+                <div id="feedbackMsg" class="feedback"></div>
+            </div>
+
+            <!-- 只听模式界面 -->
+            <div id="listenOnlyArea" class="dynamic-panel hidden">
+                <div class="indicator" id="listenPlayIndicator">⚪ 待开始</div>
+                <div style="margin-top: 8px; color: #5a6e7c;">🎵 只听模式：自动顺序播放，点击单词可跳转，可手动标记“掌握”移除</div>
+                <div style="margin-top: 12px;">
+                    <button id="markMasteredBtn" class="btn" style="background:#d9f0e3; color:#1f6e43;">✅ 标记当前单词为已掌握</button>
+                </div>
+            </div>
+
+            <!-- 单词列表区 -->
+            <div class="word-list-area">
+                <div class="section-title">📖 单词库 <span id="remainingCount">(0)</span></div>
+                <div id="wordListContainer" class="word-grid">
+                    <div class="word-chip" style="background:transparent;">✨ 加载单词表后显示</div>
+                </div>
+            </div>
+
+            <!-- 记录面板（错词本/已掌握） -->
+            <div id="recordPanel" class="record-panel" style="display: none;">
+                <div id="recordTitle" class="record-title"></div>
+                <div id="recordListContainer" class="record-list"></div>
+            </div>
+
+            <div id="globalStatus" class="status-msg">✅ 就绪，选择模式并加载单词</div>
+        </div>
+        <footer>支持英音优先 · 苹果设计 · 自动缓存进度</footer>
+    </div>
+</div>
+
+<script>
+    // ========== 全局数据 ==========
+    let currentMode = 'dictate';       // 'dictate' or 'listen'
+    let wordItems = [];                // { text, removed }
+    let wrongDict = new Set();         // 听写错词本
+    let masteredSet = new Set();       // 只听模式已掌握（实际同步removed标记，这里冗余但便于展示）
+    let practiceActive = false;
+    let currentTimeout = null;
+    let currentUtterance = null;
+    let isSpeaking = false;
+    let currentWordObj = null;          // 当前正在处理的单词对象
+    
+    // 语音设置
+    let availableVoices = [];
+    let selectedVoiceURI = "";
+    let speechRate = 0.9;
+    
+    // DOM 元素
+    const modeDictateBtn = document.getElementById('modeDictateBtn');
+    const modeListenBtn = document.getElementById('modeListenBtn');
+    const dictateArea = document.getElementById('dictateArea');
+    const listenOnlyArea = document.getElementById('listenOnlyArea');
+    const wordRawInput = document.getElementById('wordRawInput');
+    const loadWordsBtn = document.getElementById('loadWordsBtn');
+    const clearCacheBtn = document.getElementById('clearCacheBtn');
+    const startPracticeBtn = document.getElementById('startPracticeBtn');
+    const pausePracticeBtn = document.getElementById('pausePracticeBtn');
+    const stopPracticeBtn = document.getElementById('stopPracticeBtn');
+    const replayCurrentBtn = document.getElementById('replayCurrentBtn');
+    const intervalSecInput = document.getElementById('intervalSec');
+    const voiceSelect = document.getElementById('voiceSelect');
+    const rateSlider = document.getElementById('rateSlider');
+    const rateValue = document.getElementById('rateValue');
+    const userSpelling = document.getElementById('userSpelling');
+    const submitAnswerBtn = document.getElementById('submitAnswerBtn');
+    const feedbackMsg = document.getElementById('feedbackMsg');
+    const playIndicator = document.getElementById('playIndicator');
+    const listenPlayIndicator = document.getElementById('listenPlayIndicator');
+    const wordListContainer = document.getElementById('wordListContainer');
+    const remainingCountSpan = document.getElementById('remainingCount');
+    const recordPanel = document.getElementById('recordPanel');
+    const recordTitle = document.getElementById('recordTitle');
+    const recordListContainer = document.getElementById('recordListContainer');
+    const globalStatus = document.getElementById('globalStatus');
+    const markMasteredBtn = document.getElementById('markMasteredBtn');
+
+    // ---------- 辅助函数 ----------
+    function setStatus(msg, isError=false) {
+        globalStatus.textContent = msg;
+        globalStatus.style.background = isError ? '#ffe6e5' : '#eaf5f0';
+        globalStatus.style.color = isError ? '#bc1c2e' : '#1f6e43';
+        setTimeout(() => {
+            if (globalStatus.textContent === msg && !isError) globalStatus.style.background = '#eef5f9';
+        }, 2500);
+    }
+
+    function cancelSpeechAndTimer() {
+        if (currentTimeout) { clearTimeout(currentTimeout); currentTimeout = null; }
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+        if (currentUtterance) { currentUtterance.onend = null; currentUtterance.onerror = null; currentUtterance = null; }
+        isSpeaking = false;
+    }
+
+    // 加载可用语音并填充下拉框
+    function loadVoices() {
+        return new Promise((resolve) => {
+            const update = () => {
+                let voices = window.speechSynthesis.getVoices();
+                if (voices && voices.length) {
+                    availableVoices = voices;
+                    const currentVal = voiceSelect.value;
+                    voiceSelect.innerHTML = '';
+                    let preferredURI = null;
+                    voices.forEach(voice => {
+                        const option = document.createElement('option');
+                        option.value = voice.voiceURI;
+                        let label = `${voice.name} (${voice.lang})`;
+                        if (voice.lang === 'en-GB') label = '🇬🇧 ' + label;
+                        else if (voice.lang.startsWith('en')) label = '🇺🇸 ' + label;
+                        option.textContent = label;
+                        voiceSelect.appendChild(option);
+                        if (voice.lang === 'en-GB' && !preferredURI) preferredURI = voice.voiceURI;
+                    });
+                    if (preferredURI) voiceSelect.value = preferredURI;
+                    else if (voices.length) voiceSelect.value = voices[0].voiceURI;
+                    if (currentVal && Array.from(voiceSelect.options).some(o => o.value === currentVal)) voiceSelect.value = currentVal;
+                    selectedVoiceURI = voiceSelect.value;
+                    resolve(voices);
+                } else {
+                    setTimeout(update, 150);
+                }
+            };
+            if (window.speechSynthesis.getVoices().length) update();
+            else window.speechSynthesis.addEventListener('voiceschanged', update, { once: true });
+        });
+    }
+
+    function getSelectedVoice() {
+        return availableVoices.find(v => v.voiceURI === selectedVoiceURI) || null;
+    }
+
+    // 核心发音方法 (使用当前选择的发音人和语速)
+    function speakWord(word, onEndCallback) {
+        cancelSpeechAndTimer();
+        const utterance = new SpeechSynthesisUtterance(word);
+        const voice = getSelectedVoice();
+        if (voice) utterance.voice = voice;
+        utterance.rate = parseFloat(rateSlider.value);
+        utterance.pitch = 1.0;
+        utterance.onstart = () => {
+            isSpeaking = true;
+            const msg = `🔊 朗读: ${word}`;
+            if (currentMode === 'dictate') playIndicator.innerText = msg;
+            else listenPlayIndicator.innerText = msg;
+        };
+        utterance.onend = () => {
+            isSpeaking = false;
+            if (currentMode === 'dictate') playIndicator.innerText = '✅ 发音完成，请拼写';
+            else listenPlayIndicator.innerText = '✅ 发音完成';
+            if (onEndCallback) onEndCallback();
+        };
+        utterance.onerror = () => {
+            isSpeaking = false;
+            if (currentMode === 'dictate') playIndicator.innerText = '⚠️ 发音失败';
+            else listenPlayIndicator.innerText = '⚠️ 发音失败';
+            if (onEndCallback) onEndCallback();
+        };
+        currentUtterance = utterance;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // 获取下一个未移除单词
+    function getNextPending() {
+        for (let item of wordItems) if (!item.removed) return item;
+        return null;
+    }
+
+    // 渲染单词列表 + 高亮
+    function renderWordList() {
+        const active = wordItems.filter(w => !w.removed);
+        remainingCountSpan.innerText = `(${active.length})`;
+        if (!active.length) {
+            wordListContainer.innerHTML = `<div class="word-chip" style="background:#f2f2f6;">🎉 所有单词已完成！</div>`;
+            return;
+        }
+        let html = '';
+        active.forEach(w => {
+            const isCurr = (currentWordObj && currentWordObj.text === w.text);
+            html += `<div class="word-chip ${isCurr ? 'current-highlight' : ''}" data-word="${escapeHtml(w.text)}">${escapeHtml(w.text)}</div>`;
+        });
+        wordListContainer.innerHTML = html;
+        document.querySelectorAll('.word-chip').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const txt = el.getAttribute('data-word');
+                const target = wordItems.find(w => w.text === txt && !w.removed);
+                if (target) jumpToWord(target);
+            });
+        });
+    }
+
+    function jumpToWord(wordObj) {
+        if (!wordObj || wordObj.removed) return;
+        cancelSpeechAndTimer();
+        currentWordObj = wordObj;
+        renderWordList();
+        if (currentMode === 'dictate') {
+            prepareDictateWord(wordObj);
+            speakWord(wordObj.text, () => {
+                if (practiceActive && currentMode === 'dictate') playIndicator.innerText = '🎧 等待拼写...';
+            });
+        } else {
+            prepareListenWord(wordObj);
+            speakWord(wordObj.text, () => {
+                if (practiceActive && currentMode === 'listen') scheduleNextListen();
+            });
+        }
+    }
+
+    function escapeHtml(str) { return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
+
+    // 听写模式专用准备
+    function prepareDictateWord(wordObj) {
+        currentWordObj = wordObj;
+        userSpelling.disabled = false;
+        submitAnswerBtn.disabled = false;
+        userSpelling.value = '';
+        feedbackMsg.innerHTML = '';
+        feedbackMsg.className = 'feedback';
+        userSpelling.focus();
+        renderWordList();
+    }
+
+    function prepareListenWord(wordObj) {
+        currentWordObj = wordObj;
+        renderWordList();
+    }
+
+    // 听写提交
+    function handleSubmit() {
+        if (!practiceActive || currentMode !== 'dictate') return;
+        if (!currentWordObj || currentWordObj.removed) { setStatus("没有当前单词", true); return; }
+        const answer = userSpelling.value.trim().toLowerCase();
+        const correct = currentWordObj.text.toLowerCase();
+        if (answer === correct) {
+            currentWordObj.removed = true;
+            if (wrongDict.has(currentWordObj.text)) wrongDict.delete(currentWordObj.text);
+            persistData();
+            feedbackMsg.innerHTML = '✅ 正确！单词已移除';
+            feedbackMsg.className = 'feedback correct';
+            setStatus(`✓ 正确: ${currentWordObj.text}`, false);
+            cancelSpeechAndTimer();
+            const next = getNextPending();
+            if (!next) { finishPractice("🎉 完美！所有单词拼写正确！"); return; }
+            const interval = parseFloat(intervalSecInput.value) * 1000;
+            currentTimeout = setTimeout(() => {
+                currentTimeout = null;
+                if (practiceActive && currentMode === 'dictate') {
+                    currentWordObj = next;
+                    prepareDictateWord(next);
+                    speakWord(next.text, () => { if (practiceActive) playIndicator.innerText = '🎧 等待拼写...'; });
+                }
+            }, interval);
+        } else {
+            wrongDict.add(currentWordObj.text);
+            persistData();
+            updateRecordPanel();
+            feedbackMsg.innerHTML = `❌ 错误！正确答案: ${currentWordObj.text}，重新听写`;
+            feedbackMsg.className = 'feedback wrong';
+            setStatus(`✗ 拼写错误`, true);
+            cancelSpeechAndTimer();
+            setTimeout(() => {
+                if (practiceActive && currentWordObj && !currentWordObj.removed) {
+                    speakWord(currentWordObj.text, () => { if (practiceActive) playIndicator.innerText = '🎧 再次输入...'; });
+                    userSpelling.value = '';
+                    userSpelling.focus();
+                }
+            }, 800);
+        }
+    }
+
+    // 只听模式：调度下一个
+    function scheduleNextListen() {
+        if (!practiceActive || currentMode !== 'listen') return;
+        const next = getNextPending();
+        if (!next) { finishPractice("🏁 所有单词播放完毕！"); return; }
+        const interval = parseFloat(intervalSecInput.value) * 1000;
+        currentTimeout = setTimeout(() => {
+            currentTimeout = null;
+            if (practiceActive && currentMode === 'listen') {
+                currentWordObj = next;
+                prepareListenWord(next);
+                speakWord(next.text, () => scheduleNextListen());
+            }
+        }, interval);
+    }
+
+    // 只听模式手动标记掌握
+    function markCurrentMastered() {
+        if (!practiceActive || currentMode !== 'listen') { setStatus("仅在只听模式进行中可用", true); return; }
+        if (!currentWordObj || currentWordObj.removed) { setStatus("当前单词已移除", true); return; }
+        currentWordObj.removed = true;
+        masteredSet.add(currentWordObj.text);
+        persistData();
+        updateRecordPanel();
+        setStatus(`✅ 已掌握：“${currentWordObj.text}” 已从列表移除`, false);
+        cancelSpeechAndTimer();
+        const next = getNextPending();
+        if (!next) { finishPractice("🎉 所有单词已掌握！"); return; }
+        currentWordObj = next;
+        prepareListenWord(next);
+        speakWord(next.text, () => scheduleNextListen());
+    }
+
+    // 开始练习
+    function startPractice() {
+        const activeExist = wordItems.some(w => !w.removed);
+        if (!activeExist) { setStatus("没有待学习单词，请加载单词表", true); return; }
+        if (practiceActive) { cancelSpeechAndTimer(); practiceActive = false; }
+        practiceActive = true;
+        cancelSpeechAndTimer();
+        const first = getNextPending();
+        if (!first) return;
+        currentWordObj = first;
+        if (currentMode === 'dictate') {
+            prepareDictateWord(first);
+            speakWord(first.text, () => { if (practiceActive) playIndicator.innerText = '🎧 等待拼写...'; });
+        } else {
+            prepareListenWord(first);
+            speakWord(first.text, () => scheduleNextListen());
+        }
+        setStatus(`🎧 开始${currentMode === 'dictate' ? '听写' : '只听'}模式`, false);
+    }
+
+    function pausePractice() {
+        if (!practiceActive) { setStatus("没有进行中的练习", false); return; }
+        practiceActive = false;
+        cancelSpeechAndTimer();
+        setStatus("⏸️ 已暂停", false);
+        if (currentMode === 'dictate') { playIndicator.innerText = '⏸️ 暂停'; userSpelling.disabled = true; submitAnswerBtn.disabled = true; }
+        else listenPlayIndicator.innerText = '⏸️ 暂停';
+    }
+
+    function stopPractice() {
+        if (practiceActive) { practiceActive = false; cancelSpeechAndTimer(); }
+        setStatus("⏹️ 练习结束", false);
+        currentWordObj = null;
+        renderWordList();
+        if (currentMode === 'dictate') { playIndicator.innerText = '⚪ 已结束'; userSpelling.disabled = true; submitAnswerBtn.disabled = true; }
+        else listenPlayIndicator.innerText = '⚪ 已结束';
+    }
+
+    function finishPractice(msg) {
+        if (practiceActive) practiceActive = false;
+        cancelSpeechAndTimer();
+        setStatus(msg, false);
+        currentWordObj = null;
+        renderWordList();
+        updateRecordPanel();
+        if (currentMode === 'dictate') { userSpelling.disabled = true; submitAnswerBtn.disabled = true; playIndicator.innerText = '✅ 完成'; }
+        else listenPlayIndicator.innerText = '✅ 完成';
+    }
+
+    function replayCurrent() {
+        if (!currentWordObj || currentWordObj.removed) { setStatus("无当前单词可重播", true); return; }
+        cancelSpeechAndTimer();
+        speakWord(currentWordObj.text, () => {
+            if (practiceActive && currentMode === 'dictate') playIndicator.innerText = '🎧 等待拼写...';
+            else if (practiceActive && currentMode === 'listen') scheduleNextListen();
+        });
+    }
+
+    // 加载单词表并完整重置
+    function loadAndReset() {
+        const raw = wordRawInput.value;
+        let parsed = [];
+        const lines = raw.split(/\r?\n/);
+        for (let line of lines) {
+            if (line.includes(',') || line.includes('，')) {
+                let parts = line.split(/[,，]+/);
+                for (let p of parts) { let trim = p.trim(); if (trim) parsed.push(trim); }
+            } else { let trim = line.trim(); if (trim) parsed.push(trim); }
+        }
+        if (parsed.length === 0) { setStatus("未检测到有效单词", true); return; }
+        const unique = [];
+        const seen = new Set();
+        for (let w of parsed) {
+            let low = w.toLowerCase();
+            if (!seen.has(low)) { seen.add(low); unique.push(w); }
+        }
+        if (practiceActive) { cancelSpeechAndTimer(); practiceActive = false; }
+        wordItems = unique.map(txt => ({ text: txt, removed: false }));
+        wrongDict.clear();
+        masteredSet.clear();
+        currentWordObj = null;
+        persistData();
+        renderWordList();
+        updateRecordPanel();
+        setStatus(`✅ 加载 ${wordItems.length} 个单词`, false);
+        if (currentMode === 'dictate') { userSpelling.value = ''; userSpelling.disabled = true; submitAnswerBtn.disabled = true; playIndicator.innerText = '⚪ 就绪'; }
+        else listenPlayIndicator.innerText = '⚪ 就绪';
+    }
+
+    function fullClearCache() {
+        localStorage.removeItem('ielts_dual_apple');
+        wordItems = [];
+        wrongDict.clear();
+        masteredSet.clear();
+        practiceActive = false;
+        cancelSpeechAndTimer();
+        currentWordObj = null;
+        renderWordList();
+        updateRecordPanel();
+        setStatus("🗑 缓存已清除", false);
+        if (currentMode === 'dictate') { userSpelling.disabled = true; submitAnswerBtn.disabled = true; playIndicator.innerText = '⚪ 等待开始'; }
+        else listenPlayIndicator.innerText = '⚪ 待开始';
+    }
+
+    function updateRecordPanel() {
+        if (currentMode === 'dictate') {
+            const wrongArr = Array.from(wrongDict);
+            if (wrongArr.length === 0) { recordPanel.style.display = 'none'; return; }
+            recordPanel.style.display = 'block';
+            recordTitle.innerText = '❌ 听写错词本';
+            recordListContainer.innerHTML = wrongArr.map(w => `<span class="record-badge">${escapeHtml(w)}</span>`).join('');
+        } else {
+            const masteredWords = wordItems.filter(w => w.removed).map(w => w.text);
+            if (masteredWords.length === 0) { recordPanel.style.display = 'none'; return; }
+            recordPanel.style.display = 'block';
+            recordTitle.innerText = '✅ 已掌握单词 (只听模式)';
+            recordListContainer.innerHTML = masteredWords.map(w => `<span class="record-badge" style="background:#e0f2e9;">${escapeHtml(w)}</span>`).join('');
+        }
+    }
+
+    function persistData() {
+        const store = {
+            mode: currentMode,
+            wordItems: wordItems,
+            wrongDict: Array.from(wrongDict),
+            masteredSet: Array.from(masteredSet),
+            selectedVoiceURI: selectedVoiceURI,
+            speechRate: rateSlider.value
+        };
+        localStorage.setItem('ielts_dual_apple', JSON.stringify(store));
+    }
+
+    function loadCache() {
+        const raw = localStorage.getItem('ielts_dual_apple');
+        if (!raw) return false;
+        try {
+            const data = JSON.parse(raw);
+            currentMode = data.mode || 'dictate';
+            wordItems = data.wordItems || [];
+            wrongDict = new Set(data.wrongDict || []);
+            masteredSet = new Set(data.masteredSet || []);
+            if (data.selectedVoiceURI) selectedVoiceURI = data.selectedVoiceURI;
+            if (data.speechRate) { rateSlider.value = data.speechRate; rateValue.innerText = data.speechRate; speechRate = parseFloat(data.speechRate); }
+            return true;
+        } catch(e) { return false; }
+    }
+
+    function syncModeUI() {
+        if (currentMode === 'dictate') {
+            dictateArea.classList.remove('hidden');
+            listenOnlyArea.classList.add('hidden');
+            modeDictateBtn.classList.add('active');
+            modeListenBtn.classList.remove('active');
+            userSpelling.disabled = !practiceActive;
+            submitAnswerBtn.disabled = !practiceActive;
+        } else {
+            dictateArea.classList.add('hidden');
+            listenOnlyArea.classList.remove('hidden');
+            modeListenBtn.classList.add('active');
+            modeDictateBtn.classList.remove('active');
+        }
+        renderWordList();
+        updateRecordPanel();
+        persistData();
+    }
+
+    function setMode(newMode) {
+        if (practiceActive) stopPractice();
+        currentMode = newMode;
+        syncModeUI();
+        setStatus(`切换到${currentMode === 'dictate' ? '听写模式' : '只听模式'}`, false);
+    }
+
+    // 初始化
+    (async () => {
+        await loadVoices();
+        const cached = loadCache();
+        syncModeUI();
+        if (!cached || wordItems.length === 0) { renderWordList(); }
+        else { renderWordList(); updateRecordPanel(); setStatus("💾 恢复缓存进度", false); }
+        voiceSelect.addEventListener('change', () => { selectedVoiceURI = voiceSelect.value; persistData(); });
+        rateSlider.addEventListener('input', () => { rateValue.innerText = rateSlider.value; speechRate = parseFloat(rateSlider.value); persistData(); });
+        loadWordsBtn.addEventListener('click', loadAndReset);
+        clearCacheBtn.addEventListener('click', fullClearCache);
+        startPracticeBtn.addEventListener('click', startPractice);
+        pausePracticeBtn.addEventListener('click', pausePractice);
+        stopPracticeBtn.addEventListener('click', stopPractice);
+        replayCurrentBtn.addEventListener('click', replayCurrent);
+        submitAnswerBtn.addEventListener('click', handleSubmit);
+        markMasteredBtn.addEventListener('click', markCurrentMastered);
+        userSpelling.addEventListener('keypress', (e) => { if (e.key === 'Enter' && practiceActive && currentMode === 'dictate') handleSubmit(); });
+        modeDictateBtn.addEventListener('click', () => setMode('dictate'));
+        modeListenBtn.addEventListener('click', () => setMode('listen'));
+    })();
+</script>
+</body>
+</html>

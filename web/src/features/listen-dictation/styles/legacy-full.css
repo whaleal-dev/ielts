@@ -1,0 +1,755 @@
+.listen-dictation-app {
+            color-scheme: light;
+            --bg: #dfe7f3;
+            --bg-strong: #d7e1ef;
+            --panel: rgba(255, 255, 255, 0.68);
+            --panel-strong: rgba(255, 255, 255, 0.9);
+            --panel-soft: rgba(255, 255, 255, 0.56);
+            --line: rgba(15, 23, 42, 0.08);
+            --line-strong: rgba(15, 23, 42, 0.16);
+            --text: #081120;
+            --muted: #556171;
+            --subtle: #748197;
+            --blue: #1473ff;
+            --blue-soft: rgba(20, 115, 255, 0.14);
+            --blue-strong: #0c57d4;
+            --violet: #615fff;
+            --violet-soft: rgba(97, 95, 255, 0.12);
+            --green: #17b26a;
+            --red: #ec5b5b;
+            --gold: #f1b53d;
+            --shadow: 0 24px 56px rgba(10, 24, 48, 0.12);
+            --shadow-soft: 0 10px 28px rgba(15, 23, 42, 0.07);
+            --radius-xl: 22px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+            --radius-sm: 10px;
+            --max-width: 1480px;
+        }
+.listen-dictation-app {
+            margin: 0;
+            min-height: 100%;
+            font-family: "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 12% 0%, rgba(20, 115, 255, 0.26), transparent 24%),
+                radial-gradient(circle at 88% 8%, rgba(97, 95, 255, 0.22), transparent 20%),
+                radial-gradient(circle at 50% 24%, rgba(255, 255, 255, 0.85), transparent 28%),
+                linear-gradient(180deg, #f8fbff 0%, #ecf2f9 40%, #dee7f2 100%);
+            overflow-x: hidden;
+        }
+
+
+        .listen-dictation-app * {
+            box-sizing: border-box;
+        }
+
+        .listen-dictation-app html {
+            scroll-behavior: smooth;
+        }
+
+        .listen-dictation-app body::before {
+            top: -110px;
+            right: -90px;
+            background: rgba(20, 115, 255, 0.26);
+        }
+
+        .listen-dictation-app body::after {
+            left: -80px;
+            bottom: 10%;
+            background: rgba(97, 95, 255, 0.16);
+        }
+
+        .listen-dictation-app button,
+        .listen-dictation-app input,
+        .listen-dictation-app select {
+            font: inherit;
+        }
+
+        .listen-dictation-app button {
+            border: 0;
+            cursor: pointer;
+        }
+
+        .listen-dictation-app .shell {
+            position: relative;
+            z-index: 1;
+            width: min(calc(100% - 20px), var(--max-width));
+            margin: 12px auto 18px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .listen-dictation-app .glass {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(250, 252, 255, 0.64));
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(26px) saturate(1.1);
+            -webkit-backdrop-filter: blur(26px) saturate(1.1);
+        }
+
+        .listen-dictation-app .hero {
+            padding: 18px 20px;
+            border-radius: var(--radius-xl);
+            display: grid;
+            gap: 14px;
+            animation: rise 520ms ease-out;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+            min-height: auto;
+        }
+
+        .listen-dictation-app .hero::before {
+            width: 420px;
+            height: 420px;
+            top: -180px;
+            right: -80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(20, 115, 255, 0.28), rgba(20, 115, 255, 0) 66%);
+            filter: blur(10px);
+            position: absolute;
+            content: "";
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .listen-dictation-app .hero::after {
+            left: 8%;
+            right: 8%;
+            bottom: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.88), transparent);
+            content: "";
+            position: absolute;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .listen-dictation-app .hero-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .listen-dictation-app .hero-title-wrap {
+            max-width: 680px;
+        }
+
+        .listen-dictation-app .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.64);
+            color: var(--blue-strong);
+            letter-spacing: 0.1em;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .listen-dictation-app h1 {
+            margin: 8px 0 6px;
+            font-size: clamp(24px, 3.8vw, 42px);
+            line-height: 1;
+            letter-spacing: -0.05em;
+            font-weight: 700;
+        }
+
+        .listen-dictation-app .hero-copy {
+            margin: 0;
+            max-width: 58ch;
+            color: var(--muted);
+            line-height: 1.5;
+            font-size: 13px;
+        }
+
+        .listen-dictation-app .hero-search {
+            display: grid;
+            gap: 10px;
+            padding: 12px;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(245, 249, 255, 0.62));
+            border: 1px solid rgba(255, 255, 255, 0.66);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74), var(--shadow-soft);
+        }
+
+        .listen-dictation-app .search-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .listen-dictation-app .search-input {
+            width: 100%;
+            padding: 11px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--text);
+            outline: none;
+            font-size: 14px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .listen-dictation-app .search-input:focus {
+            border-color: rgba(20, 115, 255, 0.36);
+            box-shadow: 0 0 0 3px rgba(20, 115, 255, 0.12);
+        }
+
+        .listen-dictation-app .search-meta-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .listen-dictation-app .hero-side {
+            min-width: 240px;
+            flex: 1;
+            display: grid;
+            gap: 8px;
+        }
+
+        .listen-dictation-app .badge-card,
+        .listen-dictation-app .metric-card,
+        .listen-dictation-app .compact-card,
+        .listen-dictation-app .chapter-card,
+        .listen-dictation-app .word-card,
+        .listen-dictation-app .queue-card,
+        .listen-dictation-app .difficulty-card,
+        .listen-dictation-app .settings-card,
+        .listen-dictation-app .transport-card,
+        .listen-dictation-app .footer-card {
+            border-radius: var(--radius-lg);
+        }
+
+        .listen-dictation-app .badge-card,
+        .listen-dictation-app .metric-card,
+        .listen-dictation-app .compact-card,
+        .listen-dictation-app .setting-box,
+        .listen-dictation-app .queue-item {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 254, 0.86));
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .listen-dictation-app .badge-card,
+        .listen-dictation-app .metric-card,
+        .listen-dictation-app .compact-card,
+        .listen-dictation-app .setting-box,
+        .listen-dictation-app .queue-item {
+            padding: 10px 11px;
+        }
+
+        .listen-dictation-app .badge-label,
+        .listen-dictation-app .metric-label,
+        .listen-dictation-app .compact-label,
+        .listen-dictation-app .section-label,
+        .listen-dictation-app .setting-caption,
+        .listen-dictation-app .small-text,
+        .listen-dictation-app .meta-text {
+            color: var(--subtle);
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .listen-dictation-app .badge-value,
+        .listen-dictation-app .metric-value,
+        .listen-dictation-app .compact-value {
+            display: block;
+            margin-top: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        .listen-dictation-app .main-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.55fr) minmax(360px, 0.95fr);
+            gap: 10px;
+            align-items: start;
+        }
+
+        .listen-dictation-app .left-column,
+        .listen-dictation-app .right-column {
+            display: grid;
+            gap: 10px;
+        }
+
+        .listen-dictation-app .word-card,
+        .listen-dictation-app .settings-card,
+        .listen-dictation-app .footer-card {
+            padding: 12px;
+        }
+
+        .listen-dictation-app .word-card {
+            display: grid;
+            gap: 12px;
+            min-height: 420px;
+            animation: rise 620ms ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .listen-dictation-app .word-card::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            right: -90px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(20, 115, 255, 0.18), rgba(20, 115, 255, 0) 68%);
+            pointer-events: none;
+        }
+
+        .listen-dictation-app .word-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .listen-dictation-app .pill-row,
+        .listen-dictation-app .detail-row,
+        .listen-dictation-app .toggle-row,
+        .listen-dictation-app .chapter-actions,
+        .listen-dictation-app .queue-toolbar,
+        .listen-dictation-app .footer-toolbar {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .listen-dictation-app .toolbar-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--line-strong);
+            margin: 0 4px;
+        }
+
+        .listen-dictation-app .pill,
+        .listen-dictation-app .mode-pill,
+        .listen-dictation-app .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .listen-dictation-app .pill.active,
+        .listen-dictation-app .mode-pill.active,
+        .listen-dictation-app .chip.active {
+            background: var(--blue-soft);
+            border-color: rgba(22, 119, 255, 0.18);
+            color: var(--blue-strong);
+        }
+
+        .listen-dictation-app .word-heading {
+            display: grid;
+            gap: 6px;
+        }
+
+        .listen-dictation-app .word-title {
+            margin: 0;
+            font-size: clamp(28px, 5.2vw, 56px);
+            line-height: 0.95;
+            letter-spacing: -0.06em;
+            font-weight: 700;
+        }
+
+        .listen-dictation-app .phonetic {
+            font-size: 14px;
+            color: var(--blue-strong);
+            font-weight: 600;
+        }
+
+        .listen-dictation-app .meaning-box {
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 246, 255, 0.82));
+            border: 1px solid var(--line);
+            min-height: 88px;
+            display: grid;
+            gap: 6px;
+            align-content: start;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86);
+        }
+
+        .listen-dictation-app .meaning-box.dictation-mode {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 248, 232, 0.95));
+            border-color: rgba(241, 181, 61, 0.26);
+        }
+
+        .listen-dictation-app .meaning-text {
+            margin: 0;
+            font-size: clamp(16px, 2vw, 22px);
+            line-height: 1.35;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .listen-dictation-app .dictation-panel {
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(248, 250, 255, 0.88));
+            border: 1px solid var(--line);
+            display: grid;
+            gap: 10px;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.86);
+        }
+
+        .listen-dictation-app .dictation-hint {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .listen-dictation-app .dictation-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+        }
+
+        .listen-dictation-app .dictation-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .listen-dictation-app .dictation-feedback {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45;
+            min-height: 18px;
+        }
+
+        .listen-dictation-app .dictation-feedback.success {
+            color: var(--green);
+        }
+
+        .listen-dictation-app .dictation-feedback.error {
+            color: var(--red);
+        }
+
+        .listen-dictation-app .settings-card {
+            display: grid;
+            gap: 16px;
+        }
+
+        .listen-dictation-app .setting-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .listen-dictation-app .workspace-settings {
+            display: grid;
+            gap: 16px;
+            padding: 14px;
+        }
+
+        .listen-dictation-app .setting-box {
+            display: grid;
+            gap: 10px;
+        }
+
+        .listen-dictation-app .setting-head {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .listen-dictation-app .setting-value {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .listen-dictation-app input[type="range"] {
+            width: 100%;
+            accent-color: var(--blue);
+        }
+
+        .listen-dictation-app select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--text);
+            outline: none;
+        }
+
+        .listen-dictation-app .status-line {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45;
+            min-height: 18px;
+        }
+
+        .listen-dictation-app .status-line.error {
+            color: #b42318;
+        }
+
+        .listen-dictation-app .control-btn,
+        .listen-dictation-app .mini-btn,
+        .listen-dictation-app .segment-btn,
+        .listen-dictation-app .danger-btn,
+        .listen-dictation-app .ghost-btn,
+        .listen-dictation-app .play-btn,
+        .listen-dictation-app .toggle-btn {
+            border-radius: 18px;
+            transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+        }
+
+        .listen-dictation-app .control-btn:hover,
+        .listen-dictation-app .segment-btn:hover,
+        .listen-dictation-app .danger-btn:hover,
+        .listen-dictation-app .ghost-btn:hover,
+        .listen-dictation-app .play-btn:hover,
+        .listen-dictation-app .toggle-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .listen-dictation-app .control-btn:active,
+        .listen-dictation-app .segment-btn:active,
+        .listen-dictation-app .danger-btn:active,
+        .listen-dictation-app .ghost-btn:active,
+        .listen-dictation-app .play-btn:active,
+        .listen-dictation-app .toggle-btn:active {
+            transform: translateY(0) scale(0.985);
+        }
+
+        .listen-dictation-app .control-btn {
+            padding: 16px 18px;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(243, 247, 252, 0.92));
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            color: var(--text);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75), var(--shadow-soft);
+        }
+
+        .listen-dictation-app .control-btn.primary,
+        .listen-dictation-app .segment-btn.primary {
+            background: linear-gradient(180deg, #2e90ff 0%, #1677ff 100%);
+            color: #fff;
+            border: 1px solid rgba(22, 119, 255, 0.48);
+            box-shadow: 0 18px 36px rgba(22, 119, 255, 0.28);
+        }
+
+        .listen-dictation-app .segment-btn,
+        .listen-dictation-app .ghost-btn,
+        .listen-dictation-app .toggle-btn,
+        .listen-dictation-app .play-btn,
+        .listen-dictation-app .danger-btn {
+            padding: 11px 14px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .listen-dictation-app .segment-btn {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text);
+            border: 1px solid var(--line);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.68);
+        }
+
+        .listen-dictation-app .danger-btn {
+            background: rgba(236, 91, 91, 0.08);
+            color: #b42318;
+            border: 1px solid rgba(236, 91, 91, 0.18);
+        }
+
+        .listen-dictation-app .play-btn {
+            background: rgba(22, 119, 255, 0.08);
+            color: var(--blue-strong);
+            border: 1px solid rgba(22, 119, 255, 0.16);
+        }
+
+        .listen-dictation-app .toggle-btn.active {
+            background: linear-gradient(180deg, #ffd66e, #f1b53d);
+            color: #5a3b00;
+            border: 1px solid rgba(241, 181, 61, 0.5);
+        }
+
+        .listen-dictation-app .queue-card {
+            padding: 14px;
+        }
+
+        .listen-dictation-app .queue-list {
+            margin-top: 12px;
+            display: grid;
+            gap: 8px;
+        }
+
+        .listen-dictation-app .queue-item {
+            display: grid;
+            gap: 10px;
+        }
+
+        .listen-dictation-app .queue-item.active {
+            background: linear-gradient(180deg, rgba(22, 119, 255, 0.14), rgba(22, 119, 255, 0.08));
+            border-color: rgba(22, 119, 255, 0.16);
+        }
+
+        .listen-dictation-app .queue-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .listen-dictation-app .queue-word {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        .listen-dictation-app .queue-item {
+            cursor: pointer;
+            padding: 10px 11px;
+            border-radius: 14px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 254, 0.86));
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-soft);
+            transition: all 160ms ease;
+        }
+
+        .listen-dictation-app .queue-item:hover {
+            border-color: rgba(20, 115, 255, 0.18);
+            box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
+        }
+
+        .listen-dictation-app .empty {
+            padding: 18px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.62);
+            border: 1px dashed rgba(15, 23, 42, 0.14);
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .listen-dictation-app .footer-card {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .listen-dictation-app .footer-copy {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.7;
+            max-width: 72ch;
+            font-size: 14px;
+        }
+
+        .listen-dictation-app .action-panel {
+            padding: 10px 12px;
+        }
+
+        .listen-dictation-app .action-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .listen-dictation-app .mono {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .listen-dictation-app .hidden-visual {
+            display: none !important;
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(12px) scale(0.995);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @media (max-width: 1220px) {
+            .listen-dictation-app .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .listen-dictation-app .setting-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .listen-dictation-app .shell {
+                width: min(calc(100% - 18px), var(--max-width));
+                margin: 10px auto 20px;
+            }
+            .listen-dictation-app .setting-grid {
+                grid-template-columns: 1fr;
+            }
+            .listen-dictation-app .word-title {
+                font-size: clamp(36px, 12vw, 64px);
+            }
+            .listen-dictation-app .footer-toolbar {
+                align-items: stretch;
+            }
+            .listen-dictation-app .search-bar {
+                flex-direction: column;
+            }
+            .listen-dictation-app .search-bar button {
+                width: 100%;
+            }
+        }
+    
+
+.listen-dictation-app::before,
+        .listen-dictation-app::after {
+            content: "";
+            position: fixed;
+            inset: auto;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(22px);
+            opacity: 0.55;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+
+/* 角落光斑（原 body::before/::after，容器化） — 若上面已由合并规则生成则忽略 */
+/* 容器占满主区：负 margin 抵消 Element Plus main 的 padding */
+.listen-dictation-app {
+  position: relative;
+  isolation: isolate;
+  margin: -20px;
+  padding: 16px 20px 36px;
+  overflow: clip;
+}

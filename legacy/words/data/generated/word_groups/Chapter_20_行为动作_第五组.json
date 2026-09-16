@@ -1,0 +1,2263 @@
+{
+  "chapter": "Chapter 20 行为动作",
+  "group": "第五组",
+  "words": [
+    {
+      "id": "81767",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-11-27 15:30:09",
+      "word": "contain",
+      "usa_phonetic": "kənˈteɪn",
+      "eng_phonetic": "kənˈteɪn",
+      "meaning": "v.包含，容纳；抑制（感情）",
+      "sound_version": "1764228609",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/67/81767.mp3?v=1764228609",
+      "usa_sound": "https://static.gximg.cn/word/dictation/67/81767_us.mp3?v=1764228609",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "0",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82102",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:11:26",
+      "word": "leak",
+      "usa_phonetic": "liːk",
+      "eng_phonetic": "liːk",
+      "meaning": "v.泄漏 n.漏洞,裂缝",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/2/82102.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/2/82102_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "1",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85094",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:39",
+      "word": "spill",
+      "usa_phonetic": "spɪl",
+      "eng_phonetic": "spɪl",
+      "meaning": "v.（使）溢出",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/94/85094.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/94/85094_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "2",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85095",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:39",
+      "word": "seep",
+      "usa_phonetic": "siːp",
+      "eng_phonetic": "siːp",
+      "meaning": "v.渗出，渗漏",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/95/85095.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/95/85095_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "3",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85096",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:39",
+      "word": "ooze",
+      "usa_phonetic": "uːz",
+      "eng_phonetic": "uːz",
+      "meaning": "v.渗出；洋溢着",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/96/85096.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/96/85096_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "4",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85098",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:38",
+      "word": "evacuate",
+      "usa_phonetic": "ɪˈvækjueɪt",
+      "eng_phonetic": "ɪˈvækjueɪt",
+      "meaning": "v.疏散，撤离",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/98/85098.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/98/85098_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "5",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "103145",
+      "created_at": "2025-07-02 18:27:34",
+      "updated_at": "2025-10-21 13:42:57",
+      "word": "Trench",
+      "usa_phonetic": "trentʃ",
+      "eng_phonetic": "trentʃ",
+      "meaning": "v. 掘沟于；砍除  n. 沟，渠，壕沟",
+      "sound_version": "1761025377",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/45/103145.mp3?v=1761025377",
+      "usa_sound": "https://static.gximg.cn/word/dictation/45/103145_us.mp3?v=1761025377",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "6",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85001",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:56:09",
+      "word": "saturate",
+      "usa_phonetic": "ˈsætʃəreɪt",
+      "eng_phonetic": "ˈsætʃəreɪt",
+      "meaning": "v.使饱和，使充满；浸透",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/1/85001.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/1/85001_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "7",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81626",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:13:58",
+      "word": "forgive",
+      "usa_phonetic": "fərˈɡɪv",
+      "eng_phonetic": "fəˈɡɪv",
+      "meaning": "v.原谅，宽恕，饶恕",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/26/81626.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/26/81626_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "8",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "84647",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-10-21 13:43:10",
+      "word": "regard",
+      "usa_phonetic": "rɪˈɡɑːrd",
+      "eng_phonetic": "rɪˈɡɑːd",
+      "meaning": "n.尊重；问候v.看待",
+      "sound_version": "1761025390",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/47/84647.mp3?v=1761025390",
+      "usa_sound": "https://static.gximg.cn/word/dictation/47/84647_us.mp3?v=1761025390",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "9",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85769",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:52:06",
+      "word": "flatter",
+      "usa_phonetic": "ˈflætər",
+      "eng_phonetic": "ˈflætə(r)",
+      "meaning": "v.奉承，讨好，向......滔媚",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/69/85769.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/69/85769_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "10",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85997",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:50:54",
+      "word": "worship",
+      "usa_phonetic": "ˈwɜːrʃɪp",
+      "eng_phonetic": "ˈwɜːʃɪp",
+      "meaning": "n. （对上帝或神的）崇拜，礼拜；爱慕v.做礼拜",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/97/85997.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/97/85997_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "11",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "77262",
+      "created_at": "2025-07-02 18:08:17",
+      "updated_at": "2025-07-02 18:09:53",
+      "word": "cause",
+      "usa_phonetic": "kɔːz",
+      "eng_phonetic": "kɔːz",
+      "meaning": "n原因,理由；事业",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/62/77262.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/62/77262_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "12",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85106",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:36",
+      "word": "sake",
+      "usa_phonetic": "seɪk",
+      "eng_phonetic": "seɪk",
+      "meaning": "n.理由，目的",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/6/85106.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/6/85106_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "13",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "77166",
+      "created_at": "2025-07-02 18:08:17",
+      "updated_at": "2025-09-12 10:22:34",
+      "word": "purpose",
+      "usa_phonetic": "ˈpɜːrpəs",
+      "eng_phonetic": "ˈpɜːpəs",
+      "meaning": "n.目的",
+      "sound_version": "1757643754",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/66/77166.mp3?v=1757643754",
+      "usa_sound": "https://static.gximg.cn/word/dictation/66/77166_us.mp3?v=1757643754",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "14",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "77783",
+      "created_at": "2025-07-02 18:19:11",
+      "updated_at": "2025-07-02 21:33:36",
+      "word": "objective",
+      "usa_phonetic": "əbˈdʒektɪv",
+      "eng_phonetic": "əbˈdʒektɪv",
+      "meaning": "n.宗旨；目标  adj.客观的",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/83/77783.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/83/77783_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "15",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82777",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-12-31 09:24:00",
+      "word": "arouse",
+      "usa_phonetic": "əˈraʊz",
+      "eng_phonetic": "əˈraʊz",
+      "meaning": "v唤起，激起，引起",
+      "sound_version": "1767144240",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/77/82777.mp3?v=1767144240",
+      "usa_sound": "https://static.gximg.cn/word/dictation/77/82777_us.mp3?v=1767144240",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "16",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82089",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:11:30",
+      "word": "trigger",
+      "usa_phonetic": "ˈtrɪɡər",
+      "eng_phonetic": "ˈtrɪɡə(r)",
+      "meaning": "v. 引发，触发n.（枪等的）扳机",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/89/82089.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/89/82089_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "17",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82038",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:11:46",
+      "word": "seek",
+      "usa_phonetic": "siːk",
+      "eng_phonetic": "siːk",
+      "meaning": "v.寻找；寻求",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/38/82038.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/38/82038_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "18",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85076",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:45",
+      "word": "retrieve",
+      "usa_phonetic": "rɪˈtriːv",
+      "eng_phonetic": "rɪˈtriːv",
+      "meaning": "v.取回；挽回",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/76/85076.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/76/85076_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "19",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85111",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-08-20 16:45:30",
+      "word": "testify",
+      "usa_phonetic": "ˈtestɪfaɪ",
+      "eng_phonetic": "ˈtestɪfaɪ",
+      "meaning": "v.作证；证明",
+      "sound_version": "1755679530",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/11/85111.mp3?v=1755679530",
+      "usa_sound": "https://static.gximg.cn/word/dictation/11/85111_us.mp3?v=1755679530",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "20",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82805",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-10-21 13:44:25",
+      "word": "verify",
+      "usa_phonetic": "ˈverɪfaɪ",
+      "eng_phonetic": "ˈverɪfaɪ",
+      "meaning": "v证实；核实，查清",
+      "sound_version": "1761025465",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/5/82805.mp3?v=1761025465",
+      "usa_sound": "https://static.gximg.cn/word/dictation/5/82805_us.mp3?v=1761025465",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "21",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "83506",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:04:01",
+      "word": "specify",
+      "usa_phonetic": "ˈspesɪfaɪ",
+      "eng_phonetic": "ˈspesɪfaɪ",
+      "meaning": "V.具体指定，详细说明",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/6/83506.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/6/83506_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "22",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "83577",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-10-21 13:44:38",
+      "word": "enlighten",
+      "usa_phonetic": "ɪnˈlaɪt(ə)n",
+      "eng_phonetic": "ɪnˈlaɪt(ə)n",
+      "meaning": "V.启发，开导，启迪",
+      "sound_version": "1761025478",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/77/83577.mp3?v=1761025478",
+      "usa_sound": "https://static.gximg.cn/word/dictation/77/83577_us.mp3?v=1761025478",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "23",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85110",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:34",
+      "word": "impart",
+      "usa_phonetic": "ɪmˈpɑːrt",
+      "eng_phonetic": "ɪmˈpɑːt",
+      "meaning": "v.传授；透露",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/10/85110.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/10/85110_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "24",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82001",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:11:58",
+      "word": "deserve",
+      "usa_phonetic": "dɪˈzɜːrv",
+      "eng_phonetic": "dɪˈzɜːv",
+      "meaning": "v. 应得；应受",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/1/82001.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/1/82001_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "25",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "108595",
+      "created_at": "2025-07-02 18:29:33",
+      "updated_at": "2025-07-02 18:31:33",
+      "word": "drop",
+      "usa_phonetic": "drɑːp",
+      "eng_phonetic": "drɒp",
+      "meaning": "v. （使）落下；（使）降低；和…...断绝联系n.滴",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/95/108595.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/95/108595_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "26",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81292",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:15:45",
+      "word": "sink",
+      "usa_phonetic": "sɪŋk",
+      "eng_phonetic": "sɪŋk",
+      "meaning": "v. （使）下沉；下降",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/92/81292.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/92/81292_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "27",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85023",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:56:02",
+      "word": "plummet",
+      "usa_phonetic": "ˈplʌmɪt",
+      "eng_phonetic": "ˈplʌmɪt",
+      "meaning": "v.垂直掉下；（价格、水平等）骤然下跌",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/23/85023.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/23/85023_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "28",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85025",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:56:01",
+      "word": "muffle",
+      "usa_phonetic": "ˈmʌf(ə)l",
+      "eng_phonetic": "ˈmʌf(ə)l",
+      "meaning": "V.使（声音）减弱",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/25/85025.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/25/85025_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "29",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85395",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:54:04",
+      "word": "overshadow",
+      "usa_phonetic": "ˌoʊvərˈʃædoʊ",
+      "eng_phonetic": "ˌəʊvəˈʃædəʊ",
+      "meaning": "v遮蔽；使黯然失色",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/95/85395.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/95/85395_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "30",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "105930",
+      "created_at": "2025-07-02 18:27:34",
+      "updated_at": "2025-10-21 13:44:51",
+      "word": "invite",
+      "usa_phonetic": "ɪnˈvaɪt",
+      "eng_phonetic": "ɪnˈvaɪt",
+      "meaning": "v. 邀请",
+      "sound_version": "1761025491",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/30/105930.mp3?v=1761025491",
+      "usa_sound": "https://static.gximg.cn/word/dictation/30/105930_us.mp3?v=1761025491",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "31",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "108518",
+      "created_at": "2025-07-02 18:29:33",
+      "updated_at": "2025-07-02 18:58:18",
+      "word": "welcome",
+      "usa_phonetic": "ˈwelkəm",
+      "eng_phonetic": "ˈwelkəm",
+      "meaning": "n.欢迎 v.欢迎 int.欢迎",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/18/108518.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/18/108518_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "32",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81239",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:16:01",
+      "word": "greet",
+      "usa_phonetic": "ɡriːt",
+      "eng_phonetic": "ɡriːt",
+      "meaning": "v. 向……问好，迎接；对......作出反应",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/39/81239.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/39/81239_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "33",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85626",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-08-15 16:53:46",
+      "word": "salute",
+      "usa_phonetic": "səˈluːt",
+      "eng_phonetic": "səˈluːt",
+      "meaning": "V. （向……）行礼；致敬n.行礼；致敬",
+      "sound_version": "1755248026",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/26/85626.mp3?v=1755248026",
+      "usa_sound": "https://static.gximg.cn/word/dictation/26/85626_us.mp3?v=1755248026",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "34",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85027",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-08-20 16:46:25",
+      "word": "celebrate",
+      "usa_phonetic": "ˈselɪbreɪt",
+      "eng_phonetic": "ˈselɪbreɪt",
+      "meaning": "v. 庆祝（节日、事件等）",
+      "sound_version": "1755679585",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/27/85027.mp3?v=1755679585",
+      "usa_sound": "https://static.gximg.cn/word/dictation/27/85027_us.mp3?v=1755679585",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "35",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81249",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-08-20 16:46:53",
+      "word": "congratulate",
+      "usa_phonetic": "kənˈɡrætʃəleɪt",
+      "eng_phonetic": "kənˈɡrætʃəleɪt",
+      "meaning": "V祝贺，向……道贺",
+      "sound_version": "1755679613",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/49/81249.mp3?v=1755679613",
+      "usa_sound": "https://static.gximg.cn/word/dictation/49/81249_us.mp3?v=1755679613",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "36",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81950",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:12:14",
+      "word": "bless",
+      "usa_phonetic": "bles",
+      "eng_phonetic": "bles",
+      "meaning": "v.祝福，为......析求上帝保佑",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/50/81950.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/50/81950_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "37",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82144",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:11:13",
+      "word": "participate",
+      "usa_phonetic": "pɑːrˈtɪsɪpeɪt",
+      "eng_phonetic": "pɑːˈtɪsɪpeɪt",
+      "meaning": "v，参加，参与",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/44/82144.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/44/82144_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "38",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85029",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:56:00",
+      "word": "farewell",
+      "usa_phonetic": "ˌferˈwel",
+      "eng_phonetic": "ˌfeəˈwel",
+      "meaning": "int.再会 n.告别",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/29/85029.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/29/85029_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "39",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85030",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:56:00",
+      "word": "assort",
+      "usa_phonetic": "əˈsɔːrt",
+      "eng_phonetic": "əˈsɔːt",
+      "meaning": "v.把......分类；相配，协调",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/30/85030.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/30/85030_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "40",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81841",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:12:50",
+      "word": "correspond",
+      "usa_phonetic": "ˌkɔːrəˈspɑːnd",
+      "eng_phonetic": "ˌkɒrəˈspɒnd",
+      "meaning": "v.符合，相一致；通信",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/41/81841.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/41/81841_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "41",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85032",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:59",
+      "word": "accord",
+      "usa_phonetic": "əˈkɔːrd",
+      "eng_phonetic": "əˈkɔːd",
+      "meaning": "v. （与......）－致；给予 n.协议",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/32/85032.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/32/85032_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "42",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85022",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-12-02 17:14:40",
+      "word": "attribute",
+      "usa_phonetic": "əˈtrɪbjuːt; ˈætrɪbjuːt",
+      "eng_phonetic": "əˈtrɪbjuːt; ˈætrɪbjuːt",
+      "meaning": "v.把……归因于n.属性，特性",
+      "sound_version": "1764666880",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/22/85022.mp3?v=1764666880",
+      "usa_sound": "https://static.gximg.cn/word/dictation/22/85022_us.mp3?v=1764666880",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "43",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81419",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:15:04",
+      "word": "recall",
+      "usa_phonetic": "rɪˈkɔːl",
+      "eng_phonetic": "rɪˈkɔːl",
+      "meaning": "v.回忆，回想起",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/19/81419.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/19/81419_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "44",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85042",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-10-21 13:45:46",
+      "word": "recollect",
+      "usa_phonetic": "ˌrekəˈlekt",
+      "eng_phonetic": "ˌrekəˈlekt",
+      "meaning": "v.记起，想起",
+      "sound_version": "1761025546",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/42/85042.mp3?v=1761025546",
+      "usa_sound": "https://static.gximg.cn/word/dictation/42/85042_us.mp3?v=1761025546",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "45",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81907",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:12:29",
+      "word": "remind",
+      "usa_phonetic": "rɪˈmaɪnd",
+      "eng_phonetic": "rɪˈmaɪnd",
+      "meaning": "v.提醒，使想起",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/7/81907.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/7/81907_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "46",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "108610",
+      "created_at": "2025-07-02 18:29:33",
+      "updated_at": "2026-01-15 11:44:00",
+      "word": "retell",
+      "usa_phonetic": "ˌriːˈtel",
+      "eng_phonetic": "ˌriːˈtel",
+      "meaning": "v.重新讲述，复述",
+      "sound_version": "1768448640",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/10/108610.mp3?v=1768448640",
+      "usa_sound": "https://static.gximg.cn/word/dictation/10/108610_us.mp3?v=1768448640",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "47",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85049",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:54",
+      "word": "repeat",
+      "usa_phonetic": "rɪˈpiːt",
+      "eng_phonetic": "rɪˈpiːt",
+      "meaning": "v.重复adj.再次光顾的",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/49/85049.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/49/85049_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "48",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85050",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:53",
+      "word": "retrospect",
+      "usa_phonetic": "ˈretrəspekt",
+      "eng_phonetic": "ˈretrəspekt",
+      "meaning": "n. [in－］回顾",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/50/85050.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/50/85050_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "49",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81245",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:15:59",
+      "word": "impress",
+      "usa_phonetic": "ɪmˈpres",
+      "eng_phonetic": "ɪmˈpres",
+      "meaning": "v.给......深刻印象；使铭记",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/45/81245.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/45/81245_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "50",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85051",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:53",
+      "word": "surmount",
+      "usa_phonetic": "sərˈmaʊnt",
+      "eng_phonetic": "səˈmaʊnt",
+      "meaning": "v.克服；置于......顶端",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/51/85051.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/51/85051_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "51",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85429",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:53:53",
+      "word": "mortify",
+      "usa_phonetic": "ˈmɔːrtɪfaɪ",
+      "eng_phonetic": "ˈmɔːtɪfaɪ",
+      "meaning": "v.使难堪，使羞愧",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/29/85429.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/29/85429_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "52",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85002",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:56:09",
+      "word": "pervade",
+      "usa_phonetic": "pərˈveɪd",
+      "eng_phonetic": "pəˈveɪd",
+      "meaning": "v.弥漫，渗透，遍及",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/2/85002.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/2/85002_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "53",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81417",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:15:05",
+      "word": "replace",
+      "usa_phonetic": "rɪˈpleɪs",
+      "eng_phonetic": "rɪˈpleɪs",
+      "meaning": "V.代替，取代",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/17/81417.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/17/81417_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "54",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82739",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:08:04",
+      "word": "substitute",
+      "usa_phonetic": "ˈsʌbstɪtuːt",
+      "eng_phonetic": "ˈsʌbstɪtjuːt",
+      "meaning": "v.替换n.代用品；代替者；替补（运动员）",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/39/82739.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/39/82739_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "55",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "81199",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:16:14",
+      "word": "distinguish",
+      "usa_phonetic": "dɪˈstɪŋɡwɪʃ",
+      "eng_phonetic": "dɪˈstɪŋɡwɪʃ",
+      "meaning": "v.区别，辨别；使出众，使著名",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/99/81199.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/99/81199_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "56",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85053",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:53",
+      "word": "differentiate",
+      "usa_phonetic": "ˌdɪfəˈrenʃieɪt",
+      "eng_phonetic": "ˌdɪfəˈrenʃieɪt",
+      "meaning": "v.区分，区别；差别对待",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/53/85053.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/53/85053_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "57",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82844",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:07:31",
+      "word": "incline",
+      "usa_phonetic": "ɪnˈklaɪn",
+      "eng_phonetic": "ɪnˈklaɪn",
+      "meaning": "v. （使）倾向于；（使）倾斜 n.斜坡；倾斜",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/44/82844.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/44/82844_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "58",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "82843",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 21:07:31",
+      "word": "lean",
+      "usa_phonetic": "liːn",
+      "eng_phonetic": "liːn",
+      "meaning": "v.（使）倚靠；倾斜  adj.瘦的；贫乏的",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/43/82843.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/43/82843_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "59",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    },
+    {
+      "id": "85054",
+      "created_at": "2025-07-02 18:20:06",
+      "updated_at": "2025-07-02 20:55:52",
+      "word": "sideways",
+      "usa_phonetic": "ˈsaɪdweɪz",
+      "eng_phonetic": "ˈsaɪdweɪz",
+      "meaning": "adv.向（或从、往）一侧",
+      "sound_version": "0",
+      "status": "1",
+      "voice_type": "uk",
+      "eng_sound": "https://static.gximg.cn/word/dictation/54/85054.mp3",
+      "usa_sound": "https://static.gximg.cn/word/dictation/54/85054_us.mp3",
+      "last_correct": "",
+      "last_record_id": "",
+      "is_fix": "",
+      "sort": "60",
+      "desc": "",
+      "word_conversion": "词性转换",
+      "recommend_example": {
+        "text": "We did not realize the magnitude of the problem.",
+        "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+        "meaning": "我们没有意识到这个问题的规模。"
+      },
+      "examples": [
+        {
+          "text": "We did not realize the magnitude of the problem.",
+          "sound": "https://static.gximg.cn/word/default/uk/mountainside.mp3",
+          "meaning": "我们没有意识到这个问题的规模。"
+        }
+      ],
+      "recitation_techniques": "背诵技巧",
+      "story": "词源故事",
+      "root": "root词根当前仅支持100长度",
+      "suffix": "suffix词缀当前仅支持100长度",
+      "synonym_words": []
+    }
+  ]
+}

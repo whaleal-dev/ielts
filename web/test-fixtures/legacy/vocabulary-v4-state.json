@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "playbackRate": 9,
+    "intervalSeconds": -1,
+    "repeatCount": 0,
+    "muted": "yes"
+  },
+  "practice": {
+    "mode": "listen",
+    "autoRunning": true,
+    "quiz": {
+      "options": [1, 2]
+    }
+  },
+  "activeTab": "hidden",
+  "difficultySortMode": "bogus",
+  "studyLog": [
+    { "kind": "mastered", "wordKey": "x", "at": "now" },
+    { "nope": 1 }
+  ],
+  "wordNotes": {
+    "k1": "note",
+    "k2": 42
+  }
+}

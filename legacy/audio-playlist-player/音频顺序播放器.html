@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>音频顺序播放器</title>
+    <style>
+        :root {
+            --bg-1: #f4f7fb;
+            --bg-2: #e8eef9;
+            --panel: rgba(255, 255, 255, 0.74);
+            --panel-strong: #ffffff;
+            --ink: #111827;
+            --muted: #6b7280;
+            --line: rgba(17, 24, 39, 0.1);
+            --accent: #0a84ff;
+            --accent-strong: #0066cc;
+            --accent-soft: rgba(10, 132, 255, 0.14);
+            --warn: #b7791f;
+            --danger: #d70015;
+            --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "SF Pro Text", "SF Pro Display", "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 8% 10%, rgba(10, 132, 255, 0.16), transparent 30%),
+                radial-gradient(circle at 92% 8%, rgba(94, 92, 230, 0.12), transparent 26%),
+                radial-gradient(circle at 52% 96%, rgba(52, 199, 89, 0.08), transparent 36%),
+                linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 100%);
+            padding: 28px 18px 80px;
+        }
+
+        .shell {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.55));
+            border-radius: 30px;
+            color: var(--ink);
+            border: 1px solid rgba(255, 255, 255, 0.66);
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -42px -76px auto;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(10, 132, 255, 0.2), transparent 68%);
+        }
+
+        .hero-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: flex-start;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.4rem);
+            line-height: 1.02;
+            letter-spacing: -0.04em;
+            max-width: 720px;
+        }
+
+        .hero p {
+            margin-top: 14px;
+            max-width: 720px;
+            color: #4b5563;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .hero-note {
+            min-width: 250px;
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: 16px;
+            padding: 18px 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-note strong {
+            display: block;
+            font-size: 0.86rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #0a84ff;
+            margin-bottom: 10px;
+        }
+
+        .hero-note span {
+            display: block;
+            line-height: 1.6;
+            color: #4b5563;
+        }
+
+        .layout {
+            display: grid;
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .row-two {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            padding: 22px;
+            backdrop-filter: blur(18px) saturate(130%);
+        }
+
+        .panel h2 {
+            font-size: 1.05rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
+
+        .panel-subtext {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .upload-zone {
+            border: 1px dashed rgba(10, 132, 255, 0.34);
+            background: linear-gradient(180deg, rgba(10, 132, 255, 0.08), rgba(255, 255, 255, 0.74));
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.25s ease;
+        }
+
+        .upload-zone.dragging {
+            transform: translateY(-2px);
+            border-color: rgba(10, 132, 255, 0.62);
+            box-shadow: 0 14px 28px rgba(10, 132, 255, 0.14);
+        }
+
+        .upload-zone p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 0.92rem;
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        .button-row,
+        .toolbar,
+        .inline-fields,
+        .meta-grid,
+        .item-actions,
+        .status-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .toolbar {
+            margin-top: 16px;
+        }
+
+        .timer-preset-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .timer-preset-btn {
+            background: rgba(10, 132, 255, 0.1);
+            color: #0b63bf;
+            padding: 8px 13px;
+            font-size: 0.82rem;
+        }
+
+        button,
+        .button-like {
+            appearance: none;
+            border: 1px solid rgba(17, 24, 39, 0.06);
+            background: #edf2f8;
+            color: var(--ink);
+            border-radius: 999px;
+            padding: 11px 18px;
+            font: inherit;
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        button:hover,
+        .button-like:hover {
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.45;
+            transform: none;
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #0a84ff, #0066cc);
+            color: #f8fbff;
+            box-shadow: 0 12px 24px rgba(10, 132, 255, 0.24);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .secondary-btn {
+            background: #eef5ff;
+            color: #0a4ca3;
+        }
+
+        .ghost-btn {
+            background: rgba(17, 24, 39, 0.05);
+            color: var(--ink);
+        }
+
+        .danger-btn {
+            background: rgba(215, 0, 21, 0.1);
+            color: var(--danger);
+        }
+
+        .pill-list {
+            display: grid;
+            gap: 10px;
+            margin-top: 16px;
+            max-height: 300px;
+            overflow: auto;
+            padding-right: 2px;
+        }
+
+        .history-panel-note {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
+        .file-pill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.88);
+            border: 1px solid rgba(17, 24, 39, 0.08);
+            border-radius: 14px;
+            padding: 12px 14px;
+        }
+
+        .file-pill strong,
+        .item-head strong {
+            display: block;
+            font-size: 0.95rem;
+            word-break: break-all;
+        }
+
+        .file-pill span,
+        .tiny,
+        .muted {
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+
+        .field label,
+        .inline-label {
+            font-size: 0.84rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.02em;
+        }
+
+        input,
+        select {
+            width: 100%;
+            border: 1px solid rgba(17, 24, 39, 0.11);
+            background: rgba(255, 255, 255, 0.92);
+            color: var(--ink);
+            border-radius: 12px;
+            padding: 12px 13px;
+            font: inherit;
+            font-size: 0.95rem;
+            transition: 0.2s ease;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: rgba(10, 132, 255, 0.56);
+            box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.14);
+        }
+
+        .status-panel {
+            background: linear-gradient(180deg, rgba(255, 253, 248, 0.92), rgba(255, 255, 255, 0.8));
+        }
+
+        .floating-status {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: max(10px, env(safe-area-inset-bottom));
+            width: min(520px, 98vw);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.92);
+            border-radius: 18px;
+            box-shadow: 0 6px 24px rgba(15,23,42,0.13);
+            border: 1px solid rgba(255,255,255,0.85);
+            padding: 6px 10px 6px 10px;
+            gap: 0.5em;
+            font-size: 1.08em;
+            user-select: none;
+        }
+
+        .status-chip {
+            min-width: 92px;
+            max-width: 250px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(10, 132, 255, 0.22);
+            background: rgba(10, 132, 255, 0.08);
+            color: #0a4ca3;
+            font-size: 0.76em;
+            line-height: 1.3;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .status-chip.warning {
+            border-color: rgba(215, 0, 21, 0.28);
+            background: rgba(215, 0, 21, 0.08);
+            color: #a30a1c;
+        }
+
+        .progress-track {
+            height: 7px;
+            border-radius: 999px;
+            background: rgba(17, 24, 39, 0.08);
+            overflow: hidden;
+            margin: 0 8px;
+        }
+
+        audio {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            .row-two {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 760px) {
+            body {
+                padding: 16px 12px 90px;
+            }
+
+            .hero,
+            .panel {
+                padding: 18px;
+                border-radius: 24px;
+            }
+
+            .field-grid,
+            .item-meta,
+            .status-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .item-head {
+                align-items: flex-start;
+            }
+
+            .item-index {
+                min-width: 46px;
+                height: 46px;
+                border-radius: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <section class="hero">
+            <div class="hero-top">
+                <div>
+                    <h1>本地音频顺序播放器</h1>
+                    <p>上传本地 mp3 或其他音频文件后，按清单顺序播放。每一项都可以单独设置倍速和播放次数，也可以跟随全局默认值；支持复制条目做出“同一首音频多种配置”的播放队列。</p>
+                </div>
+                <div class="hero-note">
+                    <strong>适合场景</strong>
+                    <span>例如：1.mp3 播 1 遍，再以 1.2 倍速播 2 遍，然后切到 2.mp3 连播 3 遍。定时器到点后会自动暂停。</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="layout">
+            <div id="systemLibraryAnchor"></div>
+
+            <div class="row-two">
+                <section class="panel" id="uploadLibraryPanel">
+                    <h2>上传音频库</h2>
+                    <p class="panel-subtext">支持多选和拖拽。上传后会自动生成播放条目，你也可以手动新增条目或复制已有条目。</p>
+                    <div class="upload-zone" id="uploadZone">
+                        <input id="fileInput" type="file" accept="audio/*,.mp3,.m4a,.wav,.aac,.ogg" multiple>
+                        <p>把音频拖到这里，或者点击下面按钮选择文件。</p>
+                        <div class="toolbar">
+                            <label class="button-like primary-btn" for="fileInput">选择音频文件</label>
+                            <button class="ghost-btn" id="clearFilesBtn" type="button">清空音频库</button>
+                        </div>
+                    </div>
+                    <div class="pill-list" id="fileLibrary"></div>
+                </section>
+
+                <section class="panel">
+                    <h2>历史音频</h2>
+                    <p class="panel-subtext">上传过的音频会缓存到浏览器，本地可重复导入。</p>
+                    <div class="toolbar" style="margin-top:0;">
+                        <button class="secondary-btn" id="addAllHistoryBtn" type="button">全部加入音频库</button>
+                        <button class="ghost-btn" id="refreshHistoryBtn" type="button">刷新历史</button>
+                        <button class="danger-btn" id="clearHistoryCacheBtn" type="button">清空缓存</button>
+                    </div>
+                    <div class="pill-list" id="historyLibrary"></div>
+                    <p class="history-panel-note">缓存仅保存在当前浏览器内；清空缓存不会影响当前播放清单。</p>
+                </section>
+            </div>
+
+            <section class="panel">
+                    <h2>全局配置</h2>
+                    <div class="field-grid">
+                        <div class="field">
+                            <label for="globalRate">默认倍速</label>
+                            <input id="globalRate" type="number" min="0.6" max="2" step="0.2" value="1.0">
+                        </div>
+                        <div class="field">
+                            <label for="globalRepeats">默认次数</label>
+                            <input id="globalRepeats" type="number" min="1" max="10" step="1" value="1">
+                        </div>
+                        <div class="field">
+                            <label for="timerMinutes">自动暂停分钟数</label>
+                            <input id="timerMinutes" type="number" min="0" max="999" step="0.1" value="120" placeholder="0 表示不启用">
+                            <div class="timer-preset-row">
+                                <button class="timer-preset-btn" id="timerPresetOffBtn" type="button">关闭</button>
+                                <button class="timer-preset-btn" id="timerPreset30Btn" type="button">30 分钟</button>
+                                <button class="timer-preset-btn" id="timerPreset60Btn" type="button">60 分钟</button>
+                                <button class="timer-preset-btn" id="timerPreset90Btn" type="button">90 分钟</button>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label for="newItemSource">快速新增条目</label>
+                            <select id="newItemSource"></select>
+                        </div>
+                    </div>
+                    <div class="toolbar">
+                        <button class="secondary-btn" id="addItemBtn" type="button">新增播放项</button>
+                        <button class="ghost-btn" id="applyRateBtn" type="button">同步倍速到全部</button>
+                        <button class="ghost-btn" id="applyRepeatsBtn" type="button">同步次数到全部</button>
+                        <button class="ghost-btn" id="applyAllBtn" type="button">同步全部配置</button>
+                    </div>
+                    <p class="panel-subtext" style="margin-top: 14px; margin-bottom: 0;">条目勾选“跟随全局”时，播放时会自动取这里的默认值。同步按钮会直接写入每个条目的自定义值。</p>
+            </section>
+
+            <section class="panel">
+                <div class="queue-header">
+                    <div>
+                        <h2>播放清单</h2>
+                        <p class="panel-subtext" style="margin-bottom: 0;">每个播放项都可单独设置文件、倍速、次数。倍速和次数支持独立切换为“跟随全局”。</p>
+                    </div>
+                    <div class="queue-meta">
+                        <span id="playlistMeta">0 个播放项</span>
+                        <span id="libraryMeta">0 个音频文件</span>
+                    </div>
+                </div>
+                <div class="queue-list" id="playlistContainer"></div>
+            </section>
+        </div>
+
+        <!-- 极简悬浮播放状态条 -->
+        <section class="floating-status">
+          <button id="startBtn" title="播放" style="background:none;border:none;padding:0 10px;font-size:1.6em;vertical-align:middle;cursor:pointer;outline:none;">
+            <span id="playIcon" style="display:inline;">▶️</span>
+            <span id="pauseIcon" style="display:none;">⏸️</span>
+          </button>
+          <div class="progress-track mini-progress" style="flex:1 1 auto;max-width:420px;margin:0 10px;">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span id="currentTimeLabel" style="min-width:48px;text-align:right;font-variant-numeric:tabular-nums;font-size:1em;color:#0a84ff;margin:0 8px;">00:00</span>
+          <span style="color:#888;">/</span>
+          <span id="durationLabel" style="min-width:48px;text-align:left;font-variant-numeric:tabular-nums;font-size:1em;color:#888;margin:0 8px;">00:00</span>
+          <input id="volumeSlider" type="range" min="0" max="1" step="0.01" value="1" title="音量" style="width:60px;vertical-align:middle;margin:0 10px;">
+          <button id="stopBtn" title="停止" style="background:none;border:none;padding:0 10px;font-size:1.3em;vertical-align:middle;cursor:pointer;outline:none;color:#d70015;">⏹️</button>
+          <span id="statusMessage" class="status-chip" aria-live="polite">准备就绪</span>
+                    <select id="playMode" title="播放模式" style="font-size:0.82em;border:1px solid rgba(17,24,39,0.15);border-radius:8px;padding:3px 6px;background:rgba(255,255,255,0.9);color:var(--ink);cursor:pointer;outline:none;">
+                        <option value="sequence">顺序</option>
+                        <option value="loop">循环</option>
+                        <option value="shuffle">随机</option>
+                    </select>
+                    <audio id="audioPlayer" preload="metadata" style="display:none;"></audio>
+        </section>
+        <!-- /极简悬浮播放状态条 -->
+    </div>
+
+    <script>
+        const state = {
+            files: [],
+            historyFiles: [],
+            playlist: [],
+            currentIndex: -1,
+            currentLoop: 0,
+            isPlaying: false,
+            isPaused: false,
+            autoPauseRemainingMs: null,
+            autoPauseDeadline: null,
+            autoPauseTimeoutId: null,
+            autoPauseTriggered: false,
+            countdownIntervalId: null,
+            activeItemId: null,
+            statusClearTimeoutId: null
+        };
+
+        const elements = {
+            fileInput: document.getElementById('fileInput'),
+            uploadZone: document.getElementById('uploadZone'),
+            clearFilesBtn: document.getElementById('clearFilesBtn'),
+            fileLibrary: document.getElementById('fileLibrary'),
+            historyLibrary: document.getElementById('historyLibrary'),
+            globalRate: document.getElementById('globalRate'),
+            globalRepeats: document.getElementById('globalRepeats'),
+            timerMinutes: document.getElementById('timerMinutes'),
+            timerPresetOffBtn: document.getElementById('timerPresetOffBtn'),
+            timerPreset30Btn: document.getElementById('timerPreset30Btn'),
+            timerPreset60Btn: document.getElementById('timerPreset60Btn'),
+            timerPreset90Btn: document.getElementById('timerPreset90Btn'),
+            playMode: document.getElementById('playMode'),
+            newItemSource: document.getElementById('newItemSource'),
+            refreshHistoryBtn: document.getElementById('refreshHistoryBtn'),
+            addAllHistoryBtn: document.getElementById('addAllHistoryBtn'),
+            clearHistoryCacheBtn: document.getElementById('clearHistoryCacheBtn'),
+            addItemBtn: document.getElementById('addItemBtn'),
+            applyRateBtn: document.getElementById('applyRateBtn'),
+            applyRepeatsBtn: document.getElementById('applyRepeatsBtn'),
+            applyAllBtn: document.getElementById('applyAllBtn'),
+            progressFill: document.getElementById('progressFill'),
+            audioPlayer: document.getElementById('audioPlayer'),
+            startBtn: document.getElementById('startBtn'),
+            stopBtn: document.getElementById('stopBtn'),
+            playIcon: document.getElementById('playIcon'),
+            pauseIcon: document.getElementById('pauseIcon'),
+            currentTimeLabel: document.getElementById('currentTimeLabel'),
+            durationLabel: document.getElementById('durationLabel'),
+            volumeSlider: document.getElementById('volumeSlider'),
+            statusMessage: document.getElementById('statusMessage'),
+            playlistContainer: document.getElementById('playlistContainer'),
+            playlistMeta: document.getElementById('playlistMeta'),
+            libraryMeta: document.getElementById('libraryMeta')
+        };
+
+        const HISTORY_DB_NAME = 'audio_playlist_history_db';
+        const HISTORY_STORE_NAME = 'history_files';
+
+        function openHistoryDb() {
+            return new Promise((resolve, reject) => {
+                if (!window.indexedDB) {
+                    reject(new Error('当前浏览器不支持 IndexedDB。'));
+                    return;
+                }
+                const request = indexedDB.open(HISTORY_DB_NAME, 1);
+                request.onupgradeneeded = () => {
+                    const db = request.result;
+                    if (!db.objectStoreNames.contains(HISTORY_STORE_NAME)) {
+                        db.createObjectStore(HISTORY_STORE_NAME, { keyPath: 'id' });
+                    }
+                };
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error || new Error('无法打开历史缓存数据库。'));
+            });
+        }
+
+        function createHistoryId(file) {
+            return [file.name, file.size, file.lastModified, file.type || ''].join('::');
+        }
+
+        function formatFileSize(bytes) {
+            if (!Number.isFinite(bytes) || bytes <= 0) {
+                return '大小未知';
+            }
+            if (bytes < 1024) {
+                return bytes + ' B';
+            }
+            const kb = bytes / 1024;
+            if (kb < 1024) {
+                return kb.toFixed(1) + ' KB';
+            }
+            return (kb / 1024).toFixed(1) + ' MB';
+        }
+
+        async function loadHistoryFilesFromCache() {
+            const db = await openHistoryDb();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(HISTORY_STORE_NAME, 'readonly');
+                const store = transaction.objectStore(HISTORY_STORE_NAME);
+                const request = store.getAll();
+                request.onsuccess = () => {
+                    const entries = (request.result || []).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+                    resolve(entries);
+                };
+                request.onerror = () => reject(request.error || new Error('读取历史缓存失败。'));
+            });
+        }
+
+        async function saveFilesToHistoryCache(fileList) {
+            const db = await openHistoryDb();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(HISTORY_STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(HISTORY_STORE_NAME);
+                fileList.forEach((file) => {
+                    store.put({
+                        id: createHistoryId(file),
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        lastModified: file.lastModified,
+                        updatedAt: Date.now(),
+                        blob: file
+                    });
+                });
+                transaction.oncomplete = () => resolve();
+                transaction.onerror = () => reject(transaction.error || new Error('写入历史缓存失败。'));
+            });
+        }
+
+        async function deleteHistoryFileById(historyId) {
+            const db = await openHistoryDb();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(HISTORY_STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(HISTORY_STORE_NAME);
+                store.delete(historyId);
+                transaction.oncomplete = () => resolve();
+                transaction.onerror = () => reject(transaction.error || new Error('删除历史文件失败。'));
+            });
+        }
+
+        async function clearHistoryCache() {
+            const db = await openHistoryDb();
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction(HISTORY_STORE_NAME, 'readwrite');
+                const store = transaction.objectStore(HISTORY_STORE_NAME);
+                store.clear();
+                transaction.oncomplete = () => resolve();
+                transaction.onerror = () => reject(transaction.error || new Error('清空历史缓存失败。'));
+            });
+        }
+
+        async function refreshHistoryLibrary() {
+            try {
+                state.historyFiles = await loadHistoryFilesFromCache();
+                renderHistoryLibrary();
+            } catch (error) {
+                state.historyFiles = [];
+                renderHistoryLibrary();
+                updateStatus('历史缓存不可用：' + (error && error.message ? error.message : '未知错误。'), true);
+            }
+        }
+
+        function historyEntryToFile(entry) {
+            return new File([entry.blob], entry.name, {
+                type: entry.type || 'audio/mpeg',
+                lastModified: entry.lastModified || Date.now()
+            });
+        }
+
+        function renderHistoryLibrary() {
+            if (!elements.historyLibrary) {
+                return;
+            }
+            if (!state.historyFiles.length) {
+                elements.historyLibrary.innerHTML = '<div class="empty-state">暂无历史缓存音频。</div>';
+            } else {
+                elements.historyLibrary.innerHTML = state.historyFiles.map((entry) => {
+                    return '<div class="file-pill">'
+                        + '<div>'
+                        + '<strong>' + escapeHtml(entry.name) + '</strong>'
+                        + '<span>' + formatFileSize(entry.size) + '</span>'
+                        + '</div>'
+                        + '<div class="item-actions">'
+                        + '<button class="secondary-btn" type="button" data-action="add-history" data-history-id="' + escapeHtml(entry.id) + '">加入</button>'
+                        + '<button class="danger-btn" type="button" data-action="remove-history" data-history-id="' + escapeHtml(entry.id) + '">删除</button>'
+                        + '</div>'
+                        + '</div>';
+                }).join('');
+            }
+            if (elements.addAllHistoryBtn) {
+                elements.addAllHistoryBtn.disabled = !state.historyFiles.length;
+            }
+            if (elements.clearHistoryCacheBtn) {
+                elements.clearHistoryCacheBtn.disabled = !state.historyFiles.length;
+            }
+        }
+
+        function createId(prefix) {
+            return prefix + '-' + Math.random().toString(36).slice(2, 10);
+        }
+
+        function clampRate(value) {
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) {
+                return 1;
+            }
+            const min = 0.6;
+            const max = 2;
+            const step = 0.2;
+            const rounded = Math.round((numeric - min) / step) * step + min;
+            return Math.min(max, Math.max(min, Number(rounded.toFixed(1))));
+        }
+
+        function clampRepeats(value) {
+            const numeric = Math.round(Number(value));
+            if (!Number.isFinite(numeric)) {
+                return 1;
+            }
+            return Math.min(10, Math.max(1, numeric));
+        }
+
+        function getGlobalRate() {
+            const rate = clampRate(elements.globalRate.value);
+            elements.globalRate.value = rate.toFixed(2);
+            return rate;
+        }
+
+        function getGlobalRepeats() {
+            const repeats = clampRepeats(elements.globalRepeats.value);
+            elements.globalRepeats.value = String(repeats);
+            return repeats;
+        }
+
+        function getTimerMinutes() {
+            const parsed = Number(elements.timerMinutes.value);
+            const minutes = Number.isFinite(parsed) ? Math.min(999, Math.max(0, parsed)) : 0;
+            elements.timerMinutes.value = minutes === 0 ? '0' : String(minutes);
+            return minutes;
+        }
+
+        function setTimerMinutes(minutes) {
+            const safeMinutes = Number.isFinite(minutes) ? Math.min(999, Math.max(0, minutes)) : 0;
+            elements.timerMinutes.value = safeMinutes === 0 ? '0' : String(safeMinutes);
+            updateTimerLabel();
+        }
+
+        function getPlayMode() {
+            const mode = elements.playMode.value;
+            if (mode === 'loop' || mode === 'shuffle') {
+                return mode;
+            }
+            return 'sequence';
+        }
+
+        function pickRandomIndex(excludeIndex) {
+            const total = state.playlist.length;
+            if (!total) {
+                return -1;
+            }
+            if (total === 1) {
+                return 0;
+            }
+            let candidate = Math.floor(Math.random() * total);
+            while (candidate === excludeIndex) {
+                candidate = Math.floor(Math.random() * total);
+            }
+            return candidate;
+        }
+
+        function getNextPlaylistIndex(currentIndex) {
+            const total = state.playlist.length;
+            if (!total) {
+                return -1;
+            }
+            const mode = getPlayMode();
+            if (mode === 'loop') {
+                return (currentIndex + 1 + total) % total;
+            }
+            if (mode === 'shuffle') {
+                return pickRandomIndex(currentIndex);
+            }
+            const next = currentIndex + 1;
+            return next >= total ? -1 : next;
+        }
+
+        function formatDuration(seconds) {
+            if (!Number.isFinite(seconds) || seconds <= 0) {
+                return '时长待加载';
+            }
+            const total = Math.round(seconds);
+            const mins = Math.floor(total / 60);
+            const secs = total % 60;
+            return mins + ':' + String(secs).padStart(2, '0');
+        }
+
+        function formatCountdown(ms) {
+            if (!Number.isFinite(ms) || ms <= 0) {
+                return '00:00';
+            }
+            const totalSeconds = Math.ceil(ms / 1000);
+            const mins = Math.floor(totalSeconds / 60);
+            const secs = totalSeconds % 60;
+            return String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        function escapeHtml(text) {
+            return String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function getFileById(fileId) {
+            return state.files.find((fileItem) => fileItem.id === fileId) || null;
+        }
+
+        function getEffectiveRate(item) {
+            return item.useGlobalRate ? getGlobalRate() : clampRate(item.rate);
+        }
+
+        function getEffectiveRepeats(item) {
+            return item.useGlobalRepeats ? getGlobalRepeats() : clampRepeats(item.repeats);
+        }
+
+        function updateStatus(message, isWarning) {
+            const text = typeof message === 'string' ? message.trim() : '';
+            if (elements.statusMessage && text) {
+                elements.statusMessage.textContent = text;
+                elements.statusMessage.classList.toggle('warning', Boolean(isWarning));
+                if (state.statusClearTimeoutId) {
+                    clearTimeout(state.statusClearTimeoutId);
+                    state.statusClearTimeoutId = null;
+                }
+                state.statusClearTimeoutId = setTimeout(() => {
+                    if (!state.isPlaying && !state.isPaused) {
+                        elements.statusMessage.textContent = '准备就绪';
+                        elements.statusMessage.classList.remove('warning');
+                    }
+                }, 5500);
+            }
+            if (isWarning) {
+                console.warn(text || message);
+            } else if (text) {
+                console.log(text);
+            }
+        }
+
+        function revokeFileUrls() {
+            state.files.forEach((fileItem) => URL.revokeObjectURL(fileItem.url));
+        }
+
+        function clearTimerArtifacts() {
+            if (state.autoPauseTimeoutId) {
+                clearTimeout(state.autoPauseTimeoutId);
+                state.autoPauseTimeoutId = null;
+            }
+            if (state.countdownIntervalId) {
+                clearInterval(state.countdownIntervalId);
+                state.countdownIntervalId = null;
+            }
+            state.autoPauseDeadline = null;
+            if (state.statusClearTimeoutId) {
+                clearTimeout(state.statusClearTimeoutId);
+                state.statusClearTimeoutId = null;
+            }
+        }
+
+        function updateTimerLabel() {
+            // timer label removed from minimal UI, no-op
+        }
+
+        function startCountdownTicker() {
+            if (state.countdownIntervalId) {
+                clearInterval(state.countdownIntervalId);
+            }
+            state.countdownIntervalId = setInterval(updateTimerLabel, 1000);
+            updateTimerLabel();
+        }
+
+        function armAutoPause(remainingMs) {
+            clearTimerArtifacts();
+            if (!Number.isFinite(remainingMs) || remainingMs <= 0) {
+                state.autoPauseRemainingMs = null;
+                updateTimerLabel();
+                return;
+            }
+            state.autoPauseRemainingMs = remainingMs;
+            state.autoPauseDeadline = Date.now() + remainingMs;
+            state.autoPauseTimeoutId = setTimeout(() => {
+                state.autoPauseRemainingMs = 0;
+                state.autoPauseTriggered = true;
+                pausePlayback('定时器到点，已自动暂停。');
+            }, remainingMs);
+            startCountdownTicker();
+        }
+
+        function initializeRunTimer() {
+            const minutes = getTimerMinutes();
+            state.autoPauseTriggered = false;
+            if (minutes <= 0) {
+                clearTimerArtifacts();
+                state.autoPauseRemainingMs = null;
+                updateTimerLabel();
+                return;
+            }
+            armAutoPause(minutes * 60 * 1000);
+        }
+
+        function pauseRunTimer() {
+            if (state.autoPauseDeadline) {
+                state.autoPauseRemainingMs = Math.max(0, state.autoPauseDeadline - Date.now());
+            }
+            clearTimerArtifacts();
+            updateTimerLabel();
+        }
+
+        function resumeRunTimer() {
+            if (state.autoPauseTriggered || state.autoPauseRemainingMs === 0) {
+                initializeRunTimer();
+                return;
+            }
+            if (state.autoPauseRemainingMs !== null) {
+                armAutoPause(state.autoPauseRemainingMs);
+            } else {
+                updateTimerLabel();
+            }
+        }
+
+        function resetPlaybackState(keepStatusMessage) {
+            state.currentIndex = -1;
+            state.currentLoop = 0;
+            state.isPlaying = false;
+            state.isPaused = false;
+            state.activeItemId = null;
+            state.autoPauseTriggered = false;
+            state.autoPauseRemainingMs = null;
+            clearTimerArtifacts();
+            elements.audioPlayer.pause();
+            elements.audioPlayer.removeAttribute('src');
+            elements.audioPlayer.load();
+            elements.progressFill.style.width = '0%';
+            elements.currentTimeLabel.textContent = '00:00';
+            elements.durationLabel.textContent = '00:00';
+            updateTimerLabel();
+            renderPlaylist();
+        }
+
+        function fileOptionMarkup(selectedId) {
+            if (!state.files.length) {
+                return '<option value="">请先上传音频</option>';
+            }
+            return state.files.map((fileItem) => {
+                const selected = fileItem.id === selectedId ? ' selected' : '';
+                return '<option value="' + fileItem.id + '"' + selected + '>' + escapeHtml(fileItem.name) + '</option>';
+            }).join('');
+        }
+
+        function renderFileLibrary() {
+            if (!state.files.length) {
+                elements.fileLibrary.innerHTML = '<div class="empty-state">当前还没有上传音频。</div>';
+            } else {
+                elements.fileLibrary.innerHTML = state.files.map((fileItem) => {
+                    return '<div class="file-pill">'
+                        + '<div>'
+                        + '<strong>' + escapeHtml(fileItem.name) + '</strong>'
+                        + '<span>' + formatDuration(fileItem.duration) + '</span>'
+                        + '</div>'
+                        + '<button class="danger-btn" type="button" data-action="remove-file" data-file-id="' + fileItem.id + '">移除</button>'
+                        + '</div>';
+                }).join('');
+            }
+            elements.libraryMeta.textContent = state.files.length + ' 个音频文件';
+            elements.newItemSource.innerHTML = '<option value="">选择音频文件</option>' + fileOptionMarkup('');
+        }
+
+        function renderPlaylist() {
+            if (!state.playlist.length) {
+                elements.playlistContainer.innerHTML = '<div class="empty-state">播放清单为空。先上传音频，或者从左侧“快速新增条目”手动添加。</div>';
+            } else {
+                elements.playlistContainer.innerHTML = state.playlist.map((item, index) => {
+                    const fileItem = getFileById(item.fileId);
+                    const rateValue = clampRate(item.rate).toFixed(2);
+                    const repeatValue = String(clampRepeats(item.repeats));
+                    const effectiveRate = getEffectiveRate(item).toFixed(2);
+                    const effectiveRepeats = String(getEffectiveRepeats(item));
+                    const activeClass = item.id === state.activeItemId ? ' queue-item active' : ' queue-item';
+                    return '<article class="' + activeClass + '">'
+                        + '<div class="item-head">'
+                        + '<div style="display:flex; gap:14px; align-items:center; flex:1 1 420px;">'
+                        + '<div class="item-index">' + (index + 1) + '</div>'
+                        + '<div>'
+                        + '<strong>' + escapeHtml(fileItem ? fileItem.name : '未选择音频') + '</strong>'
+                        + '<span class="muted">' + (fileItem ? formatDuration(fileItem.duration) : '请为这个条目选择一个已上传的音频') + '</span>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div class="item-actions">'
+                        + '<button class="ghost-btn" type="button" data-action="move-up" data-item-id="' + item.id + '">上移</button>'
+                        + '<button class="ghost-btn" type="button" data-action="move-down" data-item-id="' + item.id + '">下移</button>'
+                        + '<button class="secondary-btn" type="button" data-action="duplicate" data-item-id="' + item.id + '">复制</button>'
+                        + '<button class="danger-btn" type="button" data-action="remove-item" data-item-id="' + item.id + '">删除</button>'
+                        + '</div>'
+                        + '</div>'
+                        + '<div class="field-grid">'
+                        + '<div class="field">'
+                        + '<label for="file-' + item.id + '">音频文件</label>'
+                        + '<select id="file-' + item.id + '" data-field="fileId" data-item-id="' + item.id + '">'
+                        + fileOptionMarkup(item.fileId)
+                        + '</select>'
+                        + '</div>'
+                        + '<div class="field">'
+                        + '<label for="rate-' + item.id + '">自定义倍速</label>'
+                        + '<input id="rate-' + item.id + '" type="number" min="0.6" max="2" step="0.2" data-field="rate" data-item-id="' + item.id + '" value="' + rateValue + '"' + (item.useGlobalRate ? ' disabled' : '') + '>'
+                        + '<label class="checkbox-line"><input type="checkbox" data-field="useGlobalRate" data-item-id="' + item.id + '"' + (item.useGlobalRate ? ' checked' : '') + '>跟随全局倍速（当前 ' + effectiveRate + 'x）</label>'
+                        + '</div>'
+                        + '<div class="field">'
+                        + '<label for="repeat-' + item.id + '">自定义次数</label>'
+                        + '<input id="repeat-' + item.id + '" type="number" min="1" max="10" step="1" data-field="repeats" data-item-id="' + item.id + '" value="' + repeatValue + '"' + (item.useGlobalRepeats ? ' disabled' : '') + '>'
+                        + '<label class="checkbox-line"><input type="checkbox" data-field="useGlobalRepeats" data-item-id="' + item.id + '"' + (item.useGlobalRepeats ? ' checked' : '') + '>跟随全局次数（当前 ' + effectiveRepeats + ' 遍）</label>'
+                        + '</div>'
+                        + '<div class="item-meta">'
+                        + '<div class="meta-chip"><span>实际倍速</span><strong>' + effectiveRate + 'x</strong></div>'
+                        + '<div class="meta-chip"><span>实际次数</span><strong>' + effectiveRepeats + ' 遍</strong></div>'
+                        + '<div class="meta-chip"><span>累计播放</span><strong>' + (fileItem ? formatDuration((fileItem.duration || 0) * getEffectiveRepeats(item)) : '--') + '</strong></div>'
+                        + '<div class="meta-chip"><span>音频来源</span><strong>' + escapeHtml(fileItem ? fileItem.name.split('.').pop().toUpperCase() : '--') + '</strong></div>'
+                        + '</div>'
+                        + '</div>'
+                        + '</article>';
+                }).join('');
+            }
+
+            elements.playlistMeta.textContent = state.playlist.length + ' 个播放项';
+            updateButtonStates();
+        }
+
+        function updateButtonStates() {
+            const hasFiles = state.files.length > 0;
+            const hasPlaylist = state.playlist.length > 0;
+            elements.clearFilesBtn.disabled = !hasFiles;
+            elements.addItemBtn.disabled = !hasFiles;
+            elements.applyRateBtn.disabled = !hasPlaylist;
+            elements.applyRepeatsBtn.disabled = !hasPlaylist;
+            elements.applyAllBtn.disabled = !hasPlaylist;
+            elements.startBtn.disabled = !hasPlaylist;
+            elements.stopBtn.disabled = !state.isPlaying && !state.isPaused;
+            // update play/pause icon
+            if (elements.playIcon) elements.playIcon.style.display = (state.isPlaying && !state.isPaused) ? 'none' : 'inline';
+            if (elements.pauseIcon) elements.pauseIcon.style.display = (state.isPlaying && !state.isPaused) ? 'inline' : 'none';
+            if (elements.addAllHistoryBtn) {
+                elements.addAllHistoryBtn.disabled = !state.historyFiles.length;
+            }
+            if (elements.clearHistoryCacheBtn) {
+                elements.clearHistoryCacheBtn.disabled = !state.historyFiles.length;
+            }
+        }
+
+        function makePlaylistItem(fileId) {
+            return {
+                id: createId('item'),
+                fileId: fileId || (state.files[0] ? state.files[0].id : ''),
+                rate: getGlobalRate(),
+                repeats: getGlobalRepeats(),
+                useGlobalRate: false,
+                useGlobalRepeats: false
+            };
+        }
+
+        function addPlaylistItem(fileId) {
+            state.playlist.push(makePlaylistItem(fileId));
+            renderPlaylist();
+        }
+
+        function loadDurationForFile(fileItem) {
+            const probe = document.createElement('audio');
+            probe.preload = 'metadata';
+            probe.src = fileItem.url;
+            probe.addEventListener('loadedmetadata', () => {
+                fileItem.duration = Number.isFinite(probe.duration) ? probe.duration : null;
+                renderFileLibrary();
+                renderPlaylist();
+            }, { once: true });
+            probe.addEventListener('error', () => {
+                fileItem.duration = null;
+                renderFileLibrary();
+                renderPlaylist();
+            }, { once: true });
+        }
+
+        function addFiles(fileList, options = {}) {
+            const { persistHistory = true } = options;
+            const incoming = Array.from(fileList || []).filter((file) => file.type.startsWith('audio/') || /\.(mp3|m4a|wav|aac|ogg)$/i.test(file.name));
+            if (!incoming.length) {
+                updateStatus('没有检测到可用的音频文件，请上传 mp3 或其他常见音频格式。', true);
+                return;
+            }
+            incoming.forEach((file) => {
+                const fileItem = {
+                    id: createId('file'),
+                    name: file.name,
+                    file,
+                    url: URL.createObjectURL(file),
+                    duration: null
+                };
+                state.files.push(fileItem);
+                state.playlist.push(makePlaylistItem(fileItem.id));
+                loadDurationForFile(fileItem);
+            });
+            renderFileLibrary();
+            renderPlaylist();
+            updateStatus('已加入 ' + incoming.length + ' 个音频文件，并自动生成对应播放项。');
+            if (persistHistory) {
+                saveFilesToHistoryCache(incoming)
+                    .then(refreshHistoryLibrary)
+                    .catch(() => {
+                        updateStatus('音频已加入，但历史缓存写入失败。', true);
+                    });
+            }
+        }
+
+        function removeFile(fileId) {
+            const index = state.files.findIndex((fileItem) => fileItem.id === fileId);
+            if (index === -1) {
+                return;
+            }
+            const [removed] = state.files.splice(index, 1);
+            URL.revokeObjectURL(removed.url);
+            const removedBeforeCurrent = state.playlist.reduce((count, item, playlistIndex) => {
+                if (item.fileId !== fileId) {
+                    return count;
+                }
+                return playlistIndex < state.currentIndex ? count + 1 : count;
+            }, 0);
+            state.playlist = state.playlist.filter((item) => item.fileId !== fileId);
+            if (state.currentIndex >= 0 && removedBeforeCurrent > 0) {
+                state.currentIndex = Math.max(0, state.currentIndex - removedBeforeCurrent);
+            }
+            if (state.activeItemId && !state.playlist.some((item) => item.id === state.activeItemId)) {
+                stopPlayback('当前播放项对应的文件已移除，已停止播放。');
+                renderFileLibrary();
+                renderPlaylist();
+            } else {
+                renderFileLibrary();
+                renderPlaylist();
+                updateStatus('已移除音频：' + removed.name);
+            }
+        }
+
+        function moveItem(itemId, direction) {
+            const currentIndex = state.playlist.findIndex((item) => item.id === itemId);
+            if (currentIndex === -1) {
+                return;
+            }
+            const targetIndex = currentIndex + direction;
+            if (targetIndex < 0 || targetIndex >= state.playlist.length) {
+                return;
+            }
+            const [item] = state.playlist.splice(currentIndex, 1);
+            state.playlist.splice(targetIndex, 0, item);
+            if (state.currentIndex === currentIndex) {
+                state.currentIndex = targetIndex;
+            } else if (state.currentIndex > currentIndex && state.currentIndex <= targetIndex) {
+                state.currentIndex -= 1;
+            } else if (state.currentIndex < currentIndex && state.currentIndex >= targetIndex) {
+                state.currentIndex += 1;
+            }
+            renderPlaylist();
+        }
+
+        function duplicateItem(itemId) {
+            const currentIndex = state.playlist.findIndex((item) => item.id === itemId);
+            if (currentIndex === -1) {
+                return;
+            }
+            const source = state.playlist[currentIndex];
+            const copy = {
+                ...source,
+                id: createId('item')
+            };
+            state.playlist.splice(currentIndex + 1, 0, copy);
+            if (state.currentIndex > currentIndex) {
+                state.currentIndex += 1;
+            }
+            renderPlaylist();
+        }
+
+        function updatePlaylistField(itemId, field, rawValue, options = {}) {
+            const { render = true } = options;
+            const item = state.playlist.find((entry) => entry.id === itemId);
+            if (!item) {
+                return;
+            }
+            if (field === 'fileId') {
+                item.fileId = rawValue;
+            }
+            if (field === 'rate') {
+                item.rate = clampRate(rawValue);
+            }
+            if (field === 'repeats') {
+                item.repeats = clampRepeats(rawValue);
+            }
+            if (field === 'useGlobalRate') {
+                item.useGlobalRate = Boolean(rawValue);
+            }
+            if (field === 'useGlobalRepeats') {
+                item.useGlobalRepeats = Boolean(rawValue);
+            }
+            const isActiveItem = state.activeItemId === itemId;
+            if (isActiveItem) {
+                if (field === 'rate' || field === 'useGlobalRate') {
+                    elements.audioPlayer.playbackRate = getEffectiveRate(item);
+                }
+                if (state.isPlaying && field === 'fileId') {
+                    elements.audioPlayer.pause();
+                    state.currentLoop = Math.max(1, state.currentLoop || 1);
+                    playCurrentItem();
+                    return;
+                }
+                if (field === 'repeats' || field === 'useGlobalRepeats') {
+                    // loop label removed from minimal UI
+                }
+            }
+            if (render) {
+                renderPlaylist();
+            }
+        }
+
+        function applyGlobalSettings(mode) {
+            const globalRate = getGlobalRate();
+            const globalRepeats = getGlobalRepeats();
+            state.playlist.forEach((item) => {
+                if (mode === 'rate' || mode === 'all') {
+                    item.rate = globalRate;
+                    item.useGlobalRate = false;
+                }
+                if (mode === 'repeats' || mode === 'all') {
+                    item.repeats = globalRepeats;
+                    item.useGlobalRepeats = false;
+                }
+            });
+            renderPlaylist();
+            updateStatus('已将全局配置同步到全部播放项。');
+        }
+
+        function validatePlaylist() {
+            if (!state.playlist.length) {
+                updateStatus('播放清单为空，请先上传音频或新增播放项。', true);
+                return false;
+            }
+            const invalidIndex = state.playlist.findIndex((item) => !getFileById(item.fileId));
+            if (invalidIndex !== -1) {
+                updateStatus('第 ' + (invalidIndex + 1) + ' 个播放项还没有绑定音频文件。', true);
+                return false;
+            }
+            return true;
+        }
+
+        async function playCurrentItem(options = {}) {
+            const { restart = true } = options;
+            const item = state.playlist[state.currentIndex];
+            if (!item) {
+                completePlayback();
+                return;
+            }
+            const fileItem = getFileById(item.fileId);
+            if (!fileItem) {
+                updateStatus('当前播放项没有可用音频，已跳过。', true);
+                advanceToNextItem();
+                return;
+            }
+            state.activeItemId = item.id;
+            const rate = getEffectiveRate(item);
+            const repeats = getEffectiveRepeats(item);
+            state.currentLoop = Math.max(1, state.currentLoop || 1);
+            elements.audioPlayer.playbackRate = rate;
+            if (restart || elements.audioPlayer.src !== fileItem.url) {
+                elements.audioPlayer.src = fileItem.url;
+                elements.audioPlayer.currentTime = 0;
+            }
+            renderPlaylist();
+            try {
+                await elements.audioPlayer.play();
+            } catch (error) {
+                console.warn('播放失败：', error && error.message);
+                pausePlayback();
+            }
+        }
+
+        function advanceToNextItem() {
+            const nextIndex = getNextPlaylistIndex(state.currentIndex);
+            if (nextIndex === -1) {
+                completePlayback();
+                return;
+            }
+            state.currentIndex = nextIndex;
+            state.currentLoop = 1;
+            playCurrentItem();
+        }
+
+        function completePlayback() {
+            const completedItems = state.playlist.length;
+            resetPlaybackState(true);
+            updateStatus('播放完成，共处理 ' + completedItems + ' 个播放项。');
+        }
+
+        function startPlayback() {
+            if (!validatePlaylist()) {
+                return;
+            }
+            state.isPlaying = true;
+            state.isPaused = false;
+            state.currentIndex = getPlayMode() === 'shuffle' ? pickRandomIndex(-1) : 0;
+            state.currentLoop = 1;
+            initializeRunTimer();
+            playCurrentItem();
+            updateButtonStates();
+        }
+
+        function pausePlayback(message) {
+            if (!state.isPlaying) {
+                return;
+            }
+            elements.audioPlayer.pause();
+            state.isPlaying = false;
+            state.isPaused = true;
+            pauseRunTimer();
+            updateButtonStates();
+            if (message) {
+                updateStatus(message);
+            }
+        }
+
+        function resumePlayback() {
+            if (!state.isPaused) {
+                return;
+            }
+            state.isPlaying = true;
+            state.isPaused = false;
+            resumeRunTimer();
+            playCurrentItem({ restart: false });
+            updateButtonStates();
+        }
+
+        function stopPlayback(message) {
+            resetPlaybackState(true);
+            updateButtonStates();
+            if (message) {
+                updateStatus(message);
+            }
+        }
+
+        elements.audioPlayer.addEventListener('ended', () => {
+            if (!state.isPlaying) {
+                return;
+            }
+            const item = state.playlist[state.currentIndex];
+            if (!item) {
+                completePlayback();
+                return;
+            }
+            const repeats = getEffectiveRepeats(item);
+            if (state.currentLoop < repeats) {
+                state.currentLoop += 1;
+                playCurrentItem();
+                return;
+            }
+            advanceToNextItem();
+        });
+
+        elements.audioPlayer.addEventListener('timeupdate', () => {
+            const dur = elements.audioPlayer.duration;
+            const cur = elements.audioPlayer.currentTime;
+            elements.currentTimeLabel.textContent = formatTime(cur);
+            if (!Number.isFinite(dur) || dur <= 0) {
+                elements.progressFill.style.width = '0%';
+                elements.durationLabel.textContent = '00:00';
+                return;
+            }
+            elements.progressFill.style.width = ((cur / dur) * 100).toFixed(2) + '%';
+            elements.durationLabel.textContent = formatTime(dur);
+        });
+
+        elements.audioPlayer.addEventListener('loadedmetadata', () => {
+            const dur = elements.audioPlayer.duration;
+            elements.durationLabel.textContent = Number.isFinite(dur) ? formatTime(dur) : '00:00';
+        });
+
+        elements.volumeSlider.addEventListener('input', () => {
+            const raw = Number(elements.volumeSlider.value);
+            const nextVolume = Number.isFinite(raw) ? Math.min(1, Math.max(0, raw)) : 1;
+            elements.audioPlayer.volume = nextVolume;
+        });
+
+        function formatTime(seconds) {
+            if (!Number.isFinite(seconds) || seconds < 0) return '00:00';
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+        }
+
+        elements.fileInput.addEventListener('change', (event) => {
+            addFiles(event.target.files);
+            event.target.value = '';
+        });
+
+        ['dragenter', 'dragover'].forEach((eventName) => {
+            elements.uploadZone.addEventListener(eventName, (event) => {
+                event.preventDefault();
+                elements.uploadZone.classList.add('dragging');
+            });
+        });
+
+        ['dragleave', 'drop'].forEach((eventName) => {
+            elements.uploadZone.addEventListener(eventName, (event) => {
+                event.preventDefault();
+                elements.uploadZone.classList.remove('dragging');
+            });
+        });
+
+        elements.uploadZone.addEventListener('drop', (event) => {
+            addFiles(event.dataTransfer.files);
+        });
+
+        elements.clearFilesBtn.addEventListener('click', () => {
+            revokeFileUrls();
+            state.files = [];
+            state.playlist = [];
+            stopPlayback('已清空音频库和播放清单。');
+            renderFileLibrary();
+            renderPlaylist();
+        });
+
+        elements.addItemBtn.addEventListener('click', () => {
+            addPlaylistItem(elements.newItemSource.value || '');
+            updateStatus('已新增一个播放项。');
+        });
+
+        elements.applyRateBtn.addEventListener('click', () => applyGlobalSettings('rate'));
+        elements.applyRepeatsBtn.addEventListener('click', () => applyGlobalSettings('repeats'));
+        elements.applyAllBtn.addEventListener('click', () => applyGlobalSettings('all'));
+        // 极简悬浮条：startBtn 同时承担播放和暂停/继续
+        elements.startBtn.addEventListener('click', () => {
+            if (!state.isPlaying && !state.isPaused) {
+                startPlayback();
+            } else if (state.isPlaying) {
+                pausePlayback();
+            } else if (state.isPaused) {
+                resumePlayback();
+            }
+        });
+        elements.stopBtn.addEventListener('click', () => stopPlayback());
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code !== 'Space') {
+                return;
+            }
+            const tagName = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : '';
+            if (tagName === 'input' || tagName === 'textarea' || tagName === 'select' || tagName === 'button') {
+                return;
+            }
+            event.preventDefault();
+            if (!state.isPlaying && !state.isPaused) {
+                startPlayback();
+                return;
+            }
+            if (state.isPlaying) {
+                pausePlayback();
+                return;
+            }
+            resumePlayback();
+        });
+
+        elements.globalRate.addEventListener('change', () => {
+            getGlobalRate();
+            renderPlaylist();
+            updateTimerLabel();
+        });
+
+        elements.globalRepeats.addEventListener('change', () => {
+            getGlobalRepeats();
+            renderPlaylist();
+        });
+
+        elements.timerMinutes.addEventListener('change', updateTimerLabel);
+        elements.timerMinutes.addEventListener('input', updateTimerLabel);
+        elements.timerPresetOffBtn.addEventListener('click', () => setTimerMinutes(0));
+        elements.timerPreset30Btn.addEventListener('click', () => setTimerMinutes(30));
+        elements.timerPreset60Btn.addEventListener('click', () => setTimerMinutes(60));
+        elements.timerPreset90Btn.addEventListener('click', () => setTimerMinutes(90));
+        elements.playMode.addEventListener('change', () => {
+            updateStatus('已切换播放模式：' + (getPlayMode() === 'sequence' ? '顺序播放' : (getPlayMode() === 'loop' ? '列表循环' : '随机播放')) + '。');
+        });
+
+        elements.fileLibrary.addEventListener('click', (event) => {
+            const button = event.target.closest('button[data-action="remove-file"]');
+            if (!button) {
+                return;
+            }
+            removeFile(button.dataset.fileId);
+        });
+
+        if (elements.historyLibrary) {
+            elements.historyLibrary.addEventListener('click', async (event) => {
+                const button = event.target.closest('button[data-action]');
+                if (!button) {
+                    return;
+                }
+                const action = button.dataset.action;
+                const historyId = button.dataset.historyId;
+                const entry = state.historyFiles.find((item) => item.id === historyId);
+                if (!entry) {
+                    return;
+                }
+                if (action === 'add-history') {
+                    addFiles([historyEntryToFile(entry)], { persistHistory: false });
+                    return;
+                }
+                if (action === 'remove-history') {
+                    try {
+                        await deleteHistoryFileById(historyId);
+                        await refreshHistoryLibrary();
+                        updateStatus('已从历史缓存删除：' + entry.name);
+                    } catch (error) {
+                        updateStatus('删除历史缓存失败。', true);
+                    }
+                }
+            });
+        }
+
+        if (elements.refreshHistoryBtn) {
+            elements.refreshHistoryBtn.addEventListener('click', refreshHistoryLibrary);
+        }
+        if (elements.addAllHistoryBtn) {
+            elements.addAllHistoryBtn.addEventListener('click', () => {
+                if (!state.historyFiles.length) {
+                    updateStatus('当前没有可导入的历史音频。', true);
+                    return;
+                }
+                const files = state.historyFiles.map(historyEntryToFile);
+                addFiles(files, { persistHistory: false });
+            });
+        }
+        if (elements.clearHistoryCacheBtn) {
+            elements.clearHistoryCacheBtn.addEventListener('click', async () => {
+                if (!state.historyFiles.length) {
+                    return;
+                }
+                const confirmed = window.confirm('确认清空全部历史音频缓存吗？');
+                if (!confirmed) {
+                    return;
+                }
+                try {
+                    await clearHistoryCache();
+                    await refreshHistoryLibrary();
+                    updateStatus('历史音频缓存已清空。');
+                } catch (error) {
+                    updateStatus('清空历史缓存失败。', true);
+                }
+            });
+        }
+
+        elements.playlistContainer.addEventListener('click', (event) => {
+            const button = event.target.closest('button[data-action]');
+            if (!button) {
+                return;
+            }
+            const itemId = button.dataset.itemId;
+            const action = button.dataset.action;
+            if (action === 'move-up') {
+                moveItem(itemId, -1);
+            }
+            if (action === 'move-down') {
+                moveItem(itemId, 1);
+            }
+            if (action === 'duplicate') {
+                duplicateItem(itemId);
+            }
+            if (action === 'remove-item') {
+                const removedIndex = state.playlist.findIndex((item) => item.id === itemId);
+                state.playlist = state.playlist.filter((item) => item.id !== itemId);
+                if (removedIndex !== -1 && state.currentIndex > removedIndex) {
+                    state.currentIndex -= 1;
+                }
+                if (state.activeItemId === itemId) {
+                    stopPlayback('当前播放项已删除，已停止播放。');
+                } else {
+                    renderPlaylist();
+                    updateStatus('已删除一个播放项。');
+                }
+            }
+        });
+
+        function handlePlaylistFieldEvent(event) {
+            const target = event.target;
+            const itemId = target.dataset.itemId;
+            const field = target.dataset.field;
+            if (!itemId || !field) {
+                return;
+            }
+            if (target.type === 'checkbox') {
+                updatePlaylistField(itemId, field, target.checked);
+                return;
+            }
+            updatePlaylistField(itemId, field, target.value);
+        }
+
+        elements.playlistContainer.addEventListener('change', handlePlaylistFieldEvent);
+        elements.playlistContainer.addEventListener('input', (event) => {
+            if (event.target.matches('input[type="number"]')) {
+                const target = event.target;
+                updatePlaylistField(target.dataset.itemId, target.dataset.field, target.value, { render: false });
+            }
+        });
+
+        renderFileLibrary();
+        renderHistoryLibrary();
+        renderPlaylist();
+        updateTimerLabel();
+        updateButtonStates();
+        refreshHistoryLibrary();
+
+        window.addEventListener('beforeunload', () => {
+            clearTimerArtifacts();
+            revokeFileUrls();
+        });
+    </script>
+    <script src="./system_listening_audio_data.js"></script>
+    <script src="./system_word_audio_data.js"></script>
+    <script src="./system_library_enhancer.js"></script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+cd /Users/lhp/Desktop/codeProject/ielts-tool
+python3 -m venv fresh_env
+source fresh_env/bin/activate
+pip install ollama
+python expand.py

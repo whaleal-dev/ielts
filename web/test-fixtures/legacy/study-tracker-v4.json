@@ -1,0 +1,17 @@
+{
+  "version": 4,
+  "exportedAt": "2026-01-01T00:00:00.000Z",
+  "state": {
+    "activeTab": "overview",
+    "todoItems": [
+      {
+        "id": "fixture-todo-1",
+        "text": "脱敏回归任务",
+        "priority": "中",
+        "done": false,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "completedAt": ""
+      }
+    ]
+  }
+}

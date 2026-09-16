@@ -1,0 +1,2202 @@
+{
+  "e": "9999",
+  "m": "操作成功",
+  "data": {
+    "detail": {
+      "id": "10174",
+      "title": "雅思词汇真经（刘洪波）",
+      "desc": "22类高频场景词汇 逻辑词群记忆法",
+      "image_url": "https://resource.gximg.cn/8df7c4_mgqcepk316.png",
+      "level": "0",
+      "is_public": "1",
+      "is_recommend": "1",
+      "is_hot": "1",
+      "type": "1",
+      "sort": "4900",
+      "detail_image_url": "https://resource.gximg.cn/c1ed04_mgqddhbt113.png",
+      "contribution_user": "Guinny",
+      "contribution_mobile": "188******35",
+      "apply_user": "各备考阶段的雅思考生",
+      "sub_level_num_text": "2节",
+      "practice_progress": 0,
+      "total": 3632,
+      "practice": 0,
+      "is_followed": false,
+      "is_owner": false,
+      "share_info": null,
+      "wrong_word_count": 0
+    },
+    "level_num": "2",
+    "sub_step": [
+      {
+        "id": "21794",
+        "title": "Chapter 1 自然地理",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "5",
+        "sort": "1",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21794",
+        "count": "共5节",
+        "sub_step": [
+          {
+            "id": "21795",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21794",
+            "level": "2",
+            "sub_level_num": "55",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21795",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "55个单词",
+            "tag": ""
+          },
+          {
+            "id": "21796",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21794",
+            "level": "2",
+            "sub_level_num": "47",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21796",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "47个单词",
+            "tag": ""
+          },
+          {
+            "id": "21797",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21794",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21797",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21798",
+            "title": "第四组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21794",
+            "level": "2",
+            "sub_level_num": "50",
+            "sort": "4",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21798",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "50个单词",
+            "tag": ""
+          },
+          {
+            "id": "21799",
+            "title": "第五组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21794",
+            "level": "2",
+            "sub_level_num": "37",
+            "sort": "5",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21799",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "37个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21800",
+        "title": "Chapter 2 植物研究",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "2",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21800",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21801",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21800",
+            "level": "2",
+            "sub_level_num": "65",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21801",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "65个单词",
+            "tag": ""
+          },
+          {
+            "id": "21802",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21800",
+            "level": "2",
+            "sub_level_num": "65",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21802",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "65个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21803",
+        "title": "Chapter 3 动物保护",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "3",
+        "sort": "3",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21803",
+        "count": "共3节",
+        "sub_step": [
+          {
+            "id": "21804",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21803",
+            "level": "2",
+            "sub_level_num": "55",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21804",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "55个单词",
+            "tag": ""
+          },
+          {
+            "id": "21805",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21803",
+            "level": "2",
+            "sub_level_num": "53",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21805",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "53个单词",
+            "tag": ""
+          },
+          {
+            "id": "21806",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21803",
+            "level": "2",
+            "sub_level_num": "60",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21806",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "60个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21807",
+        "title": "Chapter 4 太空探索",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "4",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21807",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21808",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21807",
+            "level": "2",
+            "sub_level_num": "50",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21808",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "50个单词",
+            "tag": ""
+          },
+          {
+            "id": "21809",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21807",
+            "level": "2",
+            "sub_level_num": "26",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21809",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "26个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21810",
+        "title": "Chapter 5 学校教育",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "8",
+        "sort": "5",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21810",
+        "count": "共8节",
+        "sub_step": [
+          {
+            "id": "21811",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21811",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21812",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "51",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21812",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "51个单词",
+            "tag": ""
+          },
+          {
+            "id": "21813",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "50",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21813",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "50个单词",
+            "tag": ""
+          },
+          {
+            "id": "21814",
+            "title": "第四组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "4",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21814",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21815",
+            "title": "第五组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "48",
+            "sort": "5",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21815",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "48个单词",
+            "tag": ""
+          },
+          {
+            "id": "21816",
+            "title": "第六组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "49",
+            "sort": "6",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21816",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "49个单词",
+            "tag": ""
+          },
+          {
+            "id": "21817",
+            "title": "第七组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "51",
+            "sort": "7",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21817",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "51个单词",
+            "tag": ""
+          },
+          {
+            "id": "21818",
+            "title": "第八组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21810",
+            "level": "2",
+            "sub_level_num": "46",
+            "sort": "8",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21818",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "46个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21819",
+        "title": "Chapter 6 科技发明",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "6",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21819",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21820",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21819",
+            "level": "2",
+            "sub_level_num": "61",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21820",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "61个单词",
+            "tag": ""
+          },
+          {
+            "id": "21821",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21819",
+            "level": "2",
+            "sub_level_num": "53",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21821",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "53个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21822",
+        "title": "Chapter 7 文化历史",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "7",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21822",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21823",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21822",
+            "level": "2",
+            "sub_level_num": "51",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21823",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "51个单词",
+            "tag": ""
+          },
+          {
+            "id": "21824",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21822",
+            "level": "2",
+            "sub_level_num": "28",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21824",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "28个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21825",
+        "title": "Chapter 8 语言演化",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "1",
+        "sort": "8",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21825",
+        "count": "共1节",
+        "sub_step": [
+          {
+            "id": "21826",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21825",
+            "level": "2",
+            "sub_level_num": "68",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21826",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "68个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21827",
+        "title": "Chapter 9 娱乐运动",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "3",
+        "sort": "9",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21827",
+        "count": "共3节",
+        "sub_step": [
+          {
+            "id": "21828",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21827",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21828",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21829",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21827",
+            "level": "2",
+            "sub_level_num": "49",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21829",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "49个单词",
+            "tag": ""
+          },
+          {
+            "id": "21830",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21827",
+            "level": "2",
+            "sub_level_num": "74",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21830",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "74个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21831",
+        "title": "Chapter 10 物品材料",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "3",
+        "sort": "10",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21831",
+        "count": "共3节",
+        "sub_step": [
+          {
+            "id": "21832",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21831",
+            "level": "2",
+            "sub_level_num": "50",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21832",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "50个单词",
+            "tag": ""
+          },
+          {
+            "id": "21833",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21831",
+            "level": "2",
+            "sub_level_num": "53",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21833",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "53个单词",
+            "tag": ""
+          },
+          {
+            "id": "21834",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21831",
+            "level": "2",
+            "sub_level_num": "49",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21834",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "49个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21835",
+        "title": "Chapter 11 时尚潮流",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "11",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21835",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21836",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21835",
+            "level": "2",
+            "sub_level_num": "58",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21836",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "58个单词",
+            "tag": ""
+          },
+          {
+            "id": "21837",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21835",
+            "level": "2",
+            "sub_level_num": "55",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21837",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "55个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21838",
+        "title": "Chapter 12 饮食健康",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "3",
+        "sort": "12",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21838",
+        "count": "共3节",
+        "sub_step": [
+          {
+            "id": "21839",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21838",
+            "level": "2",
+            "sub_level_num": "57",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21839",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "57个单词",
+            "tag": ""
+          },
+          {
+            "id": "21840",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21838",
+            "level": "2",
+            "sub_level_num": "55",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21840",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "55个单词",
+            "tag": ""
+          },
+          {
+            "id": "21841",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21838",
+            "level": "2",
+            "sub_level_num": "61",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21841",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "61个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21842",
+        "title": "Chapter 13 建筑场所",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "13",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21842",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21843",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21842",
+            "level": "2",
+            "sub_level_num": "67",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21843",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "67个单词",
+            "tag": ""
+          },
+          {
+            "id": "21844",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21842",
+            "level": "2",
+            "sub_level_num": "65",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21844",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "65个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21845",
+        "title": "Chapter 14 交通旅行",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "14",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21845",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21846",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21845",
+            "level": "2",
+            "sub_level_num": "68",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21846",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "68个单词",
+            "tag": ""
+          },
+          {
+            "id": "21847",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21845",
+            "level": "2",
+            "sub_level_num": "66",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21847",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "66个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21848",
+        "title": "Chapter 15 国家政府",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "15",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21848",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21849",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21848",
+            "level": "2",
+            "sub_level_num": "74",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21849",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "74个单词",
+            "tag": ""
+          },
+          {
+            "id": "21850",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21848",
+            "level": "2",
+            "sub_level_num": "75",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21850",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "75个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21851",
+        "title": "Chapter 16 社会经济",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "3",
+        "sort": "16",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21851",
+        "count": "共3节",
+        "sub_step": [
+          {
+            "id": "21852",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21851",
+            "level": "2",
+            "sub_level_num": "56",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21852",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "56个单词",
+            "tag": ""
+          },
+          {
+            "id": "21853",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21851",
+            "level": "2",
+            "sub_level_num": "58",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21853",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "58个单词",
+            "tag": ""
+          },
+          {
+            "id": "21854",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21851",
+            "level": "2",
+            "sub_level_num": "57",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21854",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "57个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21855",
+        "title": "Chapter 17 法律法规",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "17",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21855",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21856",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21855",
+            "level": "2",
+            "sub_level_num": "58",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21856",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "58个单词",
+            "tag": ""
+          },
+          {
+            "id": "21857",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21855",
+            "level": "2",
+            "sub_level_num": "59",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21857",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "59个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21858",
+        "title": "Chapter 18 沙场争锋",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "4",
+        "sort": "18",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21858",
+        "count": "共4节",
+        "sub_step": [
+          {
+            "id": "21859",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21858",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21859",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21860",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21858",
+            "level": "2",
+            "sub_level_num": "51",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21860",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "51个单词",
+            "tag": ""
+          },
+          {
+            "id": "21861",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21858",
+            "level": "2",
+            "sub_level_num": "53",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21861",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "53个单词",
+            "tag": ""
+          },
+          {
+            "id": "21862",
+            "title": "第四组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21858",
+            "level": "2",
+            "sub_level_num": "57",
+            "sort": "4",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21862",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "57个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21863",
+        "title": "Chapter 19 社会角色",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "2",
+        "sort": "19",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21863",
+        "count": "共2节",
+        "sub_step": [
+          {
+            "id": "21864",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21863",
+            "level": "2",
+            "sub_level_num": "60",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21864",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "60个单词",
+            "tag": ""
+          },
+          {
+            "id": "21865",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21863",
+            "level": "2",
+            "sub_level_num": "60",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21865",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "60个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21866",
+        "title": "Chapter 20 行为动作",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "5",
+        "sort": "20",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21866",
+        "count": "共5节",
+        "sub_step": [
+          {
+            "id": "21867",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21866",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21867",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21868",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21866",
+            "level": "2",
+            "sub_level_num": "53",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21868",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "53个单词",
+            "tag": ""
+          },
+          {
+            "id": "21869",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21866",
+            "level": "2",
+            "sub_level_num": "55",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21869",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "55个单词",
+            "tag": ""
+          },
+          {
+            "id": "21870",
+            "title": "第四组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21866",
+            "level": "2",
+            "sub_level_num": "46",
+            "sort": "4",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21870",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "46个单词",
+            "tag": ""
+          },
+          {
+            "id": "21871",
+            "title": "第五组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21866",
+            "level": "2",
+            "sub_level_num": "61",
+            "sort": "5",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21871",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "61个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21872",
+        "title": "Chapter 21 身心健康",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "8",
+        "sort": "21",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21872",
+        "count": "共8节",
+        "sub_step": [
+          {
+            "id": "21873",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "53",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21873",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "53个单词",
+            "tag": ""
+          },
+          {
+            "id": "21874",
+            "title": "第二组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "2",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21874",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21875",
+            "title": "第三组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "3",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21875",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21876",
+            "title": "第四组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "4",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21876",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          },
+          {
+            "id": "21877",
+            "title": "第五组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "50",
+            "sort": "5",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21877",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "50个单词",
+            "tag": ""
+          },
+          {
+            "id": "21878",
+            "title": "第六组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "47",
+            "sort": "6",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21878",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "47个单词",
+            "tag": ""
+          },
+          {
+            "id": "21879",
+            "title": "第七组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "28",
+            "sort": "7",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21879",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "28个单词",
+            "tag": ""
+          },
+          {
+            "id": "21880",
+            "title": "第八组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21872",
+            "level": "2",
+            "sub_level_num": "55",
+            "sort": "8",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21880",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "55个单词",
+            "tag": ""
+          }
+        ]
+      },
+      {
+        "id": "21881",
+        "title": "Chapter 22 时间日期",
+        "desc": "",
+        "book_id": "10174",
+        "parent_id": "0",
+        "level": "1",
+        "sub_level_num": "1",
+        "sort": "22",
+        "status": "1",
+        "has_synonym": "0",
+        "book_hierarchy_id": "21881",
+        "count": "共1节",
+        "sub_step": [
+          {
+            "id": "21882",
+            "title": "第一组",
+            "desc": [
+              "未练"
+            ],
+            "book_id": "10174",
+            "parent_id": "21881",
+            "level": "2",
+            "sub_level_num": "52",
+            "sort": "1",
+            "status": "1",
+            "has_synonym": "0",
+            "book_hierarchy_id": "21882",
+            "is_paractice": 2,
+            "record": null,
+            "buttons": [
+              {
+                "button_text": "添加单词本",
+                "url": "https://v.guixue.com/ApiDictaction/joinDictationBook?book_id=10174",
+                "color": "#FFF",
+                "back_ground_color": "#FF6237FF"
+              }
+            ],
+            "count": "52个单词",
+            "tag": ""
+          }
+        ]
+      }
+    ],
+    "ad_info": {
+      "title": "雅思线下封闭集训班，全身投入冲刺7+！",
+      "type": "1",
+      "button_text": "立即咨询",
+      "product_type": "9999",
+      "url": "https://a.guixue.com/p/fengbi/propagate.html"
+    },
+    "version": "1.0.3"
+  }
+}

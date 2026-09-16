@@ -1,0 +1,7 @@
+cp  /Users/lhp/Desktop/codeProject/ielts-dev/daily-status/学习状态跟踪.html /Users/lhp/Desktop/
+cp /Users/lhp/Desktop/codeProject/ielts-dev/dictionary/发音和听写.html /Users/lhp/Desktop/
+cp /Users/lhp/Desktop/codeProject/ielts-dev/listening-word/王璐语料库_源码.html  /Users/lhp/Desktop/
+cp /Users/lhp/Desktop/codeProject/ielts-dev/words/study_words.html /Users/lhp/Desktop/
+cp /Users/lhp/Desktop/codeProject/ielts-dev/audio-playlist-player/音频顺序播放器.html  /Users/lhp/Desktop/
+
+

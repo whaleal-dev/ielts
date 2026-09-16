@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>雅思单词精听器 | 纯正英音 · 批量播放</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f2f8;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 24px 20px;
+            color: #1a2c3e;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 主卡片 */
+        .main-card {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        /* 头部 */
+        .header {
+            background: linear-gradient(135deg, #0b2b40 0%, #1a4a5f 100%);
+            padding: 1.6rem 2rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h1::before {
+            content: "🎧";
+            font-size: 1.8rem;
+        }
+
+        .sub {
+            opacity: 0.85;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            border-left: 3px solid #ffb347;
+            padding-left: 14px;
+        }
+
+        /* 内容区 */
+        .content {
+            padding: 2rem;
+        }
+
+        /* 批量粘贴区 */
+        .batch-area {
+            background: #f9fafc;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2edf2;
+        }
+
+        .batch-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #1f5e7a;
+        }
+
+        .word-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            font-size: 1rem;
+            border: 1.5px solid #cfdfe8;
+            border-radius: 1.2rem;
+            background: white;
+            font-family: monospace;
+            font-size: 0.95rem;
+            resize: vertical;
+            transition: 0.2s;
+        }
+
+        .word-textarea:focus {
+            border-color: #2c7da0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(44,125,160,0.2);
+        }
+
+        .batch-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 22px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #eef2f6;
+            color: #1f5e7a;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: #1f5e7a;
+            color: white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background: #114c63;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #cbdde6;
+        }
+
+        .btn-outline:hover {
+            background: #e2edf5;
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+        /* 当前单词大卡 */
+        .current-section {
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #eef3f8;
+            text-align: center;
+        }
+
+        .word-badge {
+            font-size: 0.8rem;
+            background: #e6f3f9;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 40px;
+            color: #1f5e7a;
+            margin-bottom: 16px;
+        }
+
+        .current-word {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(145deg, #1a2c3e, #2c5a6e);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            word-break: break-word;
+            margin: 12px 0;
+        }
+
+        .control-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 24px 0 16px;
+        }
+
+        .ctrl-btn {
+            background: #ecf3f8;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ctrl-btn-primary {
+            background: #2c7da0;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .ctrl-btn-primary:hover {
+            background: #1f5e7a;
+            transform: scale(0.97);
+        }
+
+        .ctrl-btn-secondary {
+            background: #f1f5f9;
+            border: 1px solid #cbdde6;
+        }
+
+        .ctrl-btn-secondary:hover {
+            background: #e6edf4;
+        }
+
+        /* 语音调节条 */
+        .voice-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 16px;
+            background: #f8fafc;
+            padding: 12px 18px;
+            border-radius: 60px;
+        }
+
+        .select-voice {
+            flex: 2;
+            min-width: 180px;
+        }
+
+        .rate-slider {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        select, .rate-slider input {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: 40px;
+            border: 1px solid #cbdde6;
+            background: white;
+        }
+
+        /* 单词列表区域 */
+        .list-container {
+            margin-top: 24px;
+            border-top: 2px solid #eaf0f5;
+            padding-top: 20px;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .list-title {
+            font-weight: 600;
+            color: #235b72;
+        }
+
+        .word-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding: 6px 2px;
+            background: #fefefe;
+            border-radius: 1.2rem;
+        }
+
+        .word-chip {
+            background: #f1f6fa;
+            border-radius: 40px;
+            padding: 8px 18px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            border: 1px solid #dee9ef;
+            font-weight: 500;
+        }
+
+        .word-chip.active {
+            background: #2c7da0;
+            color: white;
+            border-color: #2c7da0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .word-chip:hover:not(.active) {
+            background: #e2edf5;
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            color: #8ba0ae;
+            padding: 24px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .status {
+            margin-top: 18px;
+            padding: 8px 14px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            background: #eafaf1;
+            color: #2c6e49;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.7rem;
+            padding: 1rem;
+            color: #7b8c9e;
+        }
+
+        @media (max-width: 640px) {
+            .content {
+                padding: 1.2rem;
+            }
+            .current-word {
+                font-size: 2.2rem;
+            }
+            .ctrl-btn {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="main-card">
+        <div class="header">
+            <h1>IELTS 单词精听舱</h1>
+            <div class="sub">🇬🇧 纯正英式发音优先 · 支持批量粘贴单词表 · 逐个精听</div>
+        </div>
+        <div class="content">
+            <!-- 批量粘贴区域 -->
+            <div class="batch-area">
+                <div class="batch-title">
+                    📋 批量粘贴单词表
+                </div>
+                <textarea id="wordListInput" rows="3" class="word-textarea" placeholder="每行一个单词，或用逗号分隔，例如：&#10;consequence, environment, significant&#10;analyze&#10;beneficial"></textarea>
+                <div class="batch-buttons">
+                    <button id="loadWordsBtn" class="btn btn-primary">✨ 生成单词表</button>
+                    <button id="clearAllBtn" class="btn btn-outline">🗑 清空全部</button>
+                    <button id="resetListBtn" class="btn btn-outline">⟳ 重置列表</button>
+                </div>
+            </div>
+
+            <!-- 当前单词控制台 -->
+            <div class="current-section">
+                <div class="word-badge" id="indexCounter">第0 / 0个单词</div>
+                <div class="current-word" id="currentWordDisplay">——</div>
+                <div class="control-group">
+                    <button id="prevBtn" class="ctrl-btn ctrl-btn-secondary">◀ 上一个</button>
+                    <button id="playBtn" class="ctrl-btn ctrl-btn-primary">🔊 播放当前</button>
+                    <button id="pauseBtn" class="ctrl-btn ctrl-btn-secondary">⏸️ 暂停</button>
+                    <button id="nextBtn" class="ctrl-btn ctrl-btn-secondary">下一个 ▶</button>
+                </div>
+                <!-- 音色 / 语速选择（默认锁定英音） -->
+                <div class="voice-row">
+                    <div class="select-voice">
+                        <label style="font-size:0.75rem; font-weight:500;">🎙️ 发音人 (首选英式雅思口音)</label>
+                        <select id="voiceSelect"></select>
+                    </div>
+                    <div class="rate-slider">
+                        <label style="font-size:0.75rem; font-weight:500;">⚡ 语速 <span id="rateValue">0.9</span></label>
+                        <input type="range" id="rateSlider" min="0.5" max="1.8" step="0.05" value="0.9">
+                    </div>
+                </div>
+                <div id="statusMsg" class="status">✅ 就绪，粘贴单词并点击「生成单词表」</div>
+            </div>
+
+            <!-- 单词列表预览导航 -->
+            <div class="list-container">
+                <div class="list-header">
+                    <span class="list-title">📖 单词清单 · 点击任意单词快速跳转</span>
+                    <span id="wordCountBadge" style="font-size:0.75rem; background:#eef2f6; padding:2px 10px; border-radius:40px;">0个单词</span>
+                </div>
+                <div id="wordListGrid" class="word-grid">
+                    <div class="empty-state">✨ 上方粘贴雅思词汇，点击「生成单词表」即可开始学习</div>
+                </div>
+            </div>
+        </div>
+        <footer>💡 提示：基于本地浏览器语音合成，推荐使用 Chrome / Edge / Safari，并确保系统安装英式语音包（如 Microsoft George, Google UK English）以获得最纯正发音。</footer>
+    </div>
+</div>
+
+<script>
+    // ---------- DOM 元素 ----------
+    const wordListInput = document.getElementById('wordListInput');
+    const loadWordsBtn = document.getElementById('loadWordsBtn');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const resetListBtn = document.getElementById('resetListBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const playBtn = document.getElementById('playBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const voiceSelect = document.getElementById('voiceSelect');
+    const rateSlider = document.getElementById('rateSlider');
+    const rateValue = document.getElementById('rateValue');
+    const currentWordDisplay = document.getElementById('currentWordDisplay');
+    const indexCounter = document.getElementById('indexCounter');
+    const wordListGrid = document.getElementById('wordListGrid');
+    const wordCountBadge = document.getElementById('wordCountBadge');
+    const statusMsg = document.getElementById('statusMsg');
+
+    // ---------- 核心数据 ----------
+    let words = [];           // 存储单词列表
+    let currentIndex = 0;    // 当前索引
+    let availableVoices = [];
+    let currentUtterance = null;
+    let selectedVoiceURI = "";   // 存储选中的voice uri
+
+    // ---------- 辅助函数 ----------
+    function setStatus(text, isError = false) {
+        statusMsg.textContent = text;
+        if(isError) {
+            statusMsg.style.background = "#fee2e2";
+            statusMsg.style.color = "#b91c1c";
+        } else {
+            statusMsg.style.background = "#eafaf1";
+            statusMsg.style.color = "#2c6e49";
+        }
+        setTimeout(() => {
+            if(!isError && statusMsg.textContent === text) {
+                statusMsg.style.background = "#eafaf1";
+            } else if(isError && statusMsg.textContent === text) {
+                // 保留错误状态几秒后恢复普通色
+                setTimeout(() => {
+                    if(statusMsg.textContent === text) {
+                        statusMsg.style.background = "#eafaf1";
+                        statusMsg.style.color = "#2c6e49";
+                        statusMsg.textContent = "✅ 就绪";
+                    }
+                }, 2000);
+            }
+        }, 2500);
+    }
+
+    // 停止当前发音
+    function stopSpeaking() {
+        if (window.speechSynthesis) {
+            window.speechSynthesis.cancel();
+        }
+        if (currentUtterance) {
+            currentUtterance.onend = null;
+            currentUtterance.onerror = null;
+            currentUtterance = null;
+        }
+    }
+
+    // 播放指定文本 (单词)
+    function speakWord(word) {
+        if (!word || word.trim() === "") {
+            setStatus("⚠️ 当前单词为空，无法发音", true);
+            return false;
+        }
+        stopSpeaking();  // 停止旧发音，保证不重叠
+
+        // 获取选中的语音对象
+        let voiceObj = null;
+        if (selectedVoiceURI && availableVoices.length) {
+            voiceObj = availableVoices.find(v => v.voiceURI === selectedVoiceURI);
+        }
+        // 若没有有效voice，尝试任意英语英音优先
+        if (!voiceObj && availableVoices.length) {
+            // 优先 en-GB 系列任何语音作为后备
+            voiceObj = availableVoices.find(v => v.lang.toLowerCase().startsWith('en-gb')) ||
+                       availableVoices.find(v => v.lang.toLowerCase().startsWith('en'));
+        }
+
+        const utterance = new SpeechSynthesisUtterance(word);
+        if (voiceObj) utterance.voice = voiceObj;
+        const rate = parseFloat(rateSlider.value);
+        utterance.rate = rate;
+        utterance.pitch = 1.0;
+        utterance.volume = 1;
+
+        utterance.onstart = () => {
+            setStatus(`🎧 正在朗读: ${word}`);
+        };
+        utterance.onend = () => {
+            setStatus(`✅ 完成: ${word}`);
+            currentUtterance = null;
+        };
+        utterance.onerror = (err) => {
+            console.warn("TTS error", err);
+            setStatus(`⚠️ 发音失败: ${word}，可尝试换一种语音或检查浏览器权限`, true);
+            currentUtterance = null;
+        };
+        currentUtterance = utterance;
+        try {
+            window.speechSynthesis.speak(utterance);
+            return true;
+        } catch(e) {
+            setStatus("语音引擎出错: " + e.message, true);
+            return false;
+        }
+    }
+
+    // 播放当前索引的单词
+    function playCurrentWord() {
+        if (!words.length) {
+            setStatus("📭 单词列表为空，请先粘贴并生成单词表", true);
+            return;
+        }
+        if (currentIndex < 0 || currentIndex >= words.length) {
+            setStatus("索引错误，请重置列表", true);
+            return;
+        }
+        const word = words[currentIndex];
+        if (!word) return;
+        speakWord(word);
+    }
+
+    // 刷新界面: 显示当前单词、索引计数、单词网格高亮
+    function updateUI() {
+        if (!words.length) {
+            currentWordDisplay.textContent = "——";
+            indexCounter.textContent = `第0 / 0个单词`;
+            wordCountBadge.textContent = `0个单词`;
+            wordListGrid.innerHTML = `<div class="empty-state">✨ 暂无单词，请粘贴雅思词汇并生成</div>`;
+            return;
+        }
+        const total = words.length;
+        const idx = currentIndex;
+        indexCounter.textContent = `第${idx+1} / ${total}个单词`;
+        currentWordDisplay.textContent = words[idx];
+        wordCountBadge.textContent = `${total}个单词`;
+        
+        // 渲染单词网格
+        const gridHtml = words.map((w, i) => {
+            const activeClass = (i === currentIndex) ? 'active' : '';
+            return `<span class="word-chip ${activeClass}" data-index="${i}">${escapeHtml(w)}</span>`;
+        }).join('');
+        wordListGrid.innerHTML = gridHtml;
+        
+        // 绑定点击事件到每个word-chip
+        document.querySelectorAll('.word-chip').forEach(chip => {
+            chip.addEventListener('click', (e) => {
+                const idxAttr = chip.getAttribute('data-index');
+                if (idxAttr !== null) {
+                    const newIndex = parseInt(idxAttr, 10);
+                    if (!isNaN(newIndex) && newIndex !== currentIndex && newIndex >=0 && newIndex < words.length) {
+                        currentIndex = newIndex;
+                        updateUI();
+                        // 点击单词后自动播放 (雅思学习常用)
+                        playCurrentWord();
+                    } else if (newIndex === currentIndex) {
+                        // 相同单词重新播放
+                        playCurrentWord();
+                    }
+                }
+                e.stopPropagation();
+            });
+        });
+    }
+
+    // 简单防XSS
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // 解析文本区域内容：支持换行，中英文逗号，保留短语内的空格
+    function parseWordList(rawText) {
+        if (!rawText.trim()) return [];
+        // 先按换行分割
+        let lines = rawText.split(/\r?\n/);
+        let result = [];
+        for (let line of lines) {
+            // 如果行内包含逗号（中英文），则进一步分割
+            if (line.includes(',') || line.includes('，')) {
+                let parts = line.split(/[,，]+/);
+                for (let part of parts) {
+                    let trimmed = part.trim();
+                    if (trimmed) result.push(trimmed);
+                }
+            } else {
+                let trimmedLine = line.trim();
+                if (trimmedLine) result.push(trimmedLine);
+            }
+        }
+        // 去重保留顺序? 不保留重复，但雅思学习者有时会重复强化，保留所有顺序不去重
+        return result;
+    }
+
+    // 加载单词表（从textarea解析并重置到words数组）
+    function loadWordList() {
+        const raw = wordListInput.value;
+        let parsed = parseWordList(raw);
+        if (parsed.length === 0) {
+            setStatus("⚠️ 未检测到有效单词，请用逗号或换行分隔填写", true);
+            return;
+        }
+        words = parsed;
+        currentIndex = 0;
+        updateUI();
+        setStatus(`✅ 成功加载 ${words.length} 个单词，开始雅思精听之旅`, false);
+        // 自动播放第一个单词（提升体验）
+        if (words.length > 0) {
+            setTimeout(() => {
+                playCurrentWord();
+            }, 100);
+        }
+    }
+
+    // 清空所有单词和输入区
+    function fullClear() {
+        stopSpeaking();
+        words = [];
+        currentIndex = 0;
+        wordListInput.value = '';
+        updateUI();
+        setStatus("🗑 已清空所有单词表，可粘贴新内容", false);
+    }
+
+    // 重置列表（仅重置当前索引到0）
+    function resetList() {
+        if (!words.length) {
+            setStatus("没有单词表，请先生成", true);
+            return;
+        }
+        stopSpeaking();
+        currentIndex = 0;
+        updateUI();
+        setStatus(`⟳ 已重置到第一个单词: ${words[0]}`, false);
+        // 重置后可选择自动播放?
+        playCurrentWord();
+    }
+
+    // 上一个单词
+    function prevWord() {
+        if (!words.length) {
+            setStatus("单词表为空", true);
+            return;
+        }
+        if (currentIndex > 0) {
+            stopSpeaking();
+            currentIndex--;
+            updateUI();
+            playCurrentWord();
+        } else {
+            setStatus("📌 已经是第一个单词", false);
+            // 但仍可以重复播放当前单词
+            playCurrentWord();
+        }
+    }
+
+    // 下一个单词
+    function nextWord() {
+        if (!words.length) {
+            setStatus("单词表为空", true);
+            return;
+        }
+        if (currentIndex < words.length - 1) {
+            stopSpeaking();
+            currentIndex++;
+            updateUI();
+            playCurrentWord();
+        } else {
+            setStatus("🏁 已是最后一个单词，可继续复习", false);
+            // 最后一枚点击仍旧朗读当前单词 (满足复习)
+            playCurrentWord();
+        }
+    }
+
+    // 暂停 : 直接停止发音 (符合雅思场景:暂停单词)
+    function pauseSpeaking() {
+        if (!words.length) {
+            setStatus("无单词播放任务", false);
+            return;
+        }
+        if (window.speechSynthesis && (window.speechSynthesis.speaking || window.speechSynthesis.pending)) {
+            stopSpeaking();
+            setStatus(`⏸️ 暂停发音: ${words[currentIndex]}`, false);
+        } else {
+            setStatus("⏸️ 当前没有正在朗读的单词", false);
+        }
+    }
+
+    // 刷新语音下拉 (并且默认选中英式英语 en-GB)
+    function populateVoiceList() {
+        return new Promise((resolve) => {
+            const load = () => {
+                let voices = window.speechSynthesis.getVoices();
+                if (voices && voices.length) {
+                    availableVoices = voices;
+                    updateVoiceDropdown(voices);
+                    resolve(voices);
+                } else {
+                    setTimeout(load, 100);
+                }
+            };
+            if (window.speechSynthesis.getVoices().length) {
+                load();
+            } else {
+                window.speechSynthesis.addEventListener('voiceschanged', load, { once: true });
+                setTimeout(load, 300);
+            }
+        });
+    }
+
+    function updateVoiceDropdown(voices) {
+        voiceSelect.innerHTML = '';
+        if (!voices.length) {
+            const opt = document.createElement('option');
+            opt.textContent = '⚠️ 未检测到语音';
+            opt.disabled = true;
+            voiceSelect.appendChild(opt);
+            return;
+        }
+        let preferredVoiceURI = null;
+        // 优先选择 en-GB 且 名称含 "Google UK" "Microsoft George" "Samantha" (英音特质)
+        let ukVoice = voices.find(v => v.lang === 'en-GB' && (v.name.includes('Google UK') || v.name.includes('Microsoft George') || v.name.includes('Daniel')));
+        if (!ukVoice) ukVoice = voices.find(v => v.lang === 'en-GB');
+        if (!ukVoice) ukVoice = voices.find(v => v.lang.startsWith('en'));
+        
+        for (let voice of voices) {
+            const option = document.createElement('option');
+            option.value = voice.voiceURI;
+            let mark = (voice.lang === 'en-GB') ? '🇬🇧 ' : (voice.lang.startsWith('en') ? '🇺🇸 ' : '');
+            option.textContent = `${mark}${voice.name} (${voice.lang})`;
+            if (voice.default && !ukVoice) ukVoice = voice;
+            voiceSelect.appendChild(option);
+            if (ukVoice && voice.voiceURI === ukVoice.voiceURI) {
+                preferredVoiceURI = voice.voiceURI;
+                option.selected = true;
+            }
+        }
+        if (preferredVoiceURI) {
+            selectedVoiceURI = preferredVoiceURI;
+        } else if (voiceSelect.options.length > 0) {
+            selectedVoiceURI = voiceSelect.options[0].value;
+            voiceSelect.selectedIndex = 0;
+        }
+        // 如果没有找到任何英语, 至少保留第一个可选
+        if (!selectedVoiceURI && voices.length) selectedVoiceURI = voices[0].voiceURI;
+    }
+
+    // 监听语音下拉改变
+    function bindVoiceChange() {
+        voiceSelect.addEventListener('change', (e) => {
+            selectedVoiceURI = e.target.value;
+            setStatus(`🎤 发音人已切换，新发音将用于下一个单词`, false);
+        });
+    }
+
+    // 监听语速显示
+    function bindRate() {
+        rateSlider.addEventListener('input', function() {
+            const val = parseFloat(this.value).toFixed(2);
+            rateValue.innerText = val;
+        });
+    }
+
+    // 防止页面退出时 speech 挂起
+    window.addEventListener('beforeunload', () => {
+        if (window.speechSynthesis) window.speechSynthesis.cancel();
+    });
+
+    // 初始化事件
+    function init() {
+        loadWordsBtn.addEventListener('click', loadWordList);
+        clearAllBtn.addEventListener('click', fullClear);
+        resetListBtn.addEventListener('click', resetList);
+        prevBtn.addEventListener('click', prevWord);
+        nextBtn.addEventListener('click', nextWord);
+        playBtn.addEventListener('click', playCurrentWord);
+        pauseBtn.addEventListener('click', pauseSpeaking);
+        bindVoiceChange();
+        bindRate();
+        populateVoiceList().then(() => {
+            // 确保默认选中英音
+            if (selectedVoiceURI) voiceSelect.value = selectedVoiceURI;
+            setStatus("🔊 雅思模式就绪，英音引擎已优先启用", false);
+        });
+        // 示例预填一段雅思词汇给新用户展示
+        wordListInput.value = "adequate, beneficial, consequence\nenvironment\nsignificant\ntherefore\nanalyse";
+    }
+
+    init();
+</script>
+</body>
+</html>

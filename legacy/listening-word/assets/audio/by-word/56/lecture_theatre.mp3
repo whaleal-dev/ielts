@@ -1,0 +1,485 @@
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!--#include file="conn.asp"-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSpell - 序列号验证</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style type="text/css">
+        :root {
+            --primary-color: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f472b6;
+            --accent-color: #8b5cf6;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Poppins', "微软雅黑", Arial, sans-serif;
+            background: linear-gradient(135deg, #f6f7ff 0%, #e9f0ff 100%);
+            color: var(--text-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 90%;
+        }
+        
+        .card {
+            background-color: var(--bg-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: none;
+            position: relative;
+        }
+        
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+        }
+        
+        .card-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-top: 8px;
+            font-weight: 300;
+        }
+        
+        .card-body {
+            padding: 35px 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            transition: var(--transition-normal);
+            background-color: #f8fafc;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+            background-color: white;
+        }
+        
+        .btn {
+            display: inline-block;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            user-select: none;
+            border: none;
+            padding: 14px 24px;
+            font-size: 16px;
+            line-height: 1.5;
+            border-radius: var(--radius-md);
+            transition: var(--transition-normal);
+            cursor: pointer;
+            width: 100%;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            transform: translateY(-100%);
+            transition: var(--transition-normal);
+        }
+        
+        .btn:hover::before {
+            transform: translateY(0);
+        }
+        
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+            box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .alert {
+            padding: 16px 18px;
+            margin-bottom: 24px;
+            border: none;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .alert i {
+            margin-right: 12px;
+            font-size: 18px;
+        }
+        
+        .alert-danger {
+            color: #fff;
+            background: linear-gradient(135deg, var(--error-color) 0%, #f87171 100%);
+        }
+        
+        .input-group {
+            position: relative;
+            display: flex;
+            flex-wrap: nowrap; /* 修改为nowrap，防止元素换行 */
+            align-items: stretch;
+            width: 100%;
+        }
+        
+        .input-group-text {
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            font-size: 18px;
+            color: var(--text-light);
+            text-align: center;
+            white-space: nowrap;
+            background-color: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-right: none;
+            border-radius: var(--radius-md) 0 0 var(--radius-md);
+        }
+        
+        .input-group .form-control {
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+        
+        .note {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .note i {
+            margin-right: 8px;
+            color: var(--primary-light);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 额外的现代效果 */
+        .form-control:focus + .input-group-text {
+            border-color: var(--primary-light);
+        }
+        
+        .card {
+            position: relative;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+        }
+        
+        .btn:active {
+            transform: translateY(1px);
+        }
+        
+        /* 图标样式 */
+        .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+        
+        /* 加载动画 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .btn-loading {
+            position: relative;
+            pointer-events: none;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: calc(50% - 10px);
+            left: calc(50% - 10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media screen and (max-width: 640px) {
+            body {
+                padding: 1rem 0;
+            }
+            
+            .container {
+                width: 95%;
+                padding: 0;
+            }
+            
+            .card-body {
+                padding: 25px 20px;
+            }
+            
+            .card-header {
+                padding: 20px 15px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+<%
+' 检查cookie是否存在并未过期
+	if request.Cookies("auth") <> "" and request.Cookies("auth") <> "expired" then
+		session("auth")="true"
+		response.Redirect("http://www.1kao.com.cn/iSpell/Spell")		
+	else
+		'如果是提交表单，则进行序列号验证
+		if request.Form("submit")="提交" then
+			
+			'getbookid
+			serial = replace(trim(request.Form("Serial"))," ","")
+			sql = "select top 1 * from book_serial_2015 where serial = '"&serial&"'"
+			set rs = conn.execute(sql)
+			flag=false		
+			'如果序列号不存在，则提示重新输入序列号
+			if rs.eof then 		
+	
+%>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">雅思王听力真题语料库</h1>
+            <div class="card-subtitle">iSpell单词拼写</div>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> 序列号不正确，请重新输入
+            </div>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="Serial" class="form-label">序列号</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input type="text" name="Serial" id="Serial" class="form-control" placeholder="请输入序列号" value="">
+                    </div>
+                </div>
+                <button type="submit" name="submit" value="提交" class="btn btn-primary">
+                    <i class="fas fa-check-circle"></i> 验证序列号
+                </button>
+            </form>
+        </div>
+    </div>
+<%
+			else
+				'如果序列号存在，则查询是否是对应的图书
+				group_id = rs("group_id")
+				
+				sql = "select * from [ky_bookserial_new] where '"&group_id &"' between startid and endid"
+				set rsg = conn.execute(sql)
+
+				'没有正确设置图书序列号组号
+				if rsg.eof then 
+					response.Write("<div class='card'><div class='card-body'><div class='alert alert-danger'><i class='fas fa-exclamation-triangle'></i> 数据问题，请联系客服(010-6251163)处理！</div></div></div>")
+					response.End()
+				else
+					bookid = rsg("bookid")
+					bookname = rsg("bookname")
+				end if
+
+				'只有3064图书能继续使用，否则给出提示
+				if bookid = 3064 then
+					' 设置cookie，有效期为10天
+					response.Cookies("auth") = "true"
+					response.Cookies("auth").Expires = DateAdd("d", 10, Date)
+					session("auth")="true"
+					response.Redirect("http://www.1kao.com.cn/iSpell/Spell")
+				else
+%>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">雅思王听力真题语料库</h1>
+            <div class="card-subtitle">iSpell单词拼写</div>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle"></i> 非对应图书，请重新输入正确的序列号
+            </div>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="Serial" class="form-label">序列号</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input type="text" name="Serial" id="Serial" class="form-control" placeholder="请输入序列号" value="">
+                    </div>
+                </div>
+                <button type="submit" name="submit" value="提交" class="btn btn-primary">
+                    <i class="fas fa-check-circle"></i> 验证序列号
+                </button>
+            </form>
+        </div>
+    </div>
+<%
+				end if				
+			end if				
+		else
+%>
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">雅思王听力真题语料库</h1>
+            <div class="card-subtitle">iSpell单词拼写</div>
+        </div>
+        
+            <form action="" method="post">
+                
+        <div class="card-body">
+            <div class="alert alert-danger">
+                    <i class="fas fa-info-circle"></i> 因网络维护，系统将于2025年9月28日17：30-19：30期间暂停服务，系统将在维护后尽快恢复服务，敬请谅解。
+            </div> 
+                <div class="form-group">
+
+                    <label for="Serial" class="form-label">序列号</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        <input type="text" name="Serial" id="Serial" class="form-control" placeholder="请输入序列号" value="">
+                    </div>
+                    <div class="note">
+                        <i class="fas fa-info-circle"></i> 请输入防伪标涂层下的序列号（中间不空格）
+                    </div>
+                </div>
+                <button type="submit" name="submit" value="提交" class="btn btn-primary">
+                    <i class="fas fa-check-circle"></i> 验证序列号
+                </button>
+            </form>
+        </div>
+    </div>
+<%
+		end if
+	end if 
+%>
+</div><!-- end of container -->
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?f0aaa821fd88e871b417c5e7606ab9d8";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</body>
+</html>

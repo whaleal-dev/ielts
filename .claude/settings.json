@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Bash(python build-chapter8-word.py)",
+      "Bash(python3 build-chapter8-word.py)",
+      "Bash(sed 's/^DRY_RUN = False/DRY_RUN = True/' clean-chapter8-words.py)",
+      "Bash(python3 /tmp/clean_dry.py)",
+      "Bash(python3 clean-chapter8-words.py)",
+      "Bash(python3 -)",
+      "Bash(sed 's/^DRY_RUN = False/DRY_RUN = True/' normalize-chapter8-seps.py)",
+      "Bash(python3 /tmp/norm_dry.py)",
+      "Bash(python3 -c \"import sys; sys.path.insert\\(0,'/Users/lhp/Desktop/codeProject/ielts-dev'\\); from importlib import import_module; m=__import__\\('normalize-chapter8-seps'.replace\\('-','_'\\)\\) if False else None\")",
+      "Bash(python3 normalize-chapter8-seps.py)",
+      "Bash(awk '{print $5/1024/1024\" MB file\"}')",
+      "Bash(awk 'NR>=2663 && NR<=2670' /Users/lhp/Desktop/codeProject/ielts-dev/words/study_words.html)",
+      "Bash(awk 'NR>=2669 && NR<=2736' /Users/lhp/Desktop/codeProject/ielts-dev/words/study_words.html)",
+      "Bash(awk 'length<300' words/study_words.html)",
+      "Bash(echo \"=== file size ===\")",
+      "Bash(ls -la /Users/lhp/Desktop/codeProject/ielts-dev/listening-word/王璐语料库_源码.html)",
+      "Bash(awk 'length\\($0\\)<300')",
+      "Bash(awk '{ if \\(length\\($0\\)>500\\) print NR\": \"length\\($0\\)\" chars\" }' /Users/lhp/Desktop/codeProject/ielts-dev/listening-word/王璐语料库_源码.html)",
+      "Bash(awk 'length\\($0\\)<200')",
+      "Bash(grep -n 'loadSettings\\(\\)\\\\|loadMistakeBook\\(\\)\\\\|loadWordStats\\(\\)\\\\|loadChapterStats\\(\\)\\\\|updateCachedCount\\(\\)\\\\|function bootstrap\\\\|function init\\\\|DOMContentLoaded\\\\|disposeObjectUrl' /Users/lhp/Desktop/codeProject/ielts-dev/listening-word/王璐语料库_源码.html)",
+      "Bash(awk 'length\\($0\\)<160')",
+      "Bash(awk 'NR>=12500 && NR<=12516' /Users/lhp/Desktop/codeProject/ielts-dev/listening-word/王璐语料库_源码.html)",
+      "Bash(awk 'NR>=13108 && NR<=13145' /Users/lhp/Desktop/codeProject/ielts-dev/listening-word/王璐语料库_源码.html)"
+    ]
+  }
+}

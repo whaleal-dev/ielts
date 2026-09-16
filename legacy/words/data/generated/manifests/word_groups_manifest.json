@@ -1,0 +1,541 @@
+{
+  "chapters": [
+    {
+      "chapter": "Chapter 1 自然地理",
+      "chapterNumber": 1,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_1_自然地理_第一组.json",
+          "wordCount": 55
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_1_自然地理_第二组.json",
+          "wordCount": 47
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_1_自然地理_第三组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第四组",
+          "groupNumber": 4,
+          "file": "output_word_groups/Chapter_1_自然地理_第四组.json",
+          "wordCount": 50
+        },
+        {
+          "group": "第五组",
+          "groupNumber": 5,
+          "file": "output_word_groups/Chapter_1_自然地理_第五组.json",
+          "wordCount": 37
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 2 植物研究",
+      "chapterNumber": 2,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_2_植物研究_第一组.json",
+          "wordCount": 65
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_2_植物研究_第二组.json",
+          "wordCount": 65
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 3 动物保护",
+      "chapterNumber": 3,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_3_动物保护_第一组.json",
+          "wordCount": 55
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_3_动物保护_第二组.json",
+          "wordCount": 53
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_3_动物保护_第三组.json",
+          "wordCount": 60
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 4 太空探索",
+      "chapterNumber": 4,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_4_太空探索_第一组.json",
+          "wordCount": 50
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_4_太空探索_第二组.json",
+          "wordCount": 26
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 5 学校教育",
+      "chapterNumber": 5,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_5_学校教育_第一组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_5_学校教育_第二组.json",
+          "wordCount": 51
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_5_学校教育_第三组.json",
+          "wordCount": 50
+        },
+        {
+          "group": "第四组",
+          "groupNumber": 4,
+          "file": "output_word_groups/Chapter_5_学校教育_第四组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第五组",
+          "groupNumber": 5,
+          "file": "output_word_groups/Chapter_5_学校教育_第五组.json",
+          "wordCount": 48
+        },
+        {
+          "group": "第六组",
+          "groupNumber": 6,
+          "file": "output_word_groups/Chapter_5_学校教育_第六组.json",
+          "wordCount": 49
+        },
+        {
+          "group": "第七组",
+          "groupNumber": 7,
+          "file": "output_word_groups/Chapter_5_学校教育_第七组.json",
+          "wordCount": 51
+        },
+        {
+          "group": "第八组",
+          "groupNumber": 8,
+          "file": "output_word_groups/Chapter_5_学校教育_第八组.json",
+          "wordCount": 46
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 6 科技发明",
+      "chapterNumber": 6,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_6_科技发明_第一组.json",
+          "wordCount": 61
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_6_科技发明_第二组.json",
+          "wordCount": 53
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 7 文化历史",
+      "chapterNumber": 7,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_7_文化历史_第一组.json",
+          "wordCount": 51
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_7_文化历史_第二组.json",
+          "wordCount": 28
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 8 语言演化",
+      "chapterNumber": 8,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_8_语言演化_第一组.json",
+          "wordCount": 68
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 9 娱乐运动",
+      "chapterNumber": 9,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_9_娱乐运动_第一组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_9_娱乐运动_第二组.json",
+          "wordCount": 49
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_9_娱乐运动_第三组.json",
+          "wordCount": 74
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 10 物品材料",
+      "chapterNumber": 10,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_10_物品材料_第一组.json",
+          "wordCount": 50
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_10_物品材料_第二组.json",
+          "wordCount": 53
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_10_物品材料_第三组.json",
+          "wordCount": 49
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 11 时尚潮流",
+      "chapterNumber": 11,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_11_时尚潮流_第一组.json",
+          "wordCount": 58
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_11_时尚潮流_第二组.json",
+          "wordCount": 55
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 12 饮食健康",
+      "chapterNumber": 12,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_12_饮食健康_第一组.json",
+          "wordCount": 57
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_12_饮食健康_第二组.json",
+          "wordCount": 55
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_12_饮食健康_第三组.json",
+          "wordCount": 61
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 13 建筑场所",
+      "chapterNumber": 13,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_13_建筑场所_第一组.json",
+          "wordCount": 67
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_13_建筑场所_第二组.json",
+          "wordCount": 65
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 14 交通旅行",
+      "chapterNumber": 14,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_14_交通旅行_第一组.json",
+          "wordCount": 68
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_14_交通旅行_第二组.json",
+          "wordCount": 66
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 15 国家政府",
+      "chapterNumber": 15,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_15_国家政府_第一组.json",
+          "wordCount": 74
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_15_国家政府_第二组.json",
+          "wordCount": 75
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 16 社会经济",
+      "chapterNumber": 16,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_16_社会经济_第一组.json",
+          "wordCount": 56
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_16_社会经济_第二组.json",
+          "wordCount": 58
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_16_社会经济_第三组.json",
+          "wordCount": 57
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 17 法律法规",
+      "chapterNumber": 17,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_17_法律法规_第一组.json",
+          "wordCount": 58
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_17_法律法规_第二组.json",
+          "wordCount": 59
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 18 沙场争锋",
+      "chapterNumber": 18,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_18_沙场争锋_第一组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_18_沙场争锋_第二组.json",
+          "wordCount": 51
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_18_沙场争锋_第三组.json",
+          "wordCount": 53
+        },
+        {
+          "group": "第四组",
+          "groupNumber": 4,
+          "file": "output_word_groups/Chapter_18_沙场争锋_第四组.json",
+          "wordCount": 57
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 19 社会角色",
+      "chapterNumber": 19,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_19_社会角色_第一组.json",
+          "wordCount": 60
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_19_社会角色_第二组.json",
+          "wordCount": 60
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 20 行为动作",
+      "chapterNumber": 20,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_20_行为动作_第一组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_20_行为动作_第二组.json",
+          "wordCount": 53
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_20_行为动作_第三组.json",
+          "wordCount": 55
+        },
+        {
+          "group": "第四组",
+          "groupNumber": 4,
+          "file": "output_word_groups/Chapter_20_行为动作_第四组.json",
+          "wordCount": 46
+        },
+        {
+          "group": "第五组",
+          "groupNumber": 5,
+          "file": "output_word_groups/Chapter_20_行为动作_第五组.json",
+          "wordCount": 61
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 21 身心健康",
+      "chapterNumber": 21,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_21_身心健康_第一组.json",
+          "wordCount": 53
+        },
+        {
+          "group": "第二组",
+          "groupNumber": 2,
+          "file": "output_word_groups/Chapter_21_身心健康_第二组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第三组",
+          "groupNumber": 3,
+          "file": "output_word_groups/Chapter_21_身心健康_第三组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第四组",
+          "groupNumber": 4,
+          "file": "output_word_groups/Chapter_21_身心健康_第四组.json",
+          "wordCount": 52
+        },
+        {
+          "group": "第五组",
+          "groupNumber": 5,
+          "file": "output_word_groups/Chapter_21_身心健康_第五组.json",
+          "wordCount": 50
+        },
+        {
+          "group": "第六组",
+          "groupNumber": 6,
+          "file": "output_word_groups/Chapter_21_身心健康_第六组.json",
+          "wordCount": 47
+        },
+        {
+          "group": "第七组",
+          "groupNumber": 7,
+          "file": "output_word_groups/Chapter_21_身心健康_第七组.json",
+          "wordCount": 28
+        },
+        {
+          "group": "第八组",
+          "groupNumber": 8,
+          "file": "output_word_groups/Chapter_21_身心健康_第八组.json",
+          "wordCount": 55
+        }
+      ]
+    },
+    {
+      "chapter": "Chapter 22 时间日期",
+      "chapterNumber": 22,
+      "groups": [
+        {
+          "group": "第一组",
+          "groupNumber": 1,
+          "file": "output_word_groups/Chapter_22_时间日期_第一组.json",
+          "wordCount": 52
+        }
+      ]
+    }
+  ],
+  "totalChapters": 22,
+  "totalGroups": 67,
+  "totalWords": 3632
+}

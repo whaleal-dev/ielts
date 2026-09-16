@@ -1,0 +1,11 @@
+{
+  "wordItems": [
+    { "text": "fixture" },
+    { "text": "中文条目" }
+  ],
+  "selectedVoiceURI": "legacy-voice",
+  "speechRate": 1.2,
+  "repeatCount": 3,
+  "ttsSource": "web",
+  "dictationMode": true
+}

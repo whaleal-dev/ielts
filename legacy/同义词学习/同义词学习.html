@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>IELTS 同义替换 · 极简学习 · 手动导航</title>
+    <!-- Element UI 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <style>
+        /* 苹果风格微调 */
+        :root {
+            --el-color-primary: #0071e3;
+            --el-color-primary-light-3: rgba(0,113,227,0.3);
+            --el-color-primary-light-5: rgba(0,113,227,0.15);
+            --bg: #f5f5f7;
+            --card-bg: #ffffff;
+            --text: #1d1d1f;
+            --text-secondary: #86868b;
+            --font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'PingFang SC', sans-serif;
+        }
+        body {
+            margin: 0;
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+        }
+        .app-container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .header-title .icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0071e3, #005bb5);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+        }
+        .stats-text {
+            white-space: nowrap;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .auto-play-panel {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(0,113,227,0.08), rgba(0,113,227,0.02));
+            border-radius: 20px;
+            border: 1px solid rgba(0,113,227,0.12);
+            margin-bottom: 18px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background-color: rgba(245,245,247,0.85);
+        }
+        .auto-play-panel .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+            margin-right: 6px;
+        }
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 20px;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #0071e3;
+            font-size: 14px;
+        }
+        .nav-btn:hover {
+            background: #f0f0f2;
+            transform: scale(0.96);
+        }
+        .play-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--el-color-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(0,113,227,0.3);
+        }
+        .play-btn:hover {
+            background: #005bb5;
+            transform: scale(1.02);
+        }
+        .play-btn.playing {
+            background: #e67e22;
+        }
+        .play-status {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            min-width: 62px;
+        }
+        .current-word-highlight {
+            color: var(--el-color-primary);
+            font-weight: 700;
+            text-shadow: 0 0 6px rgba(0,113,227,0.25);
+            background: rgba(0,113,227,0.08);
+            border-radius: 20px;
+            padding: 2px 10px;
+            display: inline-block;
+            transition: all 0.1s;
+        }
+        .synonym-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .synonym-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 14px 18px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+        .synonym-card:hover {
+            border-color: rgba(0,0,0,0.08);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .card-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .main-word {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--el-color-primary);
+            min-width: 90px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .speak-btn {
+            cursor: pointer;
+            color: var(--el-color-primary);
+            font-size: 0.7rem;
+            border: 1px solid var(--el-color-primary-light-5);
+            border-radius: 50%;
+            width: 26px;
+            height: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.15s;
+            background: rgba(0,113,227,0.06);
+        }
+        .speak-btn:hover {
+            background: var(--el-color-primary);
+            color: #fff;
+        }
+        .synonyms-tags {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+        .synonym-tag {
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .synonym-tag:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .notes-area {
+            min-width: 140px;
+            max-width: 240px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .add-note-btn {
+            font-size: 0.7rem;
+            padding: 0;
+            text-decoration: underline;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 0;
+            color: var(--text-secondary);
+        }
+        .el-dialog__body {
+            padding: 20px 24px;
+        }
+        @media (max-width: 700px) {
+            .card-content {
+                flex-direction: column;
+            }
+            .notes-area {
+                max-width: 100%;
+                width: 100%;
+            }
+            .auto-play-panel {
+                gap: 8px;
+            }
+            .nav-buttons {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="app-container">
+            <!-- 头部 -->
+            <div class="header">
+                <div class="header-title">
+                    <div class="icon">📖</div>
+                    <span>IELTS 同义替换</span>
+                </div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                    <el-select v-model="selectedVoice" placeholder="选择发音语音" size="small" style="width:190px;">
+                        <el-option v-for="v in voices" :key="v.name" :label="v.name" :value="v.name"></el-option>
+                    </el-select>
+                    <el-button size="small" icon="el-icon-upload2" @click="showUploadDialog = true">导入词库</el-button>
+                    <el-button size="small" icon="el-icon-download" @click="loadSampleData">示例词库</el-button>
+                </div>
+            </div>
+
+            <!-- 工具栏 -->
+            <div class="toolbar">
+                <div class="search-input">
+                    <el-input v-model="searchQuery" placeholder="搜索单词或同义词…" clearable size="small"
+                        prefix-icon="el-icon-search"></el-input>
+                </div>
+                <span class="stats-text">📚 {{ groups.length }} 组 · 📝 {{ noteCount }} 笔记</span>
+            </div>
+
+            <!-- 自动播放面板 + 新增手动导航按钮 -->
+            <div class="auto-play-panel">
+                <span class="label">单词循环</span>
+                <el-select v-model="autoPlayWordLoop" size="mini" style="width:60px;">
+                    <el-option v-for="n in [1,2,3,5,10]" :key="n" :label="n" :value="n"></el-option>
+                </el-select>
+                <span class="label">组循环</span>
+                <el-select v-model="autoPlayGroupLoop" size="mini" style="width:60px;">
+                    <el-option v-for="n in [1,2,3,5,10]" :key="n" :label="n" :value="n"></el-option>
+                </el-select>
+                <span class="label">倍速</span>
+                <el-slider v-model="autoPlayRate" :min="0.5" :max="2" :step="0.1" :show-tooltip="true" size="mini" style="width:80px;"></el-slider>
+                <span style="font-size:0.7rem;color:var(--text-secondary);min-width:32px;">{{ autoPlayRate.toFixed(1) }}x</span>
+                <span class="label">间隔</span>
+                <el-select v-model="autoPlayInterval" size="mini" style="width:60px;">
+                    <el-option v-for="n in [0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]" :key="n" :label="n+'s'" :value="n"></el-option>
+                </el-select>
+                
+                <!-- 手动导航按钮组 -->
+                <div class="nav-buttons">
+                    <div class="nav-btn" @click="goPrevWord" title="上一个单词 (可播报)">
+                        <i class="el-icon-arrow-left"></i>
+                    </div>
+                    <div class="nav-btn" @click="goNextWord" title="下一个单词 (可播报)">
+                        <i class="el-icon-arrow-right"></i>
+                    </div>
+                </div>
+
+                <div class="play-btn" :class="{ playing: isAutoPlaying }" @click="toggleAutoPlay" title="自动播放 / 暂停">
+                    {{ isAutoPlaying ? '⏸' : (isPaused ? '▶' : '▶') }}
+                </div>
+                <span class="play-status" v-if="isAutoPlaying">⏵ 自动中</span>
+                <span class="play-status" v-else-if="isPaused">⏸ 已暂停</span>
+                <span class="play-status" v-else></span>
+            </div>
+
+            <!-- 空状态 -->
+            <div v-if="groups.length === 0" class="empty-state">
+                <i class="el-icon-folder-opened"></i>
+                <p>暂无词库，请导入 .txt / .json 或点击“示例词库”</p>
+            </div>
+
+            <!-- 同义词列表 -->
+            <div v-else class="synonym-list">
+                <div v-for="(group, groupIdx) in filteredGroups" :key="groupIdx" class="synonym-card">
+                    <div class="card-content">
+                        <!-- 主词区域 -->
+                        <div class="main-word">
+                            <span :class="{ 'current-word-highlight': isWordHighlighted(groupIdx, group[0]) }">
+                                {{ group[0] }}
+                            </span>
+                            <div class="speak-btn" @click="handleWordClick(group[0], groupIdx, 0)" title="发音">🔊</div>
+                        </div>
+                        <!-- 同义词标签 -->
+                        <div class="synonyms-tags">
+                            <el-tag v-for="(syn, idx) in group.slice(1)" :key="idx" size="small" class="synonym-tag"
+                                :class="{ 'current-word-highlight': isWordHighlighted(groupIdx, syn) }"
+                                @click="handleWordClick(syn, groupIdx, idx+1)" effect="plain" type="info">
+                                {{ syn }} 🔊
+                            </el-tag>
+                        </div>
+                        <!-- 笔记区域 -->
+                        <div class="notes-area">
+                            <el-tag v-for="(note, nidx) in getGroupNotes(group)" :key="nidx"
+                                closable size="mini" class="note-tag"
+                                type="warning" effect="light"
+                                @close="deleteNote(note.word)">
+                                <span><strong>{{ note.word }}</strong>: {{ note.text }}</span>
+                            </el-tag>
+                            <el-button type="text" size="mini" class="add-note-btn"
+                                @click="openNoteDialog(group)">+ 添加笔记</el-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 上传弹窗 -->
+        <el-dialog title="导入同义替换词库" :visible.sync="showUploadDialog" width="420px" center>
+            <p style="color:var(--text-secondary);margin-bottom:16px;">支持 .txt（每行一组，逗号分隔）或 .json（二维数组）<br>空行会被忽略，含中文的词只展示不播报<br>支持上传多个文件，按顺序排列</p>
+            <el-upload
+                class="upload-demo"
+                drag
+                multiple
+                accept=".txt,.json"
+                :auto-upload="false"
+                :on-change="handleFileChange"
+                :show-file-list="false">
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+            </el-upload>
+            <div style="margin-top:20px;" v-if="uploadFiles.length">
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:8px;">待导入文件：</p>
+                <ul style="list-style:none;padding:0;">
+                    <li v-for="(f, fidx) in uploadFiles" :key="fidx" style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--bg);border-radius:8px;margin-bottom:6px;">
+                        <span>{{ fidx+1 }}. {{ f.name }}</span>
+                        <i class="el-icon-close" style="cursor:pointer;" @click="removeUploadFile(fidx)"></i>
+                    </li>
+                </ul>
+                <div style="text-align:center;margin-top:12px;">
+                    <el-button type="success" size="small" @click="processUploadedFile">导入这些文件</el-button>
+                    <el-button size="small" @click="clearUploadFiles">清空</el-button>
+                </div>
+            </div>
+        </el-dialog>
+
+        <!-- 笔记弹窗 -->
+        <el-dialog :title="noteDialogTitle" :visible.sync="showNoteDialog" width="380px" @closed="resetNoteDialog">
+            <el-form label-width="70px" size="small">
+                <el-form-item label="关联单词">
+                    <el-select v-model="noteForm.word" placeholder="选择单词" style="width:100%;">
+                        <el-option v-for="w in currentNoteGroup" :key="w" :label="w" :value="w"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="笔记内容">
+                    <el-input v-model="noteForm.text" type="textarea" :rows="3" placeholder="输入笔记…"></el-input>
+                </el-form-item>
+            </el-form>
+            <span slot="footer">
+                <el-button @click="showNoteDialog = false">取消</el-button>
+                <el-button type="primary" @click="saveNote">保存</el-button>
+            </span>
+        </el-dialog>
+    </div>
+
+    <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                groups: [],
+                notes: {},
+                voices: [],
+                selectedVoice: '',
+                searchQuery: '',
+                showUploadDialog: false,
+                uploadFiles: [],
+                showNoteDialog: false,
+                noteForm: { word: '', text: '' },
+                currentNoteGroup: [],
+                isEditingNote: false,
+                editingOriginalWord: '',
+                // 自动播放
+                autoPlayWordLoop: 2,
+                autoPlayGroupLoop: 1,
+                autoPlayRate: 1,
+                autoPlayInterval: 0,
+                isAutoPlaying: false,
+                isPaused: false,
+                autoPlayTimer: null,
+                // 高亮及手动导航核心状态 (基于 filteredGroups 索引)
+                activeHighlight: { groupIdx: null, word: null, wordIdx: null },
+                // 自动播放需要存储循环计数，维持原有的内部状态
+                currentGroupLoopCount: 0,
+                currentWordLoopCount: 0
+            },
+            computed: {
+                filteredGroups() {
+                    const q = this.searchQuery.trim().toLowerCase();
+                    if (!q) return this.groups;
+                    return this.groups.filter(g => g.some(w => w.toLowerCase().includes(q)));
+                },
+                noteCount() {
+                    return Object.values(this.notes).filter(t => t && t.trim()).length;
+                },
+                noteDialogTitle() {
+                    return this.isEditingNote ? '编辑笔记' : '添加笔记';
+                }
+            },
+            watch: {
+                // 当过滤组改变时，验证高亮是否仍然存在，若不存在则重置高亮
+                filteredGroups: {
+                    handler(newGroups) {
+                        if (!newGroups.length) {
+                            this.clearHighlight();
+                            return;
+                        }
+                        const { groupIdx, word } = this.activeHighlight;
+                        if (groupIdx !== null && word !== null && newGroups[groupIdx] && newGroups[groupIdx].includes(word)) {
+                            // 有效，但可能需要同步 wordIdx
+                            const newWordIdx = newGroups[groupIdx].indexOf(word);
+                            if (newWordIdx !== -1) this.activeHighlight.wordIdx = newWordIdx;
+                        } else {
+                            // 高亮失效，自动选中第一个可发音词
+                            this.setDefaultHighlightFromFirstValid();
+                        }
+                    },
+                    immediate: true
+                }
+            },
+            created() {
+                this.loadNotes();
+                this.initVoices();
+            },
+            mounted() {
+                window.addEventListener('keydown', this.handleGlobalKeydown);
+            },
+            beforeDestroy() {
+                window.removeEventListener('keydown', this.handleGlobalKeydown);
+            },
+            methods: {
+                // ========== 发音核心 ==========
+                hasChinese(text) {
+                    return /[一-鿿]/.test(String(text || ''));
+                },
+                // 统一发音方法 (支持回调 & 速率)
+                playWord(word, onEndCallback = null, customRate = null) {
+                    if (!window.speechSynthesis) {
+                        if (onEndCallback) onEndCallback();
+                        return;
+                    }
+                    if (this.hasChinese(word)) {
+                        if (onEndCallback) onEndCallback();
+                        return;
+                    }
+                    speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(word);
+                    utterance.lang = 'en-US';
+                    const finalRate = (customRate !== null ? customRate : 0.85 * this.autoPlayRate);
+                    utterance.rate = Math.min(2.5, Math.max(0.5, finalRate));
+                    const voice = this.voices.find(v => v.name === this.selectedVoice);
+                    if (voice && voice.name !== '无英语语音') utterance.voice = voice;
+                    if (onEndCallback) {
+                        utterance.onend = onEndCallback;
+                        utterance.onerror = onEndCallback;
+                    }
+                    speechSynthesis.speak(utterance);
+                },
+                // 停止自动播放与清除定时器
+                stopAutoPlay(resetFlags = true) {
+                    if (this.autoPlayTimer) {
+                        clearTimeout(this.autoPlayTimer);
+                        this.autoPlayTimer = null;
+                    }
+                    speechSynthesis.cancel();
+                    if (resetFlags) {
+                        this.isAutoPlaying = false;
+                        this.isPaused = false;
+                    } else {
+                        this.isAutoPlaying = false;
+                        this.isPaused = false;
+                    }
+                },
+                pauseAutoPlay() {
+                    if (this.isAutoPlaying) {
+                        this.isAutoPlaying = false;
+                        this.isPaused = true;
+                        if (this.autoPlayTimer) clearTimeout(this.autoPlayTimer);
+                        speechSynthesis.cancel();
+                    }
+                },
+                // 高亮相关
+                isWordHighlighted(groupIdx, word) {
+                    return this.activeHighlight.groupIdx === groupIdx && this.activeHighlight.word === word;
+                },
+                updateHighlight(groupIdx, word, wordIdx) {
+                    if (groupIdx === null || word === null) {
+                        this.activeHighlight = { groupIdx: null, word: null, wordIdx: null };
+                        return;
+                    }
+                    this.activeHighlight = { groupIdx, word, wordIdx: wordIdx !== undefined ? wordIdx : (this.filteredGroups[groupIdx]?.indexOf(word) ?? -1) };
+                },
+                clearHighlight() {
+                    this.activeHighlight = { groupIdx: null, word: null, wordIdx: null };
+                },
+                // 设定默认高亮: 从第一个可播报词开始
+                setDefaultHighlightFromFirstValid() {
+                    const groups = this.filteredGroups;
+                    for (let gIdx = 0; gIdx < groups.length; gIdx++) {
+                        const group = groups[gIdx];
+                        for (let wIdx = 0; wIdx < group.length; wIdx++) {
+                            const w = group[wIdx];
+                            if (!this.hasChinese(w)) {
+                                this.updateHighlight(gIdx, w, wIdx);
+                                return;
+                            }
+                        }
+                    }
+                    // 如果全中文，仅高亮第一个词组的第一个
+                    if (groups.length && groups[0].length) {
+                        this.updateHighlight(0, groups[0][0], 0);
+                    } else {
+                        this.clearHighlight();
+                    }
+                },
+                // 手动点击单词：停止自动播放、更新高亮、发音并同步内部位置
+                handleWordClick(word, groupIdx, wordIdx) {
+                    if (this.isAutoPlaying || this.isPaused) this.stopAutoPlay(true);
+                    // 边界保护
+                    if (!this.filteredGroups[groupIdx] || !this.filteredGroups[groupIdx].includes(word)) return;
+                    this.updateHighlight(groupIdx, word, wordIdx);
+                    // 播放单词 (使用当前倍速)
+                    this.playWord(word, null, null);
+                },
+                // 播放下一个可发音单词 (手动)
+                goNextWord() {
+                    if (this.filteredGroups.length === 0) {
+                        this.$message.warning('暂无词库');
+                        return;
+                    }
+                    if (this.isAutoPlaying || this.isPaused) this.stopAutoPlay(true);
+                    const { groupIdx, wordIdx } = this.getCurrentActivePosition();
+                    if (groupIdx === null) {
+                        this.setDefaultHighlightFromFirstValid();
+                        const newPos = this.getCurrentActivePosition();
+                        if (newPos.groupIdx !== null && newPos.word !== null) this.speakCurrentHighlight();
+                        return;
+                    }
+                    const next = this.findNextValidWord(groupIdx, wordIdx);
+                    if (next) {
+                        this.updateHighlight(next.groupIdx, next.word, next.wordIdx);
+                        this.speakCurrentHighlight();
+                    } else {
+                        this.$message.info('已到达末尾，无下一个可播报单词');
+                    }
+                },
+                // 播放上一个
+                goPrevWord() {
+                    if (this.filteredGroups.length === 0) return;
+                    if (this.isAutoPlaying || this.isPaused) this.stopAutoPlay(true);
+                    const { groupIdx, wordIdx } = this.getCurrentActivePosition();
+                    if (groupIdx === null) {
+                        this.setDefaultHighlightFromFirstValid();
+                        this.speakCurrentHighlight();
+                        return;
+                    }
+                    const prev = this.findPrevValidWord(groupIdx, wordIdx);
+                    if (prev) {
+                        this.updateHighlight(prev.groupIdx, prev.word, prev.wordIdx);
+                        this.speakCurrentHighlight();
+                    } else {
+                        this.$message.info('已是第一个单词');
+                    }
+                },
+                // 获取当前高亮的具体位置
+                getCurrentActivePosition() {
+                    const { groupIdx, wordIdx, word } = this.activeHighlight;
+                    if (groupIdx === null || word === null) return { groupIdx: null, wordIdx: null, word: null };
+                    const group = this.filteredGroups[groupIdx];
+                    if (!group) return { groupIdx: null, wordIdx: null, word: null };
+                    let idx = wordIdx;
+                    if (idx === null || idx === -1 || group[idx] !== word) {
+                        idx = group.indexOf(word);
+                        if (idx === -1) return { groupIdx: null, wordIdx: null, word: null };
+                    }
+                    return { groupIdx, wordIdx: idx, word: group[idx] };
+                },
+                // 查找下一个有效单词 (跳过中文)
+                findNextValidWord(startGroupIdx, startWordIdx) {
+                    const groups = this.filteredGroups;
+                    let g = startGroupIdx;
+                    let w = startWordIdx + 1;
+                    while (g < groups.length) {
+                        const groupWords = groups[g];
+                        while (w < groupWords.length) {
+                            const candidate = groupWords[w];
+                            if (!this.hasChinese(candidate)) return { groupIdx: g, wordIdx: w, word: candidate };
+                            w++;
+                        }
+                        g++;
+                        w = 0;
+                    }
+                    return null;
+                },
+                findPrevValidWord(startGroupIdx, startWordIdx) {
+                    const groups = this.filteredGroups;
+                    let g = startGroupIdx;
+                    let w = startWordIdx - 1;
+                    while (g >= 0) {
+                        const groupWords = groups[g];
+                        while (w >= 0) {
+                            const candidate = groupWords[w];
+                            if (!this.hasChinese(candidate)) return { groupIdx: g, wordIdx: w, word: candidate };
+                            w--;
+                        }
+                        g--;
+                        if (g >= 0) w = groups[g].length - 1;
+                    }
+                    return null;
+                },
+                speakCurrentHighlight() {
+                    const { word } = this.activeHighlight;
+                    if (word && !this.hasChinese(word)) {
+                        this.playWord(word, null, null);
+                    }
+                },
+
+                // 全局快捷键处理：右箭头 下一词，向上箭头 重复播放当前
+                handleGlobalKeydown(e) {
+                    try {
+                        if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            this.goNextWord();
+                        } else if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            const pos = this.getCurrentActivePosition();
+                            if (pos.groupIdx !== null && pos.word) {
+                                if (this.isAutoPlaying || this.isPaused) this.stopAutoPlay(true);
+                                // 重新播放当前高亮词
+                                this.playWord(pos.word, null, null);
+                            }
+                        }
+                    } catch (err) {
+                        // ignore
+                    }
+                },
+                // ========== 自动播放逻辑 (完全兼容手动导航，从当前高亮开始) ==========
+                toggleAutoPlay() {
+                    if (this.isAutoPlaying) {
+                        this.pauseAutoPlay();
+                    } else if (this.isPaused) {
+                        this.resumeAutoPlay();
+                    } else {
+                        this.startAutoPlayFromHighlight();
+                    }
+                },
+                startAutoPlayFromHighlight() {
+                    if (this.filteredGroups.length === 0) {
+                        this.$message.warning('请先导入词库');
+                        return;
+                    }
+                    // 停止已有播放
+                    if (this.autoPlayTimer) clearTimeout(this.autoPlayTimer);
+                    speechSynthesis.cancel();
+                    this.isAutoPlaying = true;
+                    this.isPaused = false;
+                    // 确定起始位置: 如果有高亮且有效 则从高亮开始；否则从第一个有效词开始
+                    let startGroupIdx = this.activeHighlight.groupIdx;
+                    let startWordIdx = this.activeHighlight.wordIdx;
+                    if (startGroupIdx === null || !this.filteredGroups[startGroupIdx] || 
+                        this.filteredGroups[startGroupIdx][startWordIdx] !== this.activeHighlight.word) {
+                        // 重置高亮到第一个有效词
+                        this.setDefaultHighlightFromFirstValid();
+                        const pos = this.getCurrentActivePosition();
+                        startGroupIdx = pos.groupIdx;
+                        startWordIdx = pos.wordIdx;
+                        if (startGroupIdx === null) {
+                            this.isAutoPlaying = false;
+                            return;
+                        }
+                    }
+                    this.currentGroupLoopCount = 0;
+                    this.currentWordLoopCount = 0;
+                    this.doAutoPlayStepFromPosition(startGroupIdx, startWordIdx, 0);
+                },
+                doAutoPlayStepFromPosition(groupIdx, wordIdx, loopCountForWord = 0) {
+                    if (!this.isAutoPlaying) return;
+                    const groups = this.filteredGroups;
+                    if (groupIdx >= groups.length) {
+                        this.stopAutoPlay(true);
+                        return;
+                    }
+                    const group = groups[groupIdx];
+                    if (!group || wordIdx >= group.length) {
+                        this.stopAutoPlay(true);
+                        return;
+                    }
+                    const word = group[wordIdx];
+                    if (this.hasChinese(word)) {
+                        // 跳过中文词，直接进入下一个词的逻辑
+                        if (!this.moveToNextPositionAuto(groupIdx, wordIdx)) {
+                            this.stopAutoPlay(true);
+                        } else {
+                            const newPos = this.getCurrentActivePosition();
+                            if (newPos.groupIdx !== null) {
+                                this.doAutoPlayStepFromPosition(newPos.groupIdx, newPos.wordIdx, 0);
+                            } else this.stopAutoPlay(true);
+                        }
+                        return;
+                    }
+                    // 高亮同步
+                    this.updateHighlight(groupIdx, word, wordIdx);
+                    // 播放单词
+                    this.playWord(word, () => {
+                        if (!this.isAutoPlaying) return;
+                        // 处理循环逻辑
+                        let nextLoopCount = loopCountForWord + 1;
+                        if (nextLoopCount < this.autoPlayWordLoop) {
+                            // 再次读同一个词
+                            this.scheduleNextAutoPlayStep(groupIdx, wordIdx, nextLoopCount);
+                        } else {
+                            // 单词循环结束，移动到下一个词（组内下一个或下一组）
+                            const moved = this.moveToNextPositionAuto(groupIdx, wordIdx);
+                            if (!moved) {
+                                this.stopAutoPlay(true);
+                                return;
+                            }
+                            const newPos = this.getCurrentActivePosition();
+                            if (newPos.groupIdx !== null) {
+                                this.scheduleNextAutoPlayStep(newPos.groupIdx, newPos.wordIdx, 0);
+                            } else {
+                                this.stopAutoPlay(true);
+                            }
+                        }
+                    }, null);
+                },
+                scheduleNextAutoPlayStep(groupIdx, wordIdx, nextLoopWordCount) {
+                    if (!this.isAutoPlaying) return;
+                    const intervalMs = this.autoPlayInterval * 1000;
+                    this.autoPlayTimer = setTimeout(() => {
+                        this.doAutoPlayStepFromPosition(groupIdx, wordIdx, nextLoopWordCount);
+                    }, intervalMs);
+                },
+                // 自动播放移动逻辑: 返回布尔是否还有效
+                moveToNextPositionAuto(currentGroupIdx, currentWordIdx) {
+                    let newGroupIdx = currentGroupIdx;
+                    let newWordIdx = currentWordIdx + 1;
+                    const groups = this.filteredGroups;
+                    if (newWordIdx >= groups[newGroupIdx].length) {
+                        // 组内结束，处理组循环
+                        this.currentGroupLoopCount++;
+                        if (this.currentGroupLoopCount < this.autoPlayGroupLoop) {
+                            // 重复本组，回到组开头
+                            newWordIdx = 0;
+                        } else {
+                            this.currentGroupLoopCount = 0;
+                            newGroupIdx++;
+                            newWordIdx = 0;
+                            if (newGroupIdx >= groups.length) {
+                                return false;
+                            }
+                        }
+                    }
+                    // 同步全局高亮位置
+                    const targetWord = groups[newGroupIdx]?.[newWordIdx];
+                    if (!targetWord) return false;
+                    this.updateHighlight(newGroupIdx, targetWord, newWordIdx);
+                    return true;
+                },
+                resumeAutoPlay() {
+                    if (!this.isPaused) return;
+                    this.isAutoPlaying = true;
+                    this.isPaused = false;
+                    const pos = this.getCurrentActivePosition();
+                    if (pos.groupIdx !== null && pos.word !== null) {
+                        this.doAutoPlayStepFromPosition(pos.groupIdx, pos.wordIdx, this.currentWordLoopCount);
+                    } else {
+                        this.startAutoPlayFromHighlight();
+                    }
+                },
+                // 原speakWord兼容 (但点击时我们推荐用handleWordClick)
+                speakWord(word) {
+                    if (this.hasChinese(word)) return;
+                    this.playWord(word, null, null);
+                },
+                // ========== 笔记相关 ==========
+                loadNotes() {
+                    try {
+                        const stored = localStorage.getItem('ielts_notes_v4');
+                        this.notes = stored ? JSON.parse(stored) : {};
+                    } catch { this.notes = {}; }
+                },
+                saveNotes() {
+                    localStorage.setItem('ielts_notes_v4', JSON.stringify(this.notes));
+                },
+                getGroupNotes(group) {
+                    const result = [];
+                    const seen = new Set();
+                    for (const word of group) {
+                        if (this.notes[word] && !seen.has(word)) {
+                            result.push({ word, text: this.notes[word] });
+                            seen.add(word);
+                        }
+                    }
+                    return result;
+                },
+                deleteNote(word) {
+                    this.$confirm(`删除「${word}」的笔记？`, '提示', { confirmButtonText: '确定', type: 'warning' }).then(() => {
+                        delete this.notes[word];
+                        this.saveNotes();
+                        this.$message.success('已删除');
+                    }).catch(() => {});
+                },
+                openNoteDialog(group) {
+                    this.currentNoteGroup = [...group];
+                    this.noteForm = { word: group[0], text: '' };
+                    this.isEditingNote = false;
+                    this.showNoteDialog = true;
+                },
+                resetNoteDialog() {
+                    this.noteForm = { word: '', text: '' };
+                    this.currentNoteGroup = [];
+                },
+                saveNote() {
+                    const { word, text } = this.noteForm;
+                    if (!word || !this.currentNoteGroup.includes(word)) {
+                        this.$message.warning('请选择词组内的单词');
+                        return;
+                    }
+                    if (!text.trim()) {
+                        if (this.notes[word]) delete this.notes[word];
+                    } else {
+                        this.notes[word] = text.trim();
+                    }
+                    this.saveNotes();
+                    this.$message.success('笔记已保存');
+                    this.showNoteDialog = false;
+                },
+                // 导入与示例
+                initVoices() {
+                    const setVoices = () => {
+                        this.voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
+                        if (!this.voices.length) this.voices = [{ name: '默认英语语音' }];
+                        const def = this.voices.find(v => v.name.includes('Google') || v.name.includes('Samantha')) || this.voices[0];
+                        if (def) this.selectedVoice = def.name;
+                    };
+                    setVoices();
+                    if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = setVoices;
+                },
+                handleFileChange(file) {
+                    const name = file.name.toLowerCase();
+                    if (!name.endsWith('.txt') && !name.endsWith('.json')) return;
+                    this.uploadFiles.push({ name: file.name, raw: file.raw });
+                },
+                removeUploadFile(idx) { this.uploadFiles.splice(idx, 1); },
+                clearUploadFiles() { this.uploadFiles = []; },
+                readFileAsGroups(file) {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            try {
+                                let groups;
+                                if (file.name.endsWith('.json')) {
+                                    const data = JSON.parse(e.target.result);
+                                    if (!Array.isArray(data)) throw new Error();
+                                    groups = data.map(arr => arr.map(w => String(w).trim()).filter(Boolean)).filter(g => g.length);
+                                } else {
+                                    groups = e.target.result.split(/\r?\n/).filter(l => l.trim()).map(line => line.split(/[,，]/).map(w => w.trim()).filter(Boolean));
+                                }
+                                if (!groups.length) throw new Error();
+                                resolve(groups);
+                            } catch { reject(file.name); }
+                        };
+                        reader.onerror = () => reject(file.name);
+                        reader.readAsText(file.raw);
+                    });
+                },
+                async processUploadedFile() {
+                    if (!this.uploadFiles.length) return this.$message.warning('请选择文件');
+                    const allGroups = [];
+                    for (const f of this.uploadFiles) {
+                        try { allGroups.push(...(await this.readFileAsGroups(f))); } catch (name) { this.$message.error(`${name} 格式错误`); }
+                    }
+                    if (allGroups.length) {
+                        this.groups = allGroups;
+                        this.setDefaultHighlightFromFirstValid();
+                        this.$message.success(`导入 ${allGroups.length} 组`);
+                    }
+                    this.showUploadDialog = false;
+                    this.uploadFiles = [];
+                },
+                loadSampleData() {
+                    this.groups = [
+                        ["reserve", "book", "prebook"],
+                        ["in advance", "ahead", "beforehand"],
+                        ["have to", "must", "should", "need", "require"],
+                        ["adjust", "change", "alter", "modify"],
+                        ["diversity", "various", "different", "variety"],
+                        ["fee", "cost", "price", "expense", "charge"],
+                        ["computer", "laptop", "desktop", "mac"]
+                    ];
+                    this.setDefaultHighlightFromFirstValid();
+                    this.$message.success('示例词库已加载，支持上一首/下一首');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,917 @@
+.corpus-dictation-app {
+			--bg-top: #f5f7fb;
+			--bg-bottom: #eef2f8;
+			--panel: rgba(255, 255, 255, 0.72);
+			--panel-strong: rgba(255, 255, 255, 0.88);
+			--line: rgba(15, 23, 42, 0.08);
+			--line-strong: rgba(15, 23, 42, 0.12);
+			--ink: #111827;
+			--muted: #6b7280;
+			--accent: #0071e3;
+			--accent-deep: #0058b0;
+			--accent-soft: rgba(0, 113, 227, 0.1);
+			--success: #14804a;
+      --warning: #b76e00;
+			--danger: #c0362c;
+			--shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+			--shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.05);
+			--radius: 28px;
+		}
+.corpus-dictation-app {
+			margin: 0;
+			min-height: 100%;
+			font-family: "SF Pro Display", "SF Pro Text", "PingFang SC", "Helvetica Neue", sans-serif;
+			color: var(--ink);
+			background:
+				radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.16), transparent 28%),
+				radial-gradient(circle at 100% 10%, rgba(255, 255, 255, 0.9), transparent 24%),
+				linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 100%);
+			padding: 36px 20px 52px;
+			position: relative;
+		}
+
+
+		.corpus-dictation-app * {
+			box-sizing: border-box;
+		}
+
+		.corpus-dictation-app .shell {
+			width: min(1180px, 100%);
+			margin: 0 auto;
+			display: grid;
+			gap: 24px;
+			position: relative;
+			z-index: 1;
+		}
+
+		.corpus-dictation-app .hero,
+		.corpus-dictation-app .panel {
+			border: 1px solid var(--line);
+			background: var(--panel);
+			backdrop-filter: blur(28px) saturate(160%);
+			-webkit-backdrop-filter: blur(28px) saturate(160%);
+			border-radius: var(--radius);
+			box-shadow: var(--shadow);
+		}
+
+		.corpus-dictation-app .hero {
+			padding: 34px;
+			display: grid;
+			gap: 22px;
+			position: relative;
+			overflow: hidden;
+			background:
+				linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.64)),
+				radial-gradient(circle at top right, rgba(0, 113, 227, 0.12), transparent 34%);
+		}
+
+		.corpus-dictation-app .hero::after {
+			content: "";
+			position: absolute;
+			right: -40px;
+			top: -56px;
+			width: 280px;
+			height: 280px;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.02) 70%);
+			pointer-events: none;
+		}
+
+		.corpus-dictation-app h1,
+		.corpus-dictation-app h2,
+		.corpus-dictation-app h3,
+		.corpus-dictation-app p {
+			margin: 0;
+		}
+
+		.corpus-dictation-app .title {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			gap: 18px;
+			align-items: end;
+		}
+
+		.corpus-dictation-app .title > div > p:first-child {
+			font-size: 12px;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: rgba(0, 113, 227, 0.88);
+			font-weight: 700;
+			margin-bottom: 10px;
+		}
+
+		.corpus-dictation-app .title h1 {
+			font-size: clamp(32px, 4.4vw, 58px);
+			line-height: 1.02;
+			letter-spacing: -0.04em;
+			max-width: 620px;
+			font-weight: 700;
+		}
+
+		.corpus-dictation-app .title p {
+			max-width: 460px;
+			color: var(--muted);
+			line-height: 1.7;
+			font-size: 15px;
+		}
+
+    .corpus-dictation-app .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .corpus-dictation-app .tab-btn {
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--muted);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .corpus-dictation-app .tab-btn.is-active {
+      background: linear-gradient(180deg, #1994ff 0%, var(--accent) 100%);
+      color: #ffffff;
+      box-shadow: 0 12px 28px rgba(0, 113, 227, 0.2);
+    }
+
+    .corpus-dictation-app .tab-panel[hidden] {
+      display: none;
+    }
+
+		.corpus-dictation-app .stats {
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+			gap: 14px;
+		}
+
+		.corpus-dictation-app .stat {
+			padding: 16px 18px;
+			background: rgba(255, 255, 255, 0.58);
+			border: 1px solid rgba(255, 255, 255, 0.64);
+			border-radius: 22px;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+		}
+
+		.corpus-dictation-app .stat span {
+			display: block;
+			font-size: 11px;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: var(--muted);
+			margin-bottom: 8px;
+		}
+
+		.corpus-dictation-app .stat strong {
+			font-size: 30px;
+			font-weight: 650;
+			letter-spacing: -0.03em;
+		}
+
+		.corpus-dictation-app .grid {
+			display: grid;
+			grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+			gap: 20px;
+			align-items: start;
+			transition: grid-template-columns 0.35s ease, gap 0.35s ease;
+		}
+
+		.corpus-dictation-app .grid.is-practicing {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.corpus-dictation-app .config-panel {
+			transition: opacity 0.28s ease, transform 0.28s ease, max-height 0.35s ease, padding 0.35s ease, margin 0.35s ease;
+			transform-origin: top left;
+			overflow: hidden;
+		}
+
+		.corpus-dictation-app .grid.is-practicing .config-panel {
+			opacity: 0;
+			transform: scale(0.98);
+			pointer-events: none;
+			max-height: 0;
+			padding-top: 0;
+			padding-bottom: 0;
+			margin: 0;
+			border-width: 0;
+			box-shadow: none;
+		}
+
+		.corpus-dictation-app .panel {
+			padding: 24px;
+		}
+
+		.corpus-dictation-app .section-title {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			gap: 12px;
+			margin-bottom: 20px;
+		}
+
+		.corpus-dictation-app .section-title h2,
+		.corpus-dictation-app .section-title h3 {
+			letter-spacing: -0.02em;
+			font-weight: 650;
+		}
+
+		.corpus-dictation-app .section-title p {
+			color: var(--muted);
+			font-size: 14px;
+			line-height: 1.6;
+		}
+
+		.corpus-dictation-app .form-grid {
+			display: grid;
+			gap: 14px;
+		}
+
+    .corpus-dictation-app .inline-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+		.corpus-dictation-app label {
+			display: grid;
+			gap: 8px;
+			font-size: 14px;
+			color: var(--muted);
+			font-weight: 500;
+		}
+
+		.corpus-dictation-app input,
+		.corpus-dictation-app select,
+		.corpus-dictation-app textarea,
+		.corpus-dictation-app button {
+			font: inherit;
+		}
+
+		.corpus-dictation-app input,
+		.corpus-dictation-app select,
+		.corpus-dictation-app textarea {
+			width: 100%;
+			border-radius: 18px;
+			border: 1px solid rgba(255, 255, 255, 0.7);
+			background: rgba(255, 255, 255, 0.82);
+			padding: 15px 16px;
+			color: var(--ink);
+			outline: none;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), var(--shadow-soft);
+			transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+		}
+
+		.corpus-dictation-app input:focus,
+		.corpus-dictation-app select:focus,
+		.corpus-dictation-app textarea:focus {
+			border-color: rgba(0, 113, 227, 0.32);
+			box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12), 0 14px 36px rgba(0, 113, 227, 0.08);
+			transform: translateY(-1px);
+			background: rgba(255, 255, 255, 0.94);
+		}
+
+		.corpus-dictation-app select {
+			appearance: none;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			cursor: pointer;
+			padding-right: 48px;
+			font-weight: 600;
+			letter-spacing: -0.01em;
+			background-image:
+				linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0)),
+				url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 18 18' fill='none'%3E%3Cpath d='M4.5 6.75L9 11.25L13.5 6.75' stroke='%236b7280' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+			background-repeat: no-repeat, no-repeat;
+			background-position: 0 0, right 16px center;
+			background-size: auto, 18px 18px;
+		}
+
+		.corpus-dictation-app select:hover {
+			background-color: rgba(255, 255, 255, 0.9);
+			border-color: rgba(15, 23, 42, 0.1);
+		}
+
+		.corpus-dictation-app select option {
+			color: var(--ink);
+			background: #ffffff;
+		}
+
+		.corpus-dictation-app textarea {
+			min-height: 300px;
+			resize: vertical;
+			line-height: 1.65;
+		}
+
+		.corpus-dictation-app .actions,
+		.corpus-dictation-app .mini-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+		}
+
+    .corpus-dictation-app .action-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .corpus-dictation-app .action-grid button {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .corpus-dictation-app .action-grid--compact {
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    }
+
+		.corpus-dictation-app button {
+			border: 1px solid transparent;
+			border-radius: 999px;
+			padding: 12px 18px;
+			cursor: pointer;
+			font-weight: 600;
+			letter-spacing: -0.01em;
+			transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+		}
+
+		.corpus-dictation-app button:hover:not(:disabled) {
+			transform: translateY(-1px);
+			box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1);
+		}
+
+		.corpus-dictation-app button:disabled {
+			cursor: not-allowed;
+			opacity: 0.45;
+			box-shadow: none;
+		}
+
+    .corpus-dictation-app button[hidden] {
+      display: none;
+    }
+
+		.corpus-dictation-app .primary {
+			background: linear-gradient(180deg, #1994ff 0%, var(--accent) 100%);
+			color: white;
+			box-shadow: 0 12px 28px rgba(0, 113, 227, 0.24);
+		}
+
+		.corpus-dictation-app button.small {
+			padding: 6px 12px;
+			font-size: 12px;
+		}
+
+		.corpus-dictation-app .word-display {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			font-size: 18px;
+			font-weight: 600;
+			color: var(--accent-deep);
+			padding: 6px 0;
+		}
+
+		.corpus-dictation-app .word-display.hidden {
+			display: none;
+		}
+
+		.corpus-dictation-app .ghost {
+			background: rgba(255, 255, 255, 0.68);
+			color: var(--ink);
+			border-color: rgba(15, 23, 42, 0.08);
+			backdrop-filter: blur(12px);
+		}
+
+		.corpus-dictation-app .danger {
+			background: rgba(192, 54, 44, 0.08);
+			color: var(--danger);
+			border-color: rgba(192, 54, 44, 0.12);
+		}
+
+		.corpus-dictation-app .practice {
+			display: grid;
+			gap: 18px;
+		}
+
+		.corpus-dictation-app .practice-card {
+			background: var(--panel-strong);
+			border: 1px solid rgba(255, 255, 255, 0.74);
+			border-radius: 26px;
+			padding: 28px;
+			display: grid;
+			gap: 18px;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), var(--shadow-soft);
+		}
+
+		.corpus-dictation-app .current-index {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px 14px;
+			border-radius: 999px;
+			background: var(--accent-soft);
+			color: var(--accent-deep);
+			width: fit-content;
+			font-size: 13px;
+			font-weight: 600;
+			border: 1px solid rgba(0, 113, 227, 0.08);
+		}
+
+		.corpus-dictation-app .prompt {
+			font-size: clamp(30px, 3.2vw, 44px);
+			line-height: 1.06;
+			letter-spacing: -0.04em;
+			font-weight: 650;
+		}
+
+		.corpus-dictation-app .subtle {
+			color: var(--muted);
+			line-height: 1.6;
+		}
+
+		.corpus-dictation-app .feedback {
+			min-height: 28px;
+			font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+		}
+
+    .corpus-dictation-app .feedback-text {
+      min-width: 0;
+    }
+
+    .corpus-dictation-app .feedback-audio-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0, 113, 227, 0.1);
+      border-color: rgba(0, 113, 227, 0.18);
+      color: var(--accent-deep);
+      box-shadow: none;
+      flex: 0 0 auto;
+    }
+
+    .corpus-dictation-app .feedback-audio-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+		.corpus-dictation-app .feedback.success {
+			color: var(--success);
+		}
+
+		.corpus-dictation-app .feedback.error {
+			color: var(--danger);
+		}
+
+    .corpus-dictation-app .feedback.warning {
+      color: var(--warning);
+    }
+
+		.corpus-dictation-app .list-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: 16px;
+		}
+
+		.corpus-dictation-app .list-card {
+			background: rgba(255, 255, 255, 0.64);
+			border: 1px solid rgba(255, 255, 255, 0.68);
+			border-radius: 22px;
+			padding: 18px;
+			min-height: 260px;
+			display: grid;
+			grid-template-rows: auto 1fr;
+			gap: 12px;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), var(--shadow-soft);
+		}
+
+		.corpus-dictation-app .list-card h3 {
+			font-size: 16px;
+		}
+
+		.corpus-dictation-app .list-card p {
+			font-size: 13px;
+			color: var(--muted);
+		}
+
+		.corpus-dictation-app ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+			display: grid;
+			align-content: start;
+			gap: 8px;
+			overflow: auto;
+		}
+
+		.corpus-dictation-app li {
+			padding: 12px 14px;
+			border-radius: 16px;
+			background: rgba(248, 250, 252, 0.92);
+			border: 1px solid rgba(15, 23, 42, 0.06);
+			display: flex;
+			justify-content: space-between;
+			gap: 12px;
+			align-items: center;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+		}
+
+		.corpus-dictation-app .masked {
+			color: transparent;
+			text-shadow: 0 0 10px rgba(107, 114, 128, 0.72);
+			user-select: none;
+		}
+
+		.corpus-dictation-app .tag {
+			border-radius: 999px;
+			padding: 4px 8px;
+			font-size: 12px;
+			background: rgba(0, 113, 227, 0.1);
+			color: var(--accent-deep);
+			white-space: nowrap;
+		}
+
+    .corpus-dictation-app .word-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .corpus-dictation-app .word-line strong,
+    .corpus-dictation-app .word-line [data-role="word-label"] {
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .corpus-dictation-app .chapter-note {
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--muted);
+      word-break: break-word;
+    }
+
+		.corpus-dictation-app .mistake-answer {
+			font-size: 12px;
+			color: var(--muted);
+		}
+
+    .corpus-dictation-app .chip-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .corpus-dictation-app .chapter-multi-select {
+      min-height: 160px;
+    }
+
+    .corpus-dictation-app .record-list {
+      min-height: 320px;
+    }
+
+    .corpus-dictation-app .record-list li,
+    .corpus-dictation-app .stats-history li {
+      align-items: flex-start;
+    }
+
+    .corpus-dictation-app .record-main {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .corpus-dictation-app .record-title {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .corpus-dictation-app .record-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .corpus-dictation-app .record-actions button {
+      padding: 8px 12px;
+    }
+
+    .corpus-dictation-app .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .corpus-dictation-app .checkbox-row input {
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      box-shadow: none;
+    }
+
+    .corpus-dictation-app .chart-shell {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.64);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), var(--shadow-soft);
+    }
+
+    .corpus-dictation-app .chart-svg {
+      width: 100%;
+      height: 240px;
+      display: block;
+    }
+
+    .corpus-dictation-app .chart-empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 48px 16px;
+    }
+
+    .corpus-dictation-app .stats-history {
+      min-height: 180px;
+    }
+
+		.corpus-dictation-app .status-bar {
+			border-radius: 18px;
+			padding: 15px 16px;
+			background: rgba(255, 255, 255, 0.62);
+			border: 1px solid rgba(255, 255, 255, 0.72);
+			color: var(--muted);
+			line-height: 1.5;
+			white-space: pre-wrap;
+			box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+		}
+
+		.corpus-dictation-app .footer-note {
+			font-size: 13px;
+			color: var(--muted);
+		}
+
+    .corpus-dictation-app .guide-note {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+    }
+
+    .corpus-dictation-app .guide-note strong {
+      font-size: 13px;
+      color: var(--accent-deep);
+    }
+
+    .corpus-dictation-app .guide-note p {
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .corpus-dictation-app .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .corpus-dictation-app .tool-card {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      display: grid;
+      gap: 12px;
+    }
+
+    .corpus-dictation-app .tool-card h3 {
+      font-size: 15px;
+    }
+
+    .corpus-dictation-app .tool-card p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .corpus-dictation-app .import-preview {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.9);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .corpus-dictation-app .import-preview[hidden] {
+      display: none;
+    }
+
+    .corpus-dictation-app .import-preview h4 {
+      font-size: 13px;
+      color: var(--accent-deep);
+    }
+
+    .corpus-dictation-app .import-preview p {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .corpus-dictation-app .import-preview ul {
+      display: grid;
+      gap: 6px;
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .corpus-dictation-app .status-bar.notice-error {
+      border-color: rgba(192, 54, 44, 0.18);
+      background: rgba(255, 245, 245, 0.9);
+      color: var(--danger);
+    }
+
+    .corpus-dictation-app .status-bar.notice-success {
+      border-color: rgba(20, 128, 74, 0.18);
+      background: rgba(245, 255, 249, 0.92);
+      color: var(--success);
+    }
+
+    .corpus-dictation-app .hero-note {
+      display: grid;
+      gap: 6px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
+    }
+
+    .corpus-dictation-app .hero-note strong {
+      font-size: 14px;
+      color: var(--accent-deep);
+    }
+
+    .corpus-dictation-app .hero-note p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .corpus-dictation-app body.is-dialog-open {
+      overflow: hidden;
+    }
+
+    .corpus-dictation-app .confirm-dialog {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(15, 23, 42, 0.22);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 20;
+    }
+
+    .corpus-dictation-app .confirm-dialog[hidden] {
+      display: none;
+    }
+
+    .corpus-dictation-app .confirm-dialog-card {
+      width: min(460px, 100%);
+      padding: 22px;
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.82);
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.82)),
+        radial-gradient(circle at top right, rgba(0, 113, 227, 0.12), transparent 38%);
+      box-shadow: 0 26px 80px rgba(15, 23, 42, 0.18);
+      display: grid;
+      gap: 16px;
+    }
+
+    .corpus-dictation-app .confirm-dialog-head {
+      display: grid;
+      gap: 10px;
+    }
+
+    .corpus-dictation-app .confirm-dialog-chip {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(192, 54, 44, 0.08);
+      color: var(--danger);
+      border: 1px solid rgba(192, 54, 44, 0.12);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .corpus-dictation-app .confirm-dialog h4 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .corpus-dictation-app .confirm-dialog p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .corpus-dictation-app .confirm-dialog strong {
+      color: var(--ink);
+    }
+
+    .corpus-dictation-app .confirm-dialog-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+		@media (max-width: 980px) {
+			.corpus-dictation-app .grid,
+			.corpus-dictation-app .list-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.corpus-dictation-app textarea {
+				min-height: 220px;
+			}
+		}
+
+		@media (max-width: 640px) {
+			.corpus-dictation-app body {
+				padding: 18px 12px 32px;
+			}
+
+			.corpus-dictation-app .hero,
+			.corpus-dictation-app .panel {
+				padding: 18px;
+				border-radius: 24px;
+			}
+
+			.corpus-dictation-app .hero {
+				gap: 18px;
+			}
+
+			.corpus-dictation-app .inline-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.corpus-dictation-app .actions,
+			.corpus-dictation-app .mini-actions {
+				flex-direction: column;
+			}
+
+      .corpus-dictation-app .action-grid,
+      .corpus-dictation-app .action-grid--compact {
+        grid-template-columns: 1fr;
+      }
+
+			.corpus-dictation-app button {
+				width: 100%;
+			}
+		}
+	
+
+.corpus-dictation-app::before {
+			content: "";
+			position: fixed;
+			inset: 0;
+			background:
+				radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.7), transparent 20%),
+				radial-gradient(circle at 82% 14%, rgba(0, 113, 227, 0.09), transparent 18%),
+				radial-gradient(circle at 76% 84%, rgba(148, 163, 184, 0.12), transparent 24%);
+			pointer-events: none;
+		}
+
+
+/* 角落光斑（原 body::before/::after，容器化） — 若上面已由合并规则生成则忽略 */
+/* 容器占满主区：负 margin 抵消 Element Plus main 的 padding */
+.corpus-dictation-app {
+  position: relative;
+  isolation: isolate;
+  margin: -20px;
+  padding: 16px 20px 36px;
+  overflow: clip;
+}

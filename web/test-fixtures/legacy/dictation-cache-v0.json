@@ -1,0 +1,10 @@
+{
+  "mode": "listen",
+  "wordItems": [
+    { "text": "fixture", "removed": false }
+  ],
+  "wrongDict": ["wrong"],
+  "masteredSet": [],
+  "selectedVoiceURI": "legacy-voice",
+  "speechRate": "1.1"
+}

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "settings": {
+    "lastChapter": "31",
+    "intervalSeconds": 2,
+    "speed": 1,
+    "mode": "dictation"
+  },
+  "mistakeBook": {
+    "31::ability": {
+      "chapterId": "31",
+      "word": "ability",
+      "title": "Fixture Chapter",
+      "errorLevel": 3,
+      "wrongCount": 1,
+      "rightCount": 0,
+      "lastErrorAt": "2026-01-01T00:00:00.000Z",
+      "recentAnswers": ["wrong"]
+    }
+  },
+  "wordStats": {
+    "31::ability": {
+      "practiceCount": 2,
+      "correctCount": 1,
+      "lastAt": "2026-01-01T00:00:00.000Z",
+      "chapterId": "31"
+    }
+  },
+  "chapterStats": {
+    "31": [
+      {
+        "at": "2026-01-01T00:00:00.000Z",
+        "total": 10,
+        "correct": 7,
+        "accuracy": 70
+      }
+    ]
+  }
+}
