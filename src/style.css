@@ -307,7 +307,8 @@ button.word-row:hover { background: #f9fcf4; }
 .toast-enter-from, .toast-leave-to { opacity: 0; bottom: 20px; }
 @media (min-width: 1500px) { .header-inner, .main-container { max-width: 1324px; } .study-layout { grid-template-columns: minmax(0, 1fr) 278px; } .word-content { min-height: 320px; padding-top: 22px; } .word-heading { padding-top: 35px; } }
 @media (max-width: 1000px) {
-  .header-inner { gap: 35px; }
+  .header-inner { gap: 25px; }
+  .module-nav { gap: 20px; }
   .main-container { padding-top: 33px; }
   .page-nav { gap: 20px; }
   .study-layout { grid-template-columns: minmax(0, 1fr) 220px; gap: 17px; }
@@ -362,7 +363,7 @@ button.word-row:hover { background: #f9fcf4; }
   .header-inner { padding: 13px 18px 0; flex-wrap: wrap; gap: 10px; }
   .brand { order: 0; }
   .save-indicator { order: 1; font-size: 10px; }
-  .module-nav { order: 2; width: 100%; min-height: 43px; justify-content: center; gap: 45px; }
+  .module-nav { order: 2; width: 100%; min-height: 43px; justify-content: space-between; gap: 8px; }
   .module-nav button, .module-nav a { font-size: 12px; }
   .module-nav button svg, .module-nav a svg { width: 15px; }
   .main-container { padding: 27px 16px 0; }

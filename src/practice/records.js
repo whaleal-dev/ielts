@@ -1,0 +1,18 @@
+export function valueRecords(key, value) {
+  const text = JSON.stringify(value);
+  const parts = [];
+  for (let index = 0; index < text.length; index += 1024) parts.push(text.slice(index, index + 1024));
+  return [[key, { parts: parts.length }], ...parts.map((part, index) => [`${key}:${index}`, part])];
+}
+
+export function readValue(entries, key, fallback) {
+  const count = entries.get(key)?.parts;
+  if (!Number.isInteger(count) || count < 1) return fallback;
+  const parts = Array.from({ length: count }, (_, index) => entries.get(`${key}:${index}`));
+  if (parts.some((part) => typeof part !== 'string')) return fallback;
+  try { return JSON.parse(parts.join('')); } catch { return fallback; }
+}
+
+export const readLocalValue = (key) => {
+  try { return JSON.parse(globalThis.localStorage?.getItem(key) || 'null'); } catch { return null; }
+};

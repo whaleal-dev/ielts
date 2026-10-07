@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import Icon from './Icon.vue';
+import ModuleNav from './ModuleNav.vue';
 import StudyCard from './StudyCard.vue';
 import { useLearning } from './useLearning.js';
 import { chapters, groups, words, sources } from './library.js';
@@ -34,11 +35,7 @@ function updateSearch() { learning.visibleCount = 40; }
     <header class="site-header">
       <div class="header-inner">
         <button class="brand" aria-label="IELTS Studio，返回单词学习" @click="learning.showView('study')"><span class="brand-symbol"><Icon name="book" :size="22" /></span><span class="brand-name">IELTS<span>Studio</span></span></button>
-        <nav class="module-nav" aria-label="网站导航">
-          <button class="active" aria-current="page"><Icon name="book" :size="17" />单词</button>
-          <a href="/listening-word/王璐语料库_源码.html"><Icon name="headphones" :size="17" />听力</a>
-          <button disabled title="听写模块正在规划"><Icon name="pen" :size="17" />听写<span class="soon">待上线</span></button>
-        </nav>
+        <ModuleNav active="words" />
         <button class="save-indicator" :class="{ error: learning.storage.state === 'error', fallback: learning.storage.mode === 'localStorage' }" @click="openSettings"><span class="status-dot"></span><span>{{ saveLabel }}</span></button>
       </div>
     </header>

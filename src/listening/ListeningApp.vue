@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref, watch, nextTick } from 'vue';
 import Icon from '../Icon.vue';
+import ModuleNav from '../ModuleNav.vue';
 import { library } from './library.js';
 import { useListening } from './useListening.js';
 import './style.css';
@@ -31,11 +32,7 @@ function chooseChapter(chapter) { app.prefs.groupId = chapter.groups[0].id; app.
   <div class="app-shell corpus-app">
     <header class="site-header"><div class="header-inner">
       <a class="brand" href="/words/study_words.html" aria-label="IELTS Studio，返回单词学习"><span class="brand-symbol"><Icon name="book" :size="22" /></span><span class="brand-name">IELTS<span>Studio</span></span></a>
-      <nav class="module-nav" aria-label="网站导航">
-        <a href="/words/study_words.html"><Icon name="book" :size="17" />单词</a>
-        <a class="active" href="/listening-word/王璐语料库_源码.html" aria-current="page"><Icon name="headphones" :size="17" />听力</a>
-        <button disabled title="独立听写模块正在规划"><Icon name="pen" :size="17" />听写<span class="soon">待上线</span></button>
-      </nav>
+      <ModuleNav active="listening" />
       <button class="save-indicator" :class="{ error: app.storage.state === 'error', fallback: app.storage.mode === 'localStorage' }" @click="openSettings"><span class="status-dot"></span>{{ saveLabel }}</button>
     </div></header>
     <main class="main-container">
