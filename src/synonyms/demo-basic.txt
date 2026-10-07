@@ -1,0 +1,3 @@
+reserve, book, prebook
+fee, cost, price, charge
+adjust, change, alter, modify

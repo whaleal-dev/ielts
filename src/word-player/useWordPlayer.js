@@ -5,7 +5,7 @@ import { usePracticeStorage } from '../practice/usePracticeStorage.js';
 import { matchesAnswer, parseWords, shuffleWords, wordPlayerPrefs } from './model.js';
 
 export function useWordPlayer() {
-  const app = reactive({ ready: false, items: [], rawText: '', prefs: wordPlayerPrefs(), index: 0, playing: false, speaking: false, finished: false, repetition: 1, answer: '', revealed: false, feedback: null, error: '', notice: '', visibleCount: 60 });
+  const app = reactive({ ready: false, items: [], rawText: '', prefs: wordPlayerPrefs(), index: 0, playing: false, speaking: false, finished: false, repetition: 1, answer: '', revealed: false, feedback: null, error: '', notice: '' });
   const storage = usePracticeStorage('ielts-word-player-v1:');
   app.storage = storage.status;
   app.current = computed(() => app.items[app.index] || '');
@@ -41,7 +41,7 @@ export function useWordPlayer() {
   app.loadWords = () => {
     try {
       const parsed = parseWords(app.rawText);
-      app.pause(); app.items = parsed.items; app.index = 0; app.finished = false; app.visibleCount = 60; resetAnswer(); app.error = '';
+      app.pause(); app.items = parsed.items; app.index = 0; app.finished = false; resetAnswer(); app.error = '';
       app.notice = `已加载 ${app.items.length} 个词条${parsed.chinese ? `，过滤 ${parsed.chinese} 个含中文词条` : ''}${parsed.duplicates ? `，去除 ${parsed.duplicates} 个重复词条` : ''}。`;
       return storage.save([...valueRecords('list', app.items), position()]);
     } catch (error) { app.error = error.message; return Promise.resolve(false); }
@@ -62,9 +62,9 @@ export function useWordPlayer() {
     if (!app.answer.trim()) { app.feedback = { correct: false, message: '请先输入听到的单词。' }; return; }
     app.revealed = true;
     const correct = matchesAnswer(app.answer, app.current);
-    app.feedback = { correct, message: correct ? '回答正确。' : `正确答案：${app.current}。` };
+    app.feedback = { correct, message: correct ? '回答正确。' : '拼写有误，请查看上方答案。' };
   };
-  app.reveal = () => { if (app.current) { app.revealed = true; app.feedback = { correct: true, message: `答案：${app.current}。` }; } };
+  app.reveal = () => { if (app.current) { app.revealed = true; app.feedback = null; } };
   const keydown = (event) => {
     if (event.target.closest('input, textarea, select, button, dialog, [contenteditable]')) return;
     if (event.code === 'Space') { event.preventDefault(); app.toggle(); }

@@ -1,11 +1,4 @@
 export const hasChinese = (text) => /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/u.test(text);
-export const sampleGroups = [
-  ['reserve', 'book', 'prebook'], ['in advance', 'ahead', 'beforehand'],
-  ['have to', 'must', 'should', 'need', 'require'], ['adjust', 'change', 'alter', 'modify'],
-  ['diversity', 'various', 'different', 'variety'], ['fee', 'cost', 'price', 'expense', 'charge'],
-  ['computer', 'laptop', 'desktop', 'mac'],
-];
-
 export function parseGroups(text, filename) {
   let rows;
   if (/\.json$/i.test(filename)) {
@@ -13,7 +6,7 @@ export function parseGroups(text, filename) {
     if (!Array.isArray(rows) || rows.some((row) => !Array.isArray(row) || row.some((word) => typeof word !== 'string'))) throw new Error('JSON 词库需要是由字符串组成的二维数组。');
   } else if (/\.txt$/i.test(filename)) {
     rows = text.replace(/^\uFEFF/, '').split(/\r?\n/).map((line) => line.split(/[,，]/));
-  } else { throw new Error('词库仅支持 TXT 或 JSON 文件。'); }
+  } else { throw new Error('请上传 TXT 词库文件。'); }
   const groups = rows.map((row) => row.map((word) => word.trim()).filter(Boolean)).filter((group) => group.length);
   if (!groups.length) throw new Error('词库没有有效分组。');
   if (groups.some((group) => group.some((word) => word.length > 200))) throw new Error('单个词条不能超过 200 个字符，请检查词库格式。');
