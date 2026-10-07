@@ -1,131 +1,90 @@
-# IELTS
+# IELTS Studio
 
-[简体中文](README.md) ｜ [English](README_EN.md)
+无后端的雅思学习网站，使用 Vue 3 和 Vite，构建产物为纯静态文件。
+网站导航与模块导航均位于顶部，已实现单词和王璐听力语料库，独立听写模块保留后续入口。
 
-[GitHub 仓库](https://github.com/whaleal-dev/ielts)
+## 本地使用
 
-一个面向雅思学习的本地前端工具集合仓库，2026-09 起完成现代化重构：
+需要 Node.js 和 npm。首次运行安装项目依赖：
 
-> ✅ 旧「单文件 HTML」工具已全部重构为 **Vue 3 + Vite + TypeScript** 现代应用（`web/`）。
-> ✅ 全部旧文件与数据源已归档至 **`legacy/`**，可继续作为样式、数据和行为对照。
-
-仓库顶层仅保留新版应用、旧版归档和项目治理文档：
-
-- `web/`：新版前端与二开主入口。
-- `legacy/`：旧版行为、数据源、历史脚本和音频归档。
-- `CLAUDE.md`：项目级开发规范与兼容红线。
-- `ROADMAP.md`：二开阶段、真实进度、阻塞与最近验证。
-
-## 快速开始
-
-环境要求：Node.js 20.19 或更高版本（或 22.12 及以上）、npm 10 或更高版本，以及现代桌面浏览器。
-
-```bash
-git clone https://github.com/whaleal-dev/ielts.git
-cd ielts/web
+```sh
 npm install
 npm run dev
 ```
 
-开发与验证命令：
+访问 [学习网站](http://127.0.0.1:5173/) 、[单词模块入口](http://127.0.0.1:5173/words/study_words.html) 或 [听力语料库](http://127.0.0.1:5173/listening-word/王璐语料库_源码.html) 。
+框架源文件通过 HTTP 访问，不再直接双击 HTML 入口。
 
-```bash
-cd web
-npm run dev        # http://127.0.0.1:5173
-npm run test       # 单元测试（95 项）
-npm run build      # vue-tsc 类型检查 + 产物
-npm run preview    # 本地预览构建产物
+## 单词学习
+
+- 雅思主题词库按章节、分组学习，也可选择主词库中的核心词、阅读考点词和听力考点词。
+- 支持单词卡片、中文选择题、听音拼写、本地英音播放与自动播放。
+- 可标记已掌握、加入难词、复习到期词，并添加学习笔记。
+- 英文、中文释义和音标可以用于搜索。
+- 学习统计包括词条掌握度、近期学习量与连续学习天数。
+- 左右方向键切词，空格播放或暂停；输入框和设置窗口不会触发学习快捷键。
+- 暂不提供备份、导入、导出功能。
+
+## 浏览器存储
+
+学习记录不上传服务器。IndexedDB 使用现有 `apple-word-trainer` 数据库、版本 `1`、对象存储 `kv`。
+新的设置、词条状态、笔记、位置与每日统计使用独立的 `ielts-words-v1:` 键。
+
+- 每条新记录按序列化后的 UTF-8 大小检查，包含记录键后不超过 8 KiB。
+- 新笔记限制为 400 个 UTF-16 代码单元，长旧笔记拆分保存，不截断读取。
+- 每日学习词条用位图计数，完整主词库的一天统计小于 1 KiB，不追加逐次日志。
+- 保存失败时保留当前页面内的待保存数据，显示错误与重试按钮；有未保存内容时离开页面会提示。
+- IndexedDB 不可用时按记录回退到 localStorage，并显示兼容存储提示；容量不足时不会显示已保存。
+- 设置窗口显示学习记录占用、最大单条记录及浏览器提供的可用空间估算。
+- 同一访问来源下可读取旧 `apple-word-trainer-v4` 记录，原记录保留。
+
+浏览器按访问来源隔离数据。旧 `file://`、`localhost`、`127.0.0.1`、不同端口与不同浏览器的记录互不共享。
+旧本地 HTML 记录不会自动出现在新 HTTP 页面；日常使用请固定访问地址。
+
+## 听力语料库
+
+- 以原 `listening-word/王璐语料库_源码.html` 的章节内容为基准，保留 Chapter 3、4、5、8、11 共 88 个分组，分组内去重后有 9330 条语料。
+- 原始数据单独保存在 `listening-word/data/corpus.json`，不混入旧 `word.json` 的额外语料。
+- 听写模式支持判题、重播、暂停、显示答案、本轮错词复练；答错、显示答案和音频结束后超时均记为错词，答对自动进入下一条。
+- 听音模式支持顺序／随机、每词重复与整轮循环，不写入听写成绩。单词与词组可分别设置倍速。
+- 每词间隔设置为 0 时手动继续；听写答对仍自动前进。暂停会暂停音频与计时。
+- 可编辑本组语料或手动粘贴自定义列表；自动去重并区分词库不存在与不属于所选分组的语料。
+- 错词本支持分组多选筛选、搜索、低正确率／多次错误／最近 7 天筛选、多选复练、试听和错误等级调整。
+- 完整分组听写完成才计入章节成绩，按分组与日期汇总次数、累计正确率、最好成绩和最近成绩；听音、子集、错词复练与包含音频跳过的练习不计入。
+- 使用本地原声音频，9330 条语料由 9325 个文件覆盖；已从原音频来源补齐 `sea otter` 并修复 `lecture theatre` 的无效文件。后续发现缺失时开始前明确提示并跳过；运行时播放失败也支持重播或跳过，跳过不会计为答错。
+- 方向键上重播，听音模式左右切词，空格暂停／继续；输入框和弹窗不会触发练习快捷键。
+
+听力记录沿用 `ielts-dictation-data-db`、版本 `1`、对象存储 `kv`，新记录使用 `ielts-listening-v1:` 键。
+错词和每词统计按章节＋语料保存，章节成绩按分组＋日期保存，自定义文本按块保存，每条新记录包含键和元数据不超过 8 KiB。
+保存失败时保留页面内的待保存数据并支持重试，IndexedDB 不可用时回退 localStorage。
+刷新会恢复设置、语料列表、错词与成绩，正在播放的轮次需要重新开始。
+同来源可读取旧 IndexedDB 和 localStorage 设置与记录；原键保留，不覆盖整个旧数据对象。
+音频不缓存到浏览器数据库，暂不提供备份、导入、导出功能。
+
+## 构建与验证
+
+```sh
+npm test
+npm run build
+npm run preview
 ```
 
-应用使用 Hash 路由，开发服务器启动后访问 `http://127.0.0.1:5173/#/`。
+`dist/` 包含三个 HTML 入口、脚本、样式、精简章节数据及本地单词与听力音频。
+预览与开发使用相同的 `http://127.0.0.1:5173/` 地址，切换前先停止当前开发或预览进程。
+此本地构建流程不执行公开发布。
 
-## 一级入口
+## 目录
 
-| 路由 | 用途 |
-|---|---|
-| `/` | 今日学习工作台：Todo、继续训练、学习动态与能力入口 |
-| `/plans` | 学习路径：串联输入、训练、复习和复盘 |
-| `/tools` | 全部训练：按听力、词汇、记录等目的组织 8 个模块 |
-| `/settings` | 全局设置：应用完整备份的导入、导出与恢复预览 |
+- `src/`：Vue 界面、词库读取、学习逻辑、浏览器存储和样式。
+- `src/listening/`：听力语料界面、播放、判题、错词、统计与旧记录读取。
+- `src/generated/`：精简单词章节与听力章节、音频映射和缺失报告，开发和构建前自动准备，不提交。
+- `words/data/`：现有词库与相关词来源。
+- `words/assets/audio/eng/`：本地单词音频。
+- `listening-word/data/corpus.json`：从用户指定 HTML 提取的原始听力语料。
+- `listening-word/assets/audio/`、`chunks/`、`chapter8/`：已有听力音频。
+- `scripts/`：单词／听力数据准备和静态音频复制。
+- `tests/`：存储大小、容量失败、连续写入、判题、音频映射、旧记录和每日统计的回归测试。
 
-## 训练模块（共 8 个）
-
-| 路由 | 模块 | legacy 源（legacy/ 内） | 状态 |
-|---|---|---|---|
-| `/study-tracker` | 记录与复盘 | `daily-status/学习状态跟踪.html` | ✅ 已完成 |
-| `/vocabulary` | 词汇学习 | `words/study_words.html` | ✅ 已完成 |
-| `/pronunciation` | 单词精听器 | `dictionary/发音.html` | ✅ 已完成 |
-| `/dictation` | 单词听写 | `dictionary/发音和听写.html` | ✅ 已完成 |
-| `/listen-dictation` | 只听循环听写 | `发音/发音和听写.html`（变体） | ✅ 已完成 |
-| `/synonyms` | 同义替换学习 | `同义词学习/同义词学习.html` | ✅ 已完成 |
-| `/audio-player` | 音频顺序播放器 | `audio-playlist-player/音频顺序播放器.html` | ✅ 已完成（核心） |
-| `/corpus-dictation` | 语料库章节听写 | `listening-word/王璐语料库_源码.html` | ✅ 已完成 |
-
-训练模块注册表（模块路由与全部训练页的数据源）：`web/src/modules.ts`；
-架构/分层/数据链路/移植工具说明：`web/docs/ARCHITECTURE.md`。
-
-## 目录结构
-
-```
-web/                 新版前端（Vue 3 + Vite + TS + Element Plus + ECharts）
-  scripts/           数据与样式工具：sync-vocab-data / sync-corpus-data / scope-legacy-css
-  src/modules.ts     ★ 模块注册表
-  src/features/*     8 个业务模块（按复杂度逐步落地分层）
-  src/shared/backup  应用级备份信封、模块 Provider 与回滚
-  src/shared/learning-events  跨模块学习事件与摘要
-  src/data/*         由 sync 脚本生成的数据产物（词库/同义词/语料章节/音频索引）
-  src/views/*        今日、学习路径、全部训练和全局设置
-  src/views/modules/* 路由薄壳
-  docs/              ★ 架构文档 + 各模块 legacy 规格/移植决策/parity 清单
-legacy/              旧版归档
-  words/ daily-status/ dictionary/ listening-word/ 同义词学习/
-  audio-playlist-player/ 发音/ _root/
-```
-
-## 常用维护命令
-
-```bash
-# 重建词汇模块数据（legacy 页存在时自动做一致性断言）
-cd web && npm run data:vocab
-
-# 重建语料章节词集
-cd web && npm run data:corpus
-
-# 旧页面样式移植进新模块（容器级 scoping）
-cd web && node scripts/scope-legacy-css.mjs <html> <scopeClass> <out.css>
-```
-
-## 二开约定
-
-- 新功能只在 `web/` 开发；`legacy/` 仅作数据和行为对照。
-- 新模块统一登记在 `web/src/modules.ts`，路由页保持为薄壳。
-- 不直接修改可由 `web/scripts/` 重建的静态 JSON。
-- 不得在没有迁移函数和回归验证的情况下修改持久化键或备份结构。
-- 详细规范见 `CLAUDE.md`，阶段进度见 `ROADMAP.md`。
-
-## 特点
-
-- 数据/进度/备份均存本地（沿用 legacy 的 localStorage / IndexedDB 键，旧数据直接兼容）。
-- 应用完整备份使用版本化全局信封；既有模块快照和存储键保持兼容。
-- `localStorage` 大记录超过 200,000 字符时自动分块，兼容旧版未分块值，并在写入失败时保留上一版数据。
-- 完整 JSON 导入导出统一在全局设置；Excel、PDF、CSV 等业务结果导出保留在模块内。
-- 语料听写、词汇掌握、今日工作台和记录复盘通过共享学习事件形成首条闭环。
-- 学习数据 100% 本地，无账号体系。
-
-## 数据与隐私
-
-- 学习记录、设置和练习状态默认仅保存在当前浏览器中。
-- 更换浏览器、清理站点数据或重装系统前，请在“全局设置”中导出完整 JSON 备份。
-- 音频 Blob 不包含在完整 JSON 备份中，需要单独保留原始音频文件。
-- 项目不需要账号，也不会主动上传学习数据。
-
-## 文档索引
-
-- 英文指南：`README_EN.md`
-- 项目规范与进度：`CLAUDE.md`、`ROADMAP.md`
-- 架构与开发：`web/docs/ARCHITECTURE.md`、`web/README.md`
-- 产品整合方案：`web/docs/PRODUCT-INTEGRATION-PLAN.md`
-- 下一版本计划：`web/docs/V0.2-PLAN.md`
-- 二开回归与数据契约：`web/docs/BASELINE.md`
-- 各模块移植规格与决策：`web/docs/<module>/`（legacy-DATA-UI / legacy-ENGINE / PORT-NOTES / PARITY-CHECKLIST）
-- 遗留说明：audio 系统词库增强方案 `web/docs/audio-player/ENHANCER-PLAN.md`
+修改分组 JSON 后运行 `npm run prepare:words`，再刷新页面。
+修改听力源 JSON 或本地音频后运行 `npm run prepare:listening`，再刷新页面；缺失情况见 `src/generated/listening-audio-report.json`。
+项目规范见 `CLAUDE.md`，实际进度与最近验证见 `ROADMAP.md`。
