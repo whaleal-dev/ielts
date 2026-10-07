@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import Icon from '../Icon.vue';
 import PracticeHeader from '../practice/PracticeHeader.vue';
 import BrowserNotice from '../practice/BrowserNotice.vue';
@@ -17,6 +17,7 @@ const app = useSynonyms();
 const importDialog = ref(null);
 const fileDemoDialog = ref(null);
 const noteDialog = ref(null);
+const synonymList = ref(null);
 const fileDemos = [
   { title: '英文逗号分隔', filename: 'demo-basic.txt', content: basicDemo, tip: '同一行的词条归入同一组，换行开始下一组。' },
   { title: '中文逗号分隔', filename: 'demo-chinese-comma.txt', content: chineseCommaDemo, tip: '中文逗号也可以分隔词条，两种逗号可以混用。' },
@@ -34,6 +35,13 @@ const noteText = ref('');
 const dialogError = ref('');
 const highlighted = (group, word) => app.current?.group === group && app.current?.word === word;
 watch(() => app.cachedFiles, (cached) => { cachedSelection.value = cachedSelection.value.filter((name) => cached.some((file) => file.name === name)); });
+watch([() => app.prefs.centerCurrent, () => app.current, () => app.playing], async ([enabled, current, playing], [wasEnabled]) => {
+  if (!app.ready || !enabled || !current || (!playing && wasEnabled) || document.querySelector('dialog[open]')) return;
+  const groupIndex = app.filteredGroups.findIndex((group) => group.index === current.group);
+  app.visibleCount = Math.max(app.visibleCount, groupIndex + 1);
+  await nextTick();
+  if (app.prefs.centerCurrent && !document.querySelector('dialog[open]')) synonymList.value?.querySelector('.current-group')?.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'auto' });
+}, { flush: 'post' });
 function openImport() { app.pause(); files.value = []; cachedSelection.value = []; dragDepth.value = 0; dialogError.value = ''; importDialog.value.showModal(); }
 function openFileDemo() { app.pause(); fileDemoDialog.value.showModal(); }
 function toggleCachedFile(name) {
@@ -73,7 +81,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在读取词库与笔记……</div>
       <template v-else>
         <section class="selection-panel synonym-controls" aria-label="同义词播放设置">
-          <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">示例文件</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
+          <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button synonym-center-toggle" :class="{ 'is-active': app.prefs.centerCurrent }" :aria-pressed="app.prefs.centerCurrent" aria-label="播放行居中" title="开启后，当前播放单词所在行自动滚动到屏幕中央" @click="app.toggleCenterCurrent">播放行居中：{{ app.prefs.centerCurrent ? '开' : '关' }}</button><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">示例文件</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
           <div class="practice-settings synonym-settings">
             <VoiceSelect id="synonymVoice" v-model="app.prefs.voice" @change="app.savePrefs" />
             <label class="practice-field" for="synonymRepeat">每词播放<select id="synonymRepeat" v-model.number="app.prefs.repeat" @change="app.savePrefs"><option v-for="count in [1, 2, 3, 5, 10]" :key="count" :value="count">{{ count }} 次</option></select></label>
@@ -88,7 +96,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
         <div class="synonym-list-heading"><div><h2>同义替换<span class="subtle-count">{{ app.filteredGroups.length }}</span></h2><p>点击英文词条发音，含中文词条只展示。</p></div><form class="search-field" role="search" @submit.prevent><Icon name="search" :size="18" /><label class="sr-only" for="synonymSearch">搜索单词或同义词</label><input id="synonymSearch" v-model="app.search" type="search" placeholder="搜索单词或同义词" autocomplete="off" /></form></div>
         <section v-if="!app.groups.length" class="content-panel empty-state"><span class="empty-icon"><Icon name="refresh" :size="29" /></span><h3>从一组同义词开始</h3><p>导入 TXT 词库，或先试试示例词库。</p><button class="secondary-button" @click="app.loadSample">加载示例词库<Icon name="right" :size="15" /></button></section>
         <section v-else-if="!app.filteredGroups.length" class="content-panel empty-state"><Icon name="search" :size="28" /><h3>没有匹配的同义词组</h3><p>试试其他英文或中文关键词。</p></section>
-        <div v-else class="synonym-list">
+        <div v-else ref="synonymList" class="synonym-list" :class="{ 'is-centering': app.prefs.centerCurrent }">
           <article v-for="group in app.filteredGroups.slice(0, app.visibleCount)" :key="group.index" class="content-panel synonym-card" :class="{ 'current-group': app.current?.group === group.index }">
             <div class="synonym-group-number">{{ String(group.index + 1).padStart(2, '0') }}</div>
             <div class="synonym-card-body"><button class="synonym-main-word" :class="{ highlighted: highlighted(group.index, 0) }" :disabled="hasChinese(group.words[0])" :aria-label="`播放 ${group.words[0]}`" @click="app.jump(group.index, 0)">{{ group.words[0] }}<Icon v-if="!hasChinese(group.words[0])" name="volume" :size="18" /></button><div class="synonym-terms"><button v-for="(word, index) in group.words.slice(1)" :key="index" :class="{ highlighted: highlighted(group.index, index + 1) }" :disabled="hasChinese(word)" :aria-label="`播放 ${word}`" @click="app.jump(group.index, index + 1)">{{ word }}<Icon v-if="!hasChinese(word)" name="volume" :size="14" /></button></div>

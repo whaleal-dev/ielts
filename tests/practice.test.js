@@ -40,7 +40,10 @@ test('settings enforce playback boundaries and read reference-page settings with
   assert.equal(wordPlayerPrefs({ source: 'baidu' }).source, 'web');
   assert.equal(JSON.stringify(legacy), original);
   assert.deepEqual(wordPlayerPrefs({ rate: 7, repeat: 99, interval: -1, source: 'unknown', mode: 'unknown' }), { voice: '', rate: 1.5, repeat: 5, interval: 0.5, source: 'web', mode: 'listen' });
-  assert.deepEqual(synonymPrefs({ rate: 9, repeat: 4, groupLoops: 99, interval: -1 }), { voice: '', rate: 2, repeat: 2, groupLoops: 1, interval: 0 });
+  assert.deepEqual(synonymPrefs({ rate: 9, repeat: 4, groupLoops: 99, interval: -1 }), { voice: '', rate: 2, repeat: 2, groupLoops: 1, interval: 0, centerCurrent: false });
+  assert.equal(synonymPrefs().centerCurrent, false);
+  assert.equal(synonymPrefs({ centerCurrent: true }).centerCurrent, true);
+  for (const centerCurrent of ['true', 1, null]) assert.equal(synonymPrefs({ centerCurrent }).centerCurrent, false);
 });
 
 test('large imported libraries and old notes round-trip through records below 8 KiB; smaller replacements ignore stale chunks', async () => {

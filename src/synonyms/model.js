@@ -29,4 +29,5 @@ export const synonymPrefs = (value = {}) => ({
   repeat: [1, 2, 3, 5, 10].includes(Number(value.repeat)) ? Number(value.repeat) : 2,
   groupLoops: [1, 2, 3, 5, 10].includes(Number(value.groupLoops)) ? Number(value.groupLoops) : 1,
   interval: Math.max(0, Math.min(5, Number(value.interval) || 0)),
+  centerCurrent: value.centerCurrent === true,
 });

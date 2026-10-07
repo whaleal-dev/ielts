@@ -28,6 +28,10 @@ export function useSynonyms() {
   watch(() => storage.status.state, (state) => { if (state === 'saved') confirmFiles(); });
   app.retrySave = async () => { const saved = await storage.retry(snapshot()); if (saved) confirmFiles(); return saved; };
   app.pause = () => { player.stop(); };
+  app.toggleCenterCurrent = () => {
+    app.prefs.centerCurrent = !app.prefs.centerCurrent;
+    return storage.save([['prefs', { ...app.prefs }]]);
+  };
   app.savePrefs = () => {
     const current = selection;
     app.pause(); app.prefs = synonymPrefs(app.prefs); app.finished = false;

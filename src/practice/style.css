@@ -59,6 +59,7 @@
 .synonym-source strong { font-size: 13px; font-weight: 550; overflow-wrap: anywhere; }
 .synonym-source span { font-size: 13px; color: var(--muted); }
 .synonym-controls .practice-toolbar > .practice-actions { flex-wrap: wrap; flex-shrink: 1; }
+.synonym-center-toggle.is-active { background: var(--blue-soft); border-color: var(--blue-line); color: var(--blue-dark); }
 .synonym-file-demo-dialog { width: min(760px, calc(100% - 32px)); }
 .synonym-demo-example { padding-top: 18px; border-top: 1px solid var(--line); }
 .synonym-demo-example h3 { margin: 0; font-size: 15px; font-weight: 600; }
@@ -79,6 +80,7 @@
 .synonym-list-heading p { margin: 9px 0 0; font-size: 13px; color: var(--muted); }
 .synonym-list-heading .search-field { margin: 0; }
 .synonym-list { display: grid; gap: 13px; }
+.synonym-list.is-centering { padding-bottom: 50dvh; }
 .synonym-card { display: flex; align-items: flex-start; padding: 25px 27px 20px; gap: 22px; }
 .synonym-card.current-group { border-color: var(--blue-line); box-shadow: var(--shadow-soft); }
 .synonym-group-number { font-size: 13px; color: var(--subtle); padding-top: 6px; font-variant-numeric: tabular-nums; }
