@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import Icon from './Icon.vue';
 import ModuleNav from './ModuleNav.vue';
+import HeaderTools from './HeaderTools.vue';
 import StudyCard from './StudyCard.vue';
 import { useLearning } from './useLearning.js';
 import { chapters, groups, words, sources } from './library.js';
@@ -16,7 +17,6 @@ const chartMax = computed(() => Math.max(5, ...sevenDays.value.map((day) => day.
 const masteredPercent = computed(() => Math.round(learning.groupMastered / Math.max(1, learning.session.items.length) * 100));
 const totalPercent = computed(() => Math.round(learning.stats.mastered / words.length * 100));
 const saveLabel = computed(() => learning.storage.state === 'error' ? '尚未保存' : learning.storage.state === 'saving' ? '正在保存' : learning.storage.state === 'loading' ? '正在读取' : '本地已保存');
-const dateLabel = computed(() => new Intl.DateTimeFormat('zh-CN', { month: 'long', day: 'numeric', weekday: 'long', timeZone: 'Asia/Shanghai' }).format(learning.now));
 const formatBytes = (bytes) => bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KiB` : `${(bytes / 1024 / 1024).toFixed(1)} MiB`;
 const groupCount = (group) => group.words.filter((word) => learning.records.get(word.key)?.mastered).length;
 const heatLevel = (count) => count === 0 ? 0 : count < 10 ? 1 : count < 30 ? 2 : count < 60 ? 3 : 4;
@@ -36,12 +36,12 @@ function updateSearch() { learning.visibleCount = 40; }
       <div class="header-inner">
         <button class="brand" aria-label="IELTS Studio，返回单词学习" @click="learning.showView('study')"><span class="brand-symbol"><Icon name="book" :size="22" /></span><span class="brand-name">IELTS<span>Studio</span></span></button>
         <ModuleNav active="words" />
-        <button class="save-indicator" :class="{ error: learning.storage.state === 'error', fallback: learning.storage.mode === 'localStorage' }" @click="openSettings"><span class="status-dot"></span><span>{{ saveLabel }}</span></button>
+        <HeaderTools :now="learning.now"><button class="save-indicator" :class="{ error: learning.storage.state === 'error', fallback: learning.storage.mode === 'localStorage' }" @click="openSettings"><span class="status-dot"></span><span>{{ saveLabel }}</span></button></HeaderTools>
       </div>
     </header>
 
     <main class="main-container">
-      <div class="page-heading"><div><div class="eyebrow">BUILD YOUR VOCABULARY</div><h1>单词学习<span class="heading-dot">.</span></h1><p>从一个单词开始，让每一次练习都留下进步。</p></div><div class="heading-date"><Icon name="calendar" :size="17" /><span>{{ dateLabel }}</span></div></div>
+      <div class="page-heading"><div><div class="eyebrow">BUILD YOUR VOCABULARY</div><h1>单词学习<span class="heading-dot">.</span></h1><p>从一个单词开始，让每一次练习都留下进步。</p></div></div>
 
       <div class="workspace-nav">
         <nav class="page-nav" aria-label="单词模块导航"><button v-for="tab in tabs" :key="tab.id" :class="{ active: learning.prefs.view === tab.id }" :aria-current="learning.prefs.view === tab.id ? 'page' : undefined" @click="learning.showView(tab.id)"><Icon :name="tab.icon" :size="17" />{{ tab.label }}<span v-if="tab.id === 'difficult' && learning.stats.difficult" class="nav-count">{{ learning.stats.difficult }}</span></button></nav>

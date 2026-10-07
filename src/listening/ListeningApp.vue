@@ -2,6 +2,7 @@
 import { computed, ref, watch, nextTick } from 'vue';
 import Icon from '../Icon.vue';
 import ModuleNav from '../ModuleNav.vue';
+import HeaderTools from '../HeaderTools.vue';
 import { library } from './library.js';
 import { useListening } from './useListening.js';
 import './style.css';
@@ -12,7 +13,6 @@ const answerInput = ref(null);
 const storageEstimate = ref(null);
 const tabs = [{ id: 'practice', label: '语料练习', icon: 'headphones' }, { id: 'mistakes', label: '错词本', icon: 'star' }, { id: 'stats', label: '章节统计', icon: 'chart' }];
 const saveLabel = computed(() => app.storage.state === 'error' ? '尚未保存' : app.storage.state === 'loading' ? '正在读取' : app.storage.state === 'saving' ? '正在保存' : '本地已保存');
-const dateLabel = new Intl.DateTimeFormat('zh-CN', { month: 'long', day: 'numeric', weekday: 'long', timeZone: 'Asia/Shanghai' }).format(new Date());
 const availableCount = library.words.filter((word) => word.audio).length;
 const completed = computed(() => app.session.mode === 'listen' ? app.status === 'finished' ? app.session.items.length : app.session.index : app.session.answers.size);
 const percent = computed(() => Math.round(completed.value / Math.max(1, app.session.items.length) * 100));
@@ -33,10 +33,10 @@ function chooseChapter(chapter) { app.prefs.groupId = chapter.groups[0].id; app.
     <header class="site-header"><div class="header-inner">
       <a class="brand" href="/words/study_words.html" aria-label="IELTS Studio，返回单词学习"><span class="brand-symbol"><Icon name="book" :size="22" /></span><span class="brand-name">IELTS<span>Studio</span></span></a>
       <ModuleNav active="listening" />
-      <button class="save-indicator" :class="{ error: app.storage.state === 'error', fallback: app.storage.mode === 'localStorage' }" @click="openSettings"><span class="status-dot"></span>{{ saveLabel }}</button>
+      <HeaderTools><button class="save-indicator" :class="{ error: app.storage.state === 'error', fallback: app.storage.mode === 'localStorage' }" @click="openSettings"><span class="status-dot"></span>{{ saveLabel }}</button></HeaderTools>
     </div></header>
     <main class="main-container">
-      <div class="page-heading"><div><div class="eyebrow">LISTEN A LITTLE CLOSER</div><h1>听力语料库<span class="heading-dot">.</span></h1><p>从听清一个词，到听懂一段话。</p></div><div class="heading-date"><Icon name="calendar" :size="17" />{{ dateLabel }}</div></div>
+      <div class="page-heading"><div><div class="eyebrow">LISTEN A LITTLE CLOSER</div><h1>听力语料库<span class="heading-dot">.</span></h1><p>从听清一个词，到听懂一段话。</p></div></div>
       <div class="workspace-nav"><nav class="page-nav" aria-label="听力模块导航"><button v-for="tab in tabs" :key="tab.id" :class="{ active: app.prefs.view === tab.id }" :aria-current="app.prefs.view === tab.id ? 'page' : undefined" @click="app.showView(tab.id)"><Icon :name="tab.icon" :size="17" />{{ tab.label }}<span v-if="tab.id === 'mistakes' && app.mistakes.length" class="nav-count">{{ app.mistakes.length }}</span></button></nav><span class="corpus-library-count">{{ library.groups.length }} 组<span>·</span>{{ library.words.length.toLocaleString() }} 条语料</span></div>
       <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">重试保存</button></div>
       <div v-if="app.storage.mode === 'localStorage' && app.storage.state !== 'error'" class="fallback-notice">当前使用兼容存储，容量较小。学习记录仍按词条和日期分开保存。</div>

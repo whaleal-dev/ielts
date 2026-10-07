@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import Icon from '../Icon.vue';
 import PracticeHeader from '../practice/PracticeHeader.vue';
+import BrowserNotice from '../practice/BrowserNotice.vue';
 import VoiceSelect from '../practice/VoiceSelect.vue';
 import { hasChinese } from './model.js';
 import { useSynonyms } from './useSynonyms.js';
@@ -16,7 +17,6 @@ const noteGroup = ref([]);
 const noteWord = ref('');
 const noteText = ref('');
 const dialogError = ref('');
-const dateLabel = new Intl.DateTimeFormat('zh-CN', { month: 'long', day: 'numeric', weekday: 'long', timeZone: 'Asia/Shanghai' }).format(new Date());
 const highlighted = (group, word) => app.current?.group === group && app.current?.word === word;
 function openImport() { app.pause(); files.value = []; dialogError.value = ''; importDialog.value.showModal(); }
 function addFiles(incoming) { files.value.push(...Array.from(incoming)); }
@@ -34,7 +34,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
   <div class="app-shell practice-app synonyms-app">
     <PracticeHeader module="synonyms" :storage="app.storage" />
     <main class="main-container">
-      <div class="page-heading"><div><div class="eyebrow">SAME MEANING, NEW WORDS</div><h1>同义词<span class="heading-dot">.</span></h1><p>把同义替换放在一起，听一听，记得更牢。</p></div><div class="heading-date"><Icon name="calendar" :size="17" />{{ dateLabel }}</div></div>
+      <div class="page-heading"><div><div class="eyebrow">SAME MEANING, NEW WORDS</div><h1>同义词<span class="heading-dot">.</span></h1><p>把同义替换放在一起，听一听，记得更牢。</p></div></div>
       <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">重试保存</button></div>
       <div v-if="app.storage.mode === 'localStorage' && app.storage.state !== 'error'" class="fallback-notice">当前使用兼容存储，词库、设置与笔记仍仅保存在当前浏览器。</div>
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在读取词库与笔记……</div>
@@ -66,6 +66,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
         </div>
       </template>
       <footer class="page-footer"><span>IELTS Studio<span class="footer-divider">/</span>换个表达，记住同一个意思。</span><span class="keyboard-hints"><kbd>←</kbd><kbd>→</kbd>切换<span>·</span><kbd>Space</kbd>播放／暂停</span></footer>
+      <BrowserNotice />
     </main>
     <dialog ref="importDialog" class="settings-dialog practice-dialog" aria-labelledby="synonymImportTitle"><div class="dialog-heading"><div><div class="eyebrow">YOUR SYNONYM COLLECTION</div><h2 id="synonymImportTitle">导入同义词词库</h2></div><button class="icon-button" aria-label="关闭导入窗口" :disabled="importing" @click="importDialog.close()"><Icon name="close" /></button></div><div class="dialog-body"><p class="practice-dialog-copy">TXT 每行一组，用英文或中文逗号分隔。JSON 使用二维字符串数组。多文件按选择顺序合并，导入后替换当前词库。</p><pre class="practice-file-example">reserve, book, prebook&#10;in advance, ahead, beforehand</pre><label class="practice-file-drop" for="synonymFiles" @dragover.prevent @drop.prevent="addFiles($event.dataTransfer.files)"><Icon name="grid" :size="27" /><strong>选择或拖入 TXT／JSON 文件</strong><span>文件只在当前浏览器读取</span><input id="synonymFiles" type="file" accept=".txt,.json" multiple :disabled="importing" @change="addFiles($event.target.files); $event.target.value = ''" /></label><ol v-if="files.length" class="practice-file-list"><li v-for="(file, index) in files" :key="index"><span>{{ file.name }}</span><button class="icon-button" :disabled="importing" :aria-label="`移除待导入文件 ${file.name}`" @click="files.splice(index, 1)"><Icon name="close" :size="15" /></button></li></ol><p v-if="dialogError" class="practice-error" role="alert">{{ dialogError }}</p></div><div class="dialog-footer"><button class="secondary-button" :disabled="importing" @click="importDialog.close()">取消</button><button class="primary-button" :disabled="!files.length || importing" @click="importFiles">{{ importing ? '正在读取' : '导入词库' }}</button></div></dialog>
     <dialog ref="noteDialog" class="settings-dialog practice-dialog" aria-labelledby="synonymNoteTitle"><div class="dialog-heading"><div><div class="eyebrow">A NOTE TO REMEMBER</div><h2 id="synonymNoteTitle">同义词笔记</h2></div><button class="icon-button" aria-label="关闭笔记窗口" @click="noteDialog.close()"><Icon name="close" /></button></div><form @submit.prevent="saveNote"><div class="dialog-body"><label class="practice-field" for="synonymNoteWord">关联词条<select id="synonymNoteWord" v-model="noteWord" @change="noteText = app.notes.get(noteWord) || ''"><option v-for="word in noteGroup" :key="word" :value="word">{{ word }}</option></select></label><label class="practice-field" for="synonymNoteText">学习笔记<textarea id="synonymNoteText" v-model="noteText" rows="4" :maxlength="Math.max(400, (app.notes.get(noteWord) || '').length)" placeholder="记下语境、搭配或易混点……"></textarea></label><span class="practice-input-count">{{ noteText.length }} / {{ Math.max(400, (app.notes.get(noteWord) || '').length) }}</span><p v-if="app.storage.state === 'error'" class="practice-error" role="alert">{{ app.storage.message }}</p></div><div class="dialog-footer"><button class="secondary-button" type="button" @click="noteDialog.close()">取消</button><button class="primary-button" type="submit">保存笔记<Icon name="check" :size="16" /></button></div></form></dialog>

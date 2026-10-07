@@ -21,7 +21,7 @@ export const wordPlayerPrefs = (value = {}) => ({
   rate: Math.max(0.5, Math.min(1.5, Number(value.rate ?? value.speechRate) || 1)),
   repeat: Math.max(1, Math.min(5, Math.floor(Number(value.repeat ?? value.repeatCount) || 1))),
   interval: Math.max(0.5, Math.min(5, Number(value.interval) || 1.5)),
-  source: (value.source ?? value.ttsSource) === 'baidu' ? 'baidu' : 'web',
+  source: 'web',
   mode: value.mode === 'dictation' || value.dictationMode === true ? 'dictation' : 'listen',
 });
 

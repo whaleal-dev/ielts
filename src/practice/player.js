@@ -1,23 +1,19 @@
-export const baiduAudioUrl = (text) => `https://fanyi.baidu.com/gettts?lan=uk&text=${encodeURIComponent(text)}&spd=3&source=web`;
-
 export class SpeechPlayer {
-  constructor({ synthesis = globalThis.speechSynthesis, createUtterance = (text) => new SpeechSynthesisUtterance(text), createAudio = (url) => new Audio(url), onState = () => {} } = {}) {
-    Object.assign(this, { synthesis, createUtterance, createAudio, onState });
+  constructor({ synthesis = globalThis.speechSynthesis, createUtterance = (text) => new SpeechSynthesisUtterance(text), onState = () => {} } = {}) {
+    Object.assign(this, { synthesis, createUtterance, onState });
     this.generation = 0;
-    this.audio = null;
     this.utterance = null;
     this.cancel = null;
   }
 
   stop() {
     this.generation += 1;
-    if (this.audio) { this.audio.onended = null; this.audio.onerror = null; this.audio.pause(); this.audio = null; }
     if (this.utterance) { this.utterance.onend = null; this.utterance.onerror = null; this.utterance = null; this.synthesis?.cancel(); }
     this.cancel?.(); this.cancel = null;
     this.onState(false);
   }
 
-  play(text, { source = 'web', voice = '', rate = 1 } = {}) {
+  play(text, { voice = '', rate = 1 } = {}) {
     this.stop();
     const generation = this.generation;
     return new Promise((resolve, reject) => {
@@ -28,24 +24,15 @@ export class SpeechPlayer {
       };
       this.cancel = () => resolve(false);
       try {
-        if (source === 'baidu') {
-          const audio = this.audio = this.createAudio(baiduAudioUrl(text));
-          audio.playbackRate = rate;
-          audio.onended = () => settle();
-          audio.onerror = () => settle(new Error('百度发音未能播放，请检查网络后重播，或选择 Web 语音。'));
-          this.onState(true);
-          Promise.resolve(audio.play()).catch((error) => settle(new Error(error?.name === 'NotAllowedError' ? '浏览器阻止了音频播放，请点击重播。' : '百度发音未能播放，请检查网络后重播，或选择 Web 语音。')));
-        } else {
-          if (!this.synthesis) throw new Error('当前浏览器不支持 Web 语音，请使用支持语音合成的浏览器。');
-          const voices = this.synthesis.getVoices().filter((entry) => /^en/i.test(entry.lang));
-          const selected = voices.find((entry) => entry.voiceURI === voice || entry.name === voice) || voices.find((entry) => /^en[-_]GB/i.test(entry.lang)) || voices[0];
-          const utterance = this.utterance = this.createUtterance(text);
-          if (selected) utterance.voice = selected;
-          utterance.lang = selected?.lang || 'en-GB'; utterance.rate = rate;
-          utterance.onend = () => settle();
-          utterance.onerror = () => settle(new Error('Web 语音未能播放，请检查浏览器英语语音是否可用后重播。'));
-          this.onState(true); this.synthesis.speak(utterance);
-        }
+        if (!this.synthesis) throw new Error('当前浏览器不支持 Web 语音，请使用支持语音合成的浏览器。');
+        const voices = this.synthesis.getVoices().filter((entry) => /^en/i.test(entry.lang));
+        const selected = voices.find((entry) => entry.voiceURI === voice || entry.name === voice) || voices.find((entry) => /^en[-_]GB/i.test(entry.lang)) || voices[0];
+        const utterance = this.utterance = this.createUtterance(text);
+        if (selected) utterance.voice = selected;
+        utterance.lang = selected?.lang || 'en-GB'; utterance.rate = rate;
+        utterance.onend = () => settle();
+        utterance.onerror = () => settle(new Error('Web 语音未能播放，请检查浏览器英语语音是否可用后重播。'));
+        this.onState(true); this.synthesis.speak(utterance);
       } catch (error) { settle(error); }
     });
   }

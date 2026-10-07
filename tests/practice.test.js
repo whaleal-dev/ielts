@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { parseGroups, groupQueue, synonymPrefs } from '../src/synonyms/model.js';
 import { parseWords, matchesAnswer, shuffleWords, wordPlayerPrefs } from '../src/word-player/model.js';
 import { readValue, valueRecords } from '../src/practice/records.js';
-import { baiduAudioUrl, QueuePlayer, SpeechPlayer } from '../src/practice/player.js';
+import { QueuePlayer, SpeechPlayer } from '../src/practice/player.js';
 import { byteSize, RecordStore } from '../src/storage.js';
 
 test('synonym imports preserve phrases, Chinese labels and file order while rejecting malformed data', () => {
@@ -36,7 +36,8 @@ test('word lists filter Chinese, deduplicate case and whitespace, and leave vali
 test('settings enforce playback boundaries and read reference-page settings without changing them', () => {
   const legacy = { selectedVoiceURI: 'British', speechRate: '1.2', repeatCount: '3', ttsSource: 'baidu', dictationMode: true };
   const original = JSON.stringify(legacy);
-  assert.deepEqual(wordPlayerPrefs(legacy), { voice: 'British', rate: 1.2, repeat: 3, interval: 1.5, source: 'baidu', mode: 'dictation' });
+  assert.deepEqual(wordPlayerPrefs(legacy), { voice: 'British', rate: 1.2, repeat: 3, interval: 1.5, source: 'web', mode: 'dictation' });
+  assert.equal(wordPlayerPrefs({ source: 'baidu' }).source, 'web');
   assert.equal(JSON.stringify(legacy), original);
   assert.deepEqual(wordPlayerPrefs({ rate: 7, repeat: 99, interval: -1, source: 'unknown', mode: 'unknown' }), { voice: '', rate: 1.5, repeat: 5, interval: 0.5, source: 'web', mode: 'listen' });
   assert.deepEqual(synonymPrefs({ rate: 9, repeat: 4, groupLoops: 99, interval: -1 }), { voice: '', rate: 2, repeat: 2, groupLoops: 1, interval: 0 });
@@ -101,12 +102,12 @@ test('pausing during an interval cancels pending advancement and an audio failur
   assert.deepEqual(errors, ['audio failed']);
 });
 
-test('Baidu uses the reference URL with one encoding pass and applies the selected playback rate', async () => {
-  assert.equal(baiduAudioUrl('fee & cost, UK'), 'https://fanyi.baidu.com/gettts?lan=uk&text=fee%20%26%20cost%2C%20UK&spd=3&source=web');
-  let audio;
-  const player = new SpeechPlayer({ createAudio: (url) => audio = { url, play: async () => {}, pause() {} } });
+test('removed Baidu settings use Web speech with the selected rate, and missing speech support fails clearly', async () => {
+  let utterance;
+  const synthesis = { getVoices: () => [], speak: (value) => { utterance = value; }, cancel() {} };
+  const player = new SpeechPlayer({ synthesis, createUtterance: (text) => ({ text }) });
   const complete = player.play('environment', { source: 'baidu', rate: 1.25 });
-  assert.equal(audio.playbackRate, 1.25); audio.onended(); assert.equal(await complete, true);
-  const stopped = player.play('environment', { source: 'baidu' }); const oldEnd = audio.onended;
-  player.stop(); oldEnd(); assert.equal(await stopped, false);
+  assert.equal(utterance.text, 'environment'); assert.equal(utterance.rate, 1.25); assert.equal(utterance.lang, 'en-GB');
+  utterance.onend(); assert.equal(await complete, true);
+  await assert.rejects(new SpeechPlayer({ synthesis: null }).play('word'), /不支持 Web 语音/);
 });
