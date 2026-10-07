@@ -59,8 +59,19 @@
 .synonym-source strong { font-size: 13px; font-weight: 550; overflow-wrap: anywhere; }
 .synonym-source span { font-size: 13px; color: var(--muted); }
 .synonym-controls .practice-toolbar > .practice-actions { flex-wrap: wrap; flex-shrink: 1; }
-.synonym-demo-download { flex-shrink: 0; text-decoration: none; }
+.synonym-file-demo-dialog { width: min(760px, calc(100% - 32px)); }
+.synonym-demo-example { padding-top: 18px; border-top: 1px solid var(--line); }
+.synonym-demo-example h3 { margin: 0; font-size: 15px; font-weight: 600; }
+.synonym-demo-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.synonym-demo-label { font-size: 13px; font-weight: 550; }
 .synonym-demo-filename { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.synonym-demo-groups { display: grid; gap: 10px; margin: 0; padding: 13px 15px; list-style: none; border-radius: 12px; background: var(--blue-soft); }
+.synonym-demo-groups li { display: flex; align-items: baseline; gap: 9px; }
+.synonym-demo-group-number { flex-shrink: 0; color: var(--muted); font-size: 12px; }
+.synonym-demo-terms { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.synonym-demo-terms > span { border: 1px solid var(--blue-line); border-radius: 7px; padding: 4px 7px; background: var(--surface-strong); color: var(--blue-dark); font-size: 12px; overflow-wrap: anywhere; }
+.synonym-demo-terms > .is-label { color: var(--muted); border-color: var(--line); }
+.synonym-demo-terms small { margin-left: 5px; font-size: 10px; }
 .synonym-settings { grid-template-columns: minmax(180px, 2fr) repeat(4, minmax(0, 1fr)); }
 .synonym-transport { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
 .synonym-list-heading { display: flex; justify-content: space-between; gap: 15px; align-items: center; margin: 29px 0 19px; }
@@ -136,6 +147,7 @@
 }
 @media (max-width: 760px) {
   .practice-toolbar { gap: 12px; }
+  .synonym-demo-comparison { grid-template-columns: minmax(0, 1fr); }
   .player-layout { grid-template-columns: minmax(0, 1fr); }
   .player-queue { contain: none; }
   .player-queue-list { grid-template-columns: repeat(2, minmax(0, 1fr)); flex: none; height: auto; max-height: 360px; }

@@ -4,17 +4,13 @@ import Icon from '../Icon.vue';
 import PracticeHeader from '../practice/PracticeHeader.vue';
 import BrowserNotice from '../practice/BrowserNotice.vue';
 import VoiceSelect from '../practice/VoiceSelect.vue';
-import { hasChinese } from './model.js';
+import { hasChinese, parseGroups } from './model.js';
 import { MAX_CACHED_FILES, validateFileSize } from './fileCache.js';
 import { useSynonyms } from './useSynonyms.js';
 import basicDemo from './demo-basic.txt?raw';
 import chineseCommaDemo from './demo-chinese-comma.txt?raw';
 import phrasesDemo from './demo-phrases.txt?raw';
 import chineseLabelsDemo from './demo-chinese-labels.txt?raw';
-import basicDemoUrl from './demo-basic.txt?url&no-inline';
-import chineseCommaDemoUrl from './demo-chinese-comma.txt?url&no-inline';
-import phrasesDemoUrl from './demo-phrases.txt?url&no-inline';
-import chineseLabelsDemoUrl from './demo-chinese-labels.txt?url&no-inline';
 import '../practice/style.css';
 
 const app = useSynonyms();
@@ -22,11 +18,11 @@ const importDialog = ref(null);
 const fileDemoDialog = ref(null);
 const noteDialog = ref(null);
 const fileDemos = [
-  { title: '英文逗号分隔', filename: 'demo-basic.txt', content: basicDemo, url: basicDemoUrl },
-  { title: '中文逗号分隔', filename: 'demo-chinese-comma.txt', content: chineseCommaDemo, url: chineseCommaDemoUrl },
-  { title: '英文词组', filename: 'demo-phrases.txt', content: phrasesDemo, url: phrasesDemoUrl },
-  { title: '中英标签混合', filename: 'demo-chinese-labels.txt', content: chineseLabelsDemo, url: chineseLabelsDemoUrl },
-];
+  { title: '英文逗号分隔', filename: 'demo-basic.txt', content: basicDemo, tip: '同一行的词条归入同一组，换行开始下一组。' },
+  { title: '中文逗号分隔', filename: 'demo-chinese-comma.txt', content: chineseCommaDemo, tip: '中文逗号也可以分隔词条，两种逗号可以混用。' },
+  { title: '英文词组', filename: 'demo-phrases.txt', content: phrasesDemo, tip: '词组内部的空格保留，不会把一个词组拆成多个单词。' },
+  { title: '中英标签混合', filename: 'demo-chinese-labels.txt', content: chineseLabelsDemo, tip: '中文标签与英文词条一起展示，含中文的词条不参与发音。' },
+].map((demo) => ({ ...demo, groups: parseGroups(demo.content, demo.filename) }));
 const files = ref([]);
 const cachedSelection = ref([]);
 const selectedCachedFiles = computed(() => app.cachedFiles.slice().reverse().filter((file) => cachedSelection.value.includes(file.name)));
@@ -77,7 +73,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在读取词库与笔记……</div>
       <template v-else>
         <section class="selection-panel synonym-controls" aria-label="同义词播放设置">
-          <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">文件demo</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
+          <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">示例文件</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
           <div class="practice-settings synonym-settings">
             <VoiceSelect id="synonymVoice" v-model="app.prefs.voice" @change="app.savePrefs" />
             <label class="practice-field" for="synonymRepeat">每词播放<select id="synonymRepeat" v-model.number="app.prefs.repeat" @change="app.savePrefs"><option v-for="count in [1, 2, 3, 5, 10]" :key="count" :value="count">{{ count }} 次</option></select></label>
@@ -142,15 +138,18 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
       </div>
       <div class="dialog-footer"><button class="secondary-button" :disabled="importing" @click="importDialog.close()">取消</button><button class="primary-button" :disabled="(!files.length && !selectedCachedFiles.length) || importing" @click="runImport(() => app.importFiles(files, selectedCachedFiles.map((file) => file.name)))">{{ importing ? '正在处理' : selectedCachedFiles.length ? `选择词库（${files.length + selectedCachedFiles.length}）` : '导入词库' }}</button></div>
     </dialog>
-    <dialog ref="fileDemoDialog" class="settings-dialog practice-dialog" aria-labelledby="synonymFileDemoTitle">
+    <dialog ref="fileDemoDialog" class="settings-dialog practice-dialog synonym-file-demo-dialog" aria-labelledby="synonymFileDemoTitle">
       <div class="dialog-heading"><div><div class="eyebrow">SYNONYM FILE EXAMPLES</div><h2 id="synonymFileDemoTitle">词库文件格式与示例</h2></div><button class="icon-button" aria-label="关闭文件示例窗口" @click="fileDemoDialog.close()"><Icon name="close" /></button></div>
       <div class="dialog-body">
-        <p class="practice-dialog-copy">保存为 UTF-8 编码的 .txt 纯文本文件，每行一组同义词，用英文逗号或中文逗号分隔，两种逗号可以混用。词组中的空格保留，空行会忽略，无需标题行。</p>
-        <p class="practice-dialog-copy">中文标签可以和英文词条放在同一行；含中文的词条只展示，不参与发音。单个词条最多 200 个字符，单个文件最大 2 MB；可同时导入多个文件，按选择顺序合并。</p>
-        <section v-for="demo in fileDemos" :key="demo.filename" class="practice-file-selection">
-          <div class="practice-file-list-heading"><strong>{{ demo.title }}</strong><a class="text-button synonym-demo-download" :href="demo.url" :download="demo.filename" :aria-label="`下载 ${demo.filename}`">下载 TXT<Icon name="down" :size="14" /></a></div>
-          <span class="synonym-demo-filename">{{ demo.filename }}</span>
-          <pre class="practice-file-example">{{ demo.content.trimEnd() }}</pre>
+        <p class="practice-dialog-copy">在文本编辑器中填写词表：每行一组同义词，组内用英文逗号或中文逗号分隔。无需添加标题或序号，词组中的空格保留，空行会忽略。</p>
+        <p class="practice-dialog-copy">将内容保存为 UTF-8 编码的 .txt 纯文本文件，再点击「导入词库」，选择或拖入文件并确认导入。可同时选择多个文件，按选择顺序合并并替换当前词库。单个文件最大 2 MB，单个词条最多 200 个字符。</p>
+        <section v-for="(demo, index) in fileDemos" :key="demo.filename" class="practice-file-selection synonym-demo-example">
+          <h3>示例 {{ index + 1 }}：{{ demo.title }}</h3>
+          <p class="practice-dialog-copy">{{ demo.tip }}</p>
+          <div class="synonym-demo-comparison">
+            <div class="practice-file-selection"><strong class="synonym-demo-label">上传的文件内容</strong><span class="synonym-demo-filename">{{ demo.filename }}</span><pre class="practice-file-example">{{ demo.content.trimEnd() }}</pre></div>
+            <div class="practice-file-selection"><strong class="synonym-demo-label">解析后的分组</strong><span class="synonym-demo-filename">每行对应一组，按文件中的顺序展示。</span><ol class="synonym-demo-groups"><li v-for="(words, groupIndex) in demo.groups" :key="groupIndex"><span class="synonym-demo-group-number">第 {{ groupIndex + 1 }} 组</span><div class="synonym-demo-terms"><span v-for="(word, wordIndex) in words" :key="wordIndex" :class="{ 'is-label': hasChinese(word) }">{{ word }}<small v-if="hasChinese(word)">仅展示</small></span></div></li></ol></div>
+          </div>
         </section>
       </div>
       <div class="dialog-footer"><button class="primary-button" @click="fileDemoDialog.close()">知道了</button></div>
