@@ -1,0 +1,54 @@
+.p-select, .p-multiselect { min-width: 0; min-height: 42px; font-family: inherit; font-size: 14px; box-shadow: 0 2px 5px rgba(30, 54, 91, .025); }
+.p-select:not(.p-disabled):hover, .p-multiselect:not(.p-disabled):hover { box-shadow: 0 3px 10px rgba(30, 54, 91, .06); }
+.p-select-label, .p-multiselect-label { min-width: 0; }
+.p-select-overlay, .p-multiselect-overlay { max-width: calc(100vw - 24px); font-family: inherit; font-size: 14px; backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+.p-select-overlay .p-select-option, .p-multiselect-overlay .p-multiselect-option { overflow-wrap: anywhere; white-space: normal; }
+.p-select-overlay .p-select-option-label, .p-multiselect-overlay .p-multiselect-option-label { min-width: 0; overflow-wrap: anywhere; white-space: normal; }
+.p-select-filter, .p-multiselect-filter { min-width: 0; width: 100%; font: inherit; }
+.p-select-option-group, .p-multiselect-option-group { font-size: 12px; color: var(--subtle); }
+.p-checkbox { flex-shrink: 0; }
+.p-multiselect .p-chip { max-width: 100%; font-size: 12px; }
+.p-multiselect .p-chip-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.p-multiselect .p-multiselect-label { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.ui-segmented.p-selectbutton { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-soft); }
+.ui-segmented.p-selectbutton .p-togglebutton { border: 0; border-radius: 9px; padding: 0; background: transparent; color: var(--muted); font-size: 13px; font-weight: 500; box-shadow: none; }
+.ui-segmented.p-selectbutton .p-togglebutton-content { padding: 8px 12px; gap: 6px; border-radius: 9px; }
+.ui-segmented.p-selectbutton .p-togglebutton-content::before { display: none; }
+.ui-segmented.p-selectbutton .p-togglebutton-checked { background: var(--surface-strong); color: var(--blue-dark); box-shadow: 0 2px 6px rgba(30, 54, 91, .08); }
+.ui-segmented.p-selectbutton .p-togglebutton-checked .p-togglebutton-content { background: transparent; }
+.ui-segmented.p-selectbutton .p-togglebutton:not(.p-disabled):hover { background: rgba(255, 255, 255, .55); color: var(--blue-dark); }
+.ui-pills.p-selectbutton { display: flex; flex-wrap: wrap; gap: 8px; }
+.ui-pills.p-selectbutton .p-togglebutton { border: 1px solid var(--line); border-radius: 10px; padding: 0; background: rgba(255, 255, 255, .68); color: var(--muted); font-size: 13px; font-weight: 500; box-shadow: none; }
+.ui-pills.p-selectbutton .p-togglebutton-content { padding: 8px 12px; gap: 8px; border-radius: 9px; }
+.ui-pills.p-selectbutton .p-togglebutton-content::before { display: none; }
+.ui-pills.p-selectbutton .p-togglebutton-checked { border-color: var(--blue-line); background: var(--blue-soft); color: var(--blue-dark); }
+.ui-pills.p-selectbutton .p-togglebutton-checked .p-togglebutton-content { background: transparent; }
+.ui-option-count { font-size: 12px; opacity: .75; }
+.select-field { min-width: 0; }
+.select-field .p-select { width: 225px; max-width: 100%; }
+.practice-field .p-select, .corpus-group-field .p-select, .corpus-settings-grid .p-select, .corpus-group-filter .p-multiselect { width: 100%; }
+.practice-field .p-select { height: 42px; }
+.corpus-settings-grid > label > input { min-height: 42px; }
+.corpus-mistake-toolbar > .p-select { min-width: 160px; }
+.corpus-stats-select .p-select { width: min(480px, 100%); }
+.practice-cache-choice { display: flex; align-items: center; gap: 8px; flex-shrink: 0; min-height: 36px; cursor: pointer; color: var(--blue-dark); font-size: 12px; }
+.practice-cache-choice:has(.p-disabled) { cursor: default; opacity: .55; }
+@media (max-width: 900px) {
+  .selection-row { flex-wrap: wrap; }
+}
+@media (max-width: 560px) {
+  .select-field .p-select { width: 100%; font-size: 13px; }
+  .p-select-overlay, .p-multiselect-overlay { font-size: 13px; }
+  .ui-segmented.p-selectbutton .p-togglebutton { font-size: 12px; }
+  .ui-segmented.p-selectbutton .p-togglebutton-content { padding: 8px; gap: 4px; }
+  .ui-pills.p-selectbutton { gap: 6px; }
+  .ui-pills.p-selectbutton .p-togglebutton { font-size: 12px; }
+  .ui-pills.p-selectbutton .p-togglebutton-content { padding: 8px; gap: 5px; }
+  .corpus-mistake-toolbar > .p-select { flex: 1; min-width: 0; font-size: 12px; }
+  .corpus-stats-select .p-select { width: 100%; }
+}
+@media (max-width: 400px) {
+  .selection-row { flex-direction: column; align-items: stretch; gap: 12px; }
+  .selection-row .select-field { flex: auto; }
+  .source-select { border-right: 0; padding-right: 0; }
+}

@@ -1,8 +1,5 @@
 const chapterFiles = import.meta.glob('./generated/chapter-*.json', { import: 'default' });
 const groupFiles = Object.assign({}, ...await Promise.all(Object.values(chapterFiles).map((load) => load())));
-const vocabularyFiles = import.meta.glob('../words/data/source/vocabulary/*.json', {
-  eager: true, import: 'default',
-});
 const synonymFiles = import.meta.glob('../words/data/source/synonyms/同义词*.json', {
   eager: true, import: 'default',
 });
@@ -37,18 +34,9 @@ export const words = groups.flatMap((group) => group.words);
 export const wordByKey = new Map(words.map((word) => [word.key, word]));
 export const wordIndex = new Map(words.map((word, index) => [word.key, index]));
 
-const sourceTerms = (filename) => new Set(Object.entries(vocabularyFiles)
-  .filter(([path]) => path.split('/').at(-1).includes(filename))
-  .flatMap(([, entries]) => entries).map(normalizeTerm));
 export const sources = [
-  { id: 'all', title: '雅思主题词汇', description: '按主题循序学习', terms: null },
-  { id: 'core', title: '核心词汇', description: '主词库中的核心词汇', terms: sourceTerms('核心词汇') },
-  { id: 'reading', title: '阅读考点词', description: '主词库中匹配阅读考点的词汇', terms: sourceTerms('阅读538') },
-  { id: 'listening', title: '听力考点词', description: '主词库中匹配听力考点的词汇', terms: sourceTerms('听力179') },
+  { id: 'all', title: '雅思主题词汇', description: '按主题循序学习', words },
 ];
-sources.forEach((source) => {
-  source.words = source.terms ? words.filter((word) => source.terms.has(normalizeTerm(word.word))) : words;
-});
 
 const synonyms = new Map();
 for (const entries of Object.values(synonymFiles)) {
@@ -66,4 +54,3 @@ for (const entries of Object.values(synonymFiles)) {
   }
 }
 export const relatedTerms = (word) => [...(synonyms.get(normalizeTerm(word?.word)) || [])].slice(0, 8);
-export const sourceLabels = (word) => sources.filter((source) => source.terms?.has(normalizeTerm(word?.word))).map((source) => source.title);

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { addScore, audioFilename, audioUrl, buildLibrary, displayWord, emptyRecord, hydrateLegacy, isFullGroup, LISTENING_PREFIX, localDay, recordAnswer, resolveInput, sanitizePrefs } from '../src/listening/model.js';
+import { addScore, audioFilename, audioUrl, buildLibrary, displayWord, emptyRecord, formatWords, hydrateLegacy, isFullGroup, LISTENING_PREFIX, localDay, recordAnswer, resolveInput, sanitizePrefs } from '../src/listening/model.js';
 import { AudioPlayer } from '../src/listening/player.js';
 import { createListeningStore, legacyKeys, readLegacy } from '../src/listening/storage.js';
 import { byteSize, PREFIX, RECORD_LIMIT, RecordStore } from '../src/storage.js';
@@ -41,6 +41,70 @@ test('input resolves duplicates, wrong groups and missing audio without counting
   assert.notEqual(library.byText.get('ability')[0].key, library.byText.get('ability')[1].key);
   assert.equal(isFullGroup(library.groups[1].items, library.groups[1]), true);
   assert.equal(isFullGroup([library.groups[1].items[0], library.groups[1].items[0]], library.groups[1]), false);
+});
+
+test('multiple words per line retain phrase spaces, duplicates and group validation', () => {
+  const result = resolveInput(library, ' Ability； abstract; ABILITY\r\nactor；unknown； sea otter ', '31');
+  assert.deepEqual(result.items.map((word) => word.word), ['ability', 'abstract']);
+  assert.deepEqual(result.missing, ['unknown']);
+  assert.deepEqual(result.mismatch, ['actor']);
+  assert.deepEqual(result.unavailable, ['sea otter']);
+  assert.deepEqual(resolveInput(library, "actor&#37413;&#27290; delivery； actor's delivery").items.map((word) => word.word), ["actor's delivery"]);
+  assert.equal(isFullGroup(resolveInput(library, 'ability； actor', '32').items, library.groups[1]), true);
+});
+
+test('comma separators support mixed input, empty entries, phrases and group validation', () => {
+  const result = resolveInput(library, ' , Ability, abstract，ABILITY；actor,unknown\nsea otter，, ', '31');
+  assert.deepEqual(result.items.map((word) => word.word), ['ability', 'abstract']);
+  assert.deepEqual(result.missing, ['unknown']);
+  assert.deepEqual(result.mismatch, ['actor']);
+  assert.deepEqual(result.unavailable, ['sea otter']);
+  assert.equal(isFullGroup(resolveInput(library, 'ability，actor', '32').items, library.groups[1]), true);
+  assert.deepEqual(resolveInput(library, "actor&#37413;&#27290; delivery, actor's delivery").items.map((word) => word.word), ["actor's delivery"]);
+  assert.deepEqual(resolveInput(library, ',，;；\n').items, []);
+});
+
+test('compact lists preserve every corpus entry, including phrases and internal commas', async () => {
+  const corpus = JSON.parse(await readFile(new URL('../listening-word/data/corpus.json', import.meta.url), 'utf8'));
+  const fullLibrary = buildLibrary(Object.fromEntries(Object.entries(corpus).map(([id, group]) => [id, { ...group, id }])));
+  for (const group of fullLibrary.groups) {
+    const words = group.items.map((word) => word.word);
+    for (const raw of [formatWords(words), words.join(', '), words.join('，')]) {
+      const result = resolveInput(fullLibrary, raw, group.id);
+      assert.deepEqual(result.items.map((word) => word.key), group.items.map((word) => word.key));
+      assert.equal(isFullGroup(result.items, group), true);
+      assert.deepEqual(result.missing, []);
+      assert.deepEqual(result.mismatch, []);
+    }
+  }
+});
+
+test('current word and progress visibility restore independently and retain old preferences', () => {
+  const defaults = sanitizePrefs({}, library.groups);
+  assert.equal(defaults.showCurrentWord, false);
+  assert.equal(defaults.progressExpanded, true);
+  const old = sanitizePrefs({ showWords: true }, library.groups);
+  assert.equal(old.showCurrentWord, true);
+  assert.equal(old.progressExpanded, true);
+  for (const showCurrentWord of [false, true]) {
+    for (const progressExpanded of [false, true]) {
+      const prefs = sanitizePrefs({ showCurrentWord, progressExpanded, showWords: !showCurrentWord }, library.groups);
+      assert.equal(prefs.showCurrentWord, showCurrentWord);
+      assert.equal(prefs.showWords, !showCurrentWord);
+      assert.equal(prefs.progressExpanded, progressExpanded);
+    }
+  }
+  const invalid = sanitizePrefs({ showCurrentWord: 'true', progressExpanded: 'false' }, library.groups);
+  assert.equal(invalid.showCurrentWord, false);
+  assert.equal(invalid.progressExpanded, true);
+});
+
+test('listening repeats and loops accept positive integers above 20 and normalize invalid values', () => {
+  for (const [input, expected] of [[21, 21], ['999', 999], [0, 1], [-4, 1], [2.9, 2], ['', 1], ['invalid', 1], [Infinity, 1], [NaN, 1], [Number.MAX_SAFE_INTEGER + 1, Number.MAX_SAFE_INTEGER]]) {
+    const prefs = sanitizePrefs({ repeat: input, loops: input }, library.groups);
+    assert.equal(prefs.repeat, expected);
+    assert.equal(prefs.loops, expected);
+  }
 });
 
 test('audio URLs encode actual filenames, plus signs and Chapter 8 directories once', () => {
@@ -112,7 +176,7 @@ test('daily chapter aggregation stays small after repeated sessions and uses Sha
   assert.ok(byteSize(score) < 256);
   assert.equal(localDay('2026-10-06T16:01:00Z'), '2026-10-07');
   const prefs = sanitizePrefs({ repeat: 999, loops: -4, interval: 'bad', rate: 0.1, view: 'invalid' }, library.groups);
-  assert.equal(prefs.repeat, 20);
+  assert.equal(prefs.repeat, 999);
   assert.equal(prefs.loops, 1);
   assert.equal(prefs.interval, 2);
   assert.equal(prefs.rate, 0.4);

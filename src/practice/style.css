@@ -5,8 +5,7 @@
 .practice-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .practice-settings { display: grid; gap: 15px; }
 .practice-field { display: flex; flex-direction: column; gap: 9px; min-width: 0; font-size: 13px; color: var(--muted); }
-.practice-field select, .practice-field textarea { width: 100%; min-width: 0; font: inherit; font-size: 14px; color: var(--text); background: var(--surface-strong); border: 1px solid var(--line); border-radius: 11px; padding: 11px 12px; }
-.practice-field select { height: 42px; text-overflow: ellipsis; }
+.practice-field textarea { width: 100%; min-width: 0; font: inherit; font-size: 14px; color: var(--text); background: var(--surface-strong); border: 1px solid var(--line); border-radius: 11px; padding: 11px 12px; }
 .practice-field input[type="range"] { width: 100%; accent-color: var(--blue); margin: 5px 0 0; }
 .practice-field textarea { resize: vertical; min-height: 110px; line-height: 1.8; }
 .practice-error, .practice-notice { margin: 0 0 20px; font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
@@ -46,19 +45,18 @@
 .practice-cached-info { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 0; }
 .practice-cached-info strong { font-size: 13px; font-weight: 550; overflow-wrap: anywhere; line-height: 1.6; }
 .practice-cached-info > span { font-size: 12px; color: var(--muted); }
-.practice-cache-select { flex-shrink: 0; min-width: 68px; min-height: 36px; padding: 8px 10px; font-size: 12px; color: var(--blue-dark); gap: 5px; }
-.practice-cache-select.is-selected { background: var(--blue); border-color: var(--blue); color: white; }
-.practice-cache-select.is-selected:hover:not(:disabled) { background: var(--blue-dark); border-color: var(--blue-dark); }
 .practice-cache-delete:hover:not(:disabled) { background: var(--danger-soft); color: var(--danger); }
 .practice-cache-retry { align-self: flex-start; }
 .practice-dialog .practice-error { margin: 0; }
 .practice-input-count { text-align: right; font-size: 12px; color: var(--muted); }
-.synonym-controls { padding: 22px 24px 20px; }
+.synonym-controls { margin-bottom: 22px; }
+.synonym-controls .practice-toolbar { padding-bottom: 22px; margin-bottom: 22px; border-bottom: 1px solid var(--line); }
 .synonym-source { display: flex; gap: 11px; min-width: 0; color: var(--muted); }
 .synonym-source div { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .synonym-source strong { font-size: 13px; font-weight: 550; overflow-wrap: anywhere; }
 .synonym-source span { font-size: 13px; color: var(--muted); }
 .synonym-controls .practice-toolbar > .practice-actions { flex-wrap: wrap; flex-shrink: 1; }
+.synonym-center-toggle { height: 42px; justify-self: end; }
 .synonym-center-toggle.is-active { background: var(--blue-soft); border-color: var(--blue-line); color: var(--blue-dark); }
 .synonym-file-demo-dialog { width: min(760px, calc(100% - 32px)); }
 .synonym-demo-example { padding-top: 18px; border-top: 1px solid var(--line); }
@@ -73,7 +71,8 @@
 .synonym-demo-terms > span { border: 1px solid var(--blue-line); border-radius: 7px; padding: 4px 7px; background: var(--surface-strong); color: var(--blue-dark); font-size: 12px; overflow-wrap: anywhere; }
 .synonym-demo-terms > .is-label { color: var(--muted); border-color: var(--line); }
 .synonym-demo-terms small { margin-left: 5px; font-size: 10px; }
-.synonym-settings { grid-template-columns: minmax(180px, 2fr) repeat(4, minmax(0, 1fr)); }
+.synonym-settings { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.synonym-voice-row { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 360px) auto; justify-content: start; align-items: end; gap: 15px; }
 .synonym-transport { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); padding-top: 18px; margin-top: 22px; }
 .synonym-list-heading { display: flex; justify-content: space-between; gap: 15px; align-items: center; margin: 29px 0 19px; }
 .synonym-list-heading h2 { margin: 0; font-size: 18px; font-weight: 550; }
@@ -108,7 +107,6 @@
 .player-left { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 .player-stage { overflow: hidden; }
 .player-stage-top { display: flex; align-items: center; justify-content: space-between; padding: 19px 23px; border-bottom: 1px solid var(--line); gap: 12px; }
-.player-stage-top .mode-tabs button { display: flex; align-items: center; gap: 6px; }
 .player-position { font-size: 13px; color: var(--muted); white-space: nowrap; }
 .player-word-area { min-height: 273px; padding: 39px 26px 31px; text-align: center; }
 .player-word-title { display: flex; align-items: center; justify-content: center; height: 126px; margin: 26px 0 17px; }
@@ -125,9 +123,11 @@
 .player-feedback.incorrect { color: var(--danger); }
 .player-progress { height: 5px; background: var(--blue-soft); }
 .player-progress span { display: block; height: 100%; background: var(--blue); transition: width .2s; }
-.player-settings { padding: 24px; }
-.player-settings .section-heading { margin-bottom: 22px; }
-.player-settings-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 23px; }
+.practice-playback-settings { padding: 24px; }
+.practice-playback-settings .section-heading { margin-bottom: 22px; }
+.practice-playback-settings .practice-settings { row-gap: 23px; }
+.practice-playback-settings .practice-field { line-height: 1.7; }
+.player-settings-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .player-settings-grid > .practice-field { grid-column: span 2; }
 .player-settings-grid > .practice-field:first-child { grid-column: 1 / -1; }
 .practice-setting-value { font-size: 16px; font-weight: 600; color: var(--blue-dark); }
@@ -143,8 +143,6 @@
 .player-queue-list button > strong { flex: 1; min-width: 0; font-size: 14px; font-weight: 450; overflow-wrap: anywhere; }
 .player-queue-list button > svg { flex-shrink: 0; }
 @media (max-width: 1000px) {
-  .synonym-settings { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .synonym-settings > .practice-field:first-child { grid-column: 1 / -1; }
   .player-layout { grid-template-columns: minmax(0, 1fr) 265px; gap: 17px; }
 }
 @media (max-width: 760px) {
@@ -159,9 +157,11 @@
 }
 @media (max-width: 560px) {
   .practice-toolbar { flex-wrap: wrap; margin-bottom: 18px; }
-  .synonym-controls, .player-input-panel { padding: 17px 15px; }
-  .synonym-settings { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
-  .synonym-transport { flex-direction: column; gap: 17px; }
+  .player-input-panel { padding: 17px 15px; }
+  .synonym-controls .practice-toolbar { padding-bottom: 18px; margin-bottom: 18px; }
+  .synonym-settings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .synonym-voice-row { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .synonym-transport { flex-direction: column; gap: 17px; margin-top: 18px; }
   .synonym-transport > .practice-actions { width: 100%; }
   .synonym-transport > .practice-actions .primary-button { flex: 1; }
   .synonym-list-heading { align-items: flex-start; flex-direction: column; gap: 15px; }
@@ -178,12 +178,11 @@
   .player-total small { display: block; font-size: 12px; }
   .player-input-panel > .practice-actions { flex-wrap: wrap; gap: 15px; }
   .player-stage-top { padding: 16px 13px; gap: 8px; }
-  .player-stage-top .mode-tabs button { padding: 7px 8px; font-size: 12px; gap: 4px; }
-  .player-stage-top .mode-tabs svg { width: 13px; }
+  .player-stage-top .ui-segmented svg { width: 13px; }
   .player-word-area { padding: 32px 16px 26px; min-height: 248px; }
   .player-word-title { height: 74px; }
-  .player-settings { padding: 20px 17px; }
-  .player-settings-grid { gap: 18px 14px; }
+  .practice-playback-settings { padding: 20px 17px; }
+  .practice-playback-settings .practice-settings { gap: 18px 14px; }
   .player-transport { gap: 5px; padding: 16px; }
   .player-transport button { padding: 10px 8px; font-size: 12px; gap: 4px; }
   .player-transport .primary-button { flex: 1; }

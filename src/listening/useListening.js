@@ -2,7 +2,7 @@ import { computed, onMounted, onUnmounted, reactive } from 'vue';
 import { library } from './library.js';
 import { AudioPlayer } from './player.js';
 import { createListeningStore, readLegacy } from './storage.js';
-import { addScore, count, defaultPrefs, emptyRecord, hydrateLegacy, isFullGroup, localDay, normalize, recordAnswer, resolveInput, sanitizePrefs, sanitizeRecord } from './model.js';
+import { addScore, count, defaultPrefs, emptyRecord, formatWords, hydrateLegacy, isFullGroup, localDay, normalize, parseWords, recordAnswer, resolveInput, sanitizePrefs, sanitizeRecord } from './model.js';
 
 const shuffle = (items) => {
   const result = [...items];
@@ -126,7 +126,7 @@ export function useListening() {
     if (!app.active) player.stop();
     app.prefs.view = view; app.visibleCount = 40; app.savePrefs();
   };
-  app.selectGroup = () => { app.end(); app.customText = app.group ? app.group.items.map((word) => word.word).join('\n') : ''; app.inputNotice = ''; app.feedback = null; app.savePrefs(); app.saveCustom(); };
+  app.selectGroup = () => { app.end(); app.customText = app.group ? formatWords(app.group.items.map((word) => word.word)) : ''; app.inputNotice = ''; app.feedback = null; app.savePrefs(); app.saveCustom(); };
   app.setMode = (mode) => { app.prefs.mode = mode; if (app.status === 'idle') app.session = emptySession(mode); app.savePrefs(); };
   app.end = () => { generation += 1; clearTimer(); player.stop(); app.status = 'idle'; app.session = emptySession(app.prefs.mode); app.paused = false; app.audioError = ''; };
 
@@ -143,8 +143,8 @@ export function useListening() {
     if (resolved.mismatch.length) messages.push(`不属于所选分组，已移除：${resolved.mismatch.slice(0, 12).join('、')}`);
     if (resolved.unavailable.length) messages.push(`缺少本地音频，已跳过：${resolved.unavailable.join('、')}。本轮不计完整章节成绩`);
     app.inputNotice = messages.join('；');
-    if (!resolved.items.length) { app.inputNotice = app.inputNotice || '请先选择分组，或每行输入一条语料。'; return; }
-    if (resolved.missing.length || resolved.mismatch.length) app.customText = resolved.items.map((word) => word.word).join('\n');
+    if (!resolved.items.length) { app.inputNotice = app.inputNotice || '请先选择分组，或输入语料，用分号、逗号或换行分隔。'; return; }
+    if (resolved.missing.length || resolved.mismatch.length) app.customText = formatWords(resolved.items.map((word) => word.word));
     app.savePrefs(); app.saveCustom();
     launch(resolved.items, isFullGroup(resolved.items, app.group), app.group?.id || '');
   };
@@ -191,6 +191,8 @@ export function useListening() {
   };
   app.reveal = () => resolveAnswer(app.answer || '已查看答案', false);
   app.toggleWords = () => { app.prefs.showWords = !app.prefs.showWords; app.savePrefs(); };
+  app.toggleCurrentWord = () => { app.prefs.showCurrentWord = !app.prefs.showCurrentWord; app.savePrefs(); };
+  app.toggleProgress = () => { app.prefs.progressExpanded = !app.prefs.progressExpanded; app.savePrefs(); };
   app.preview = (word) => {
     if (app.active && !app.paused) app.togglePause();
     if (!word.audio) { app.notify('这条语料暂缺本地音频。'); return; }
@@ -222,7 +224,7 @@ export function useListening() {
 
   const onKeyboard = (event) => {
     if (!app.active || app.prefs.view !== 'practice' || event.metaKey || event.ctrlKey || event.altKey || document.querySelector('dialog[open]')) return;
-    if (event.target.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(event.target.tagName)) return;
+    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, a, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
     if (event.code === 'Space') { event.preventDefault(); app.togglePause(); }
     if (event.key === 'ArrowUp') { event.preventDefault(); app.replay(); }
     if (event.key === 'ArrowRight') { event.preventDefault(); app.next(); }
@@ -242,7 +244,8 @@ export function useListening() {
         }
       }
       if (entries.has('customParts')) app.customText = Array.from({ length: Math.min(1000, count(entries.get('customParts'))) }, (_, index) => typeof entries.get(`custom:${index}`) === 'string' ? entries.get(`custom:${index}`) : '').join('');
-      else if (!app.customText && app.group) app.customText = app.group.items.map((word) => word.word).join('\n');
+      else if (!app.customText && app.group) app.customText = formatWords(app.group.items.map((word) => word.word));
+      if (app.group) app.customText = formatWords(parseWords(app.customText, library, app.prefs.groupId));
       app.storage.revision += 1;
       app.session = emptySession(app.prefs.mode);
     } catch {

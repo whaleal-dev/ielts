@@ -94,6 +94,57 @@ test('queue repeats before advancing, finishes once, and single-word dictation n
   assert.equal(states.at(-1).finished, false);
 });
 
+test('manual navigation during speech keeps automatic playback off, then explicit playback can advance', async () => {
+  const state = { playing: false, speaking: false }, spoken = [], positions = [];
+  let finish;
+  const speech = {
+    stop() { const cancel = finish; finish = null; cancel?.(false); },
+    play(text) { spoken.push(text); return new Promise((resolve) => { finish = resolve; }); },
+  };
+  const player = new QueuePlayer({ speech, onPosition: (index) => positions.push(index), onState: (change) => Object.assign(state, change) });
+  const items = [{ text: 'reserve' }, { text: 'book' }, { text: 'prebook' }];
+  const first = player.start(items, 0, { autoAdvance: false });
+  const automatic = state.playing;
+  const second = player.start(items, 1, { autoAdvance: automatic });
+  const duringSpeech = { ...state };
+  const staleEnd = finish;
+  player.stop(); await Promise.all([first, second]); staleEnd(true);
+  assert.equal(automatic, false);
+  assert.equal(duringSpeech.playing, false); assert.equal(duringSpeech.speaking, true);
+  assert.deepEqual(spoken, ['reserve', 'book']); assert.deepEqual(positions, [0, 1]);
+  assert.equal(state.playing, false); assert.equal(state.speaking, false);
+
+  const manual = player.start(items, 1, { autoAdvance: false });
+  finish(true); await manual;
+  assert.deepEqual(positions, [0, 1, 1]); assert.equal(state.playing, false); assert.equal(state.finished, false);
+  speech.play = async (text) => { spoken.push(text); return true; };
+  await player.start(items, 1, { autoAdvance: true });
+  assert.deepEqual(positions, [0, 1, 1, 1, 2]); assert.equal(state.finished, true);
+});
+
+test('dictation distinguishes manual speech from explicit playback and explicit playback remains pausable', async () => {
+  const state = { playing: false, speaking: false }, spoken = [], positions = [];
+  let finish;
+  const speech = {
+    stop() { const cancel = finish; finish = null; cancel?.(false); },
+    play(text) { spoken.push(text); return new Promise((resolve) => { finish = resolve; }); },
+  };
+  const player = new QueuePlayer({ speech, onPosition: (index) => positions.push(index), onState: (change) => Object.assign(state, change) });
+  const items = [{ text: 'reserve' }, { text: 'book' }];
+  const manual = player.start(items, 0, { automatic: false, autoAdvance: false, repeat: 2 });
+  const manualState = { ...state };
+  player.stop(); await manual;
+  assert.equal(manualState.playing, false); assert.equal(manualState.speaking, true);
+  const explicit = player.start(items, 0, { automatic: true, autoAdvance: false, repeat: 2 });
+  assert.equal(state.playing, true); assert.equal(state.speaking, true);
+  player.stop(); await explicit;
+  assert.equal(state.playing, false); assert.equal(state.speaking, false);
+  speech.play = async (text) => { spoken.push(text); return true; };
+  await player.start(items, 0, { automatic: true, autoAdvance: false, repeat: 2 });
+  assert.deepEqual(spoken, ['reserve', 'reserve', 'reserve', 'reserve']);
+  assert.deepEqual(positions, [0, 0, 0]); assert.equal(state.finished, false);
+});
+
 test('pausing during an interval cancels pending advancement and an audio failure stops the queue', async () => {
   const spoken = [], errors = [];
   const player = new QueuePlayer({ speech: { stop() {}, async play(text) { spoken.push(text); return true; } }, onError: (error) => errors.push(error.message) });

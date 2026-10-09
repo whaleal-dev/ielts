@@ -107,7 +107,7 @@ export function useSynonyms() {
   app.groupNotes = (group) => [...new Set(group)].filter((word) => app.notes.get(word)?.trim()).map((word) => ({ word, text: app.notes.get(word) }));
   watch(() => app.search, () => { app.pause(); app.index = 0; selection = app.current; app.visibleCount = 40; app.finished = false; app.error = ''; });
   const keydown = (event) => {
-    if (event.target.closest('input, textarea, select, button, dialog, [contenteditable]')) return;
+    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, dialog, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
     if (event.code === 'Space') { event.preventDefault(); app.toggle(); }
     else if (event.key === 'ArrowLeft') { event.preventDefault(); app.move(-1); }
     else if (event.key === 'ArrowRight') { event.preventDefault(); app.move(1); }

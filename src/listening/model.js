@@ -42,10 +42,26 @@ export function buildLibrary(data) {
   return { groups, words, byKey, byText, chapters };
 }
 
-export const parseWords = (raw) => [...new Set(String(raw || '').split(/\r?\n/).map(displayWord).filter(Boolean))];
+export function parseWords(raw, library, groupId = '') {
+  let text = String(raw || '').toLowerCase();
+  for (const [source, word] of Object.entries(corrections)) text = text.replaceAll(source, word);
+  const commaWords = [...(library?.byText.keys() || [])].filter((word) => /[,，]/.test(word)).sort((a, b) => b.length - a.length);
+  const belongsToGroup = (word) => library?.byText.get(displayWord(word))?.some((item) => item.groupId === groupId);
+  const words = [];
+  for (let remaining of text.split(/[\r\n;；]+/).map(displayWord)) {
+    while (remaining) {
+      const first = remaining.split(/[,，]/, 1)[0];
+      const word = commaWords.find((candidate) => remaining.startsWith(candidate) && /^\s*(?:[,，]|$)/.test(remaining.slice(candidate.length)) && (!groupId || belongsToGroup(candidate) || !belongsToGroup(first))) || first;
+      words.push(displayWord(word));
+      remaining = remaining.slice(word.length).replace(/^[,，\s]+/, '');
+    }
+  }
+  return [...new Set(words.filter(Boolean))];
+}
+export const formatWords = (words) => words.map(displayWord).join('； ');
 export function resolveInput(library, raw, groupId = '') {
   const result = { items: [], missing: [], mismatch: [], unavailable: [] };
-  for (const text of parseWords(raw)) {
+  for (const text of parseWords(raw, library, groupId)) {
     const matches = library.byText.get(text);
     if (!matches) { result.missing.push(text); continue; }
     const item = groupId ? matches.find((word) => word.groupId === groupId) : matches.find((word) => word.audio) || matches[0];
@@ -59,7 +75,7 @@ export function isFullGroup(items, group) {
   return Boolean(group && items.length === group.items.length && new Set(items.map((item) => item.key)).size === group.items.length && group.items.every((word) => items.some((item) => item.key === word.key)));
 }
 
-export const defaultPrefs = (groupId) => ({ groupId, view: 'practice', mode: 'dictation', order: 'sequence', rate: 1, phraseRate: 0.8, repeat: 1, loops: 1, interval: 2, showWords: false, sort: 'errorLevel', statsGroup: groupId });
+export const defaultPrefs = (groupId) => ({ groupId, view: 'practice', mode: 'dictation', order: 'sequence', rate: 1, phraseRate: 0.8, repeat: 1, loops: 1, interval: 2, showWords: false, showCurrentWord: false, progressExpanded: true, sort: 'errorLevel', statsGroup: groupId });
 export function sanitizePrefs(value, groups) {
   const prefs = defaultPrefs(groups[0].id);
   if (!value || typeof value !== 'object') return prefs;
@@ -70,10 +86,12 @@ export function sanitizePrefs(value, groups) {
   }
   prefs.rate = bounded(value.rate, 0.4, 2, 1);
   prefs.phraseRate = bounded(value.phraseRate, 0.4, 2, 0.8);
-  prefs.repeat = Math.floor(bounded(value.repeat, 1, 20, 1));
-  prefs.loops = Math.floor(bounded(value.loops, 1, 20, 1));
+  prefs.repeat = Math.floor(bounded(value.repeat, 1, Number.MAX_SAFE_INTEGER, 1));
+  prefs.loops = Math.floor(bounded(value.loops, 1, Number.MAX_SAFE_INTEGER, 1));
   prefs.interval = bounded(value.interval, 0, 60, 2);
   prefs.showWords = value.showWords === true;
+  prefs.showCurrentWord = typeof value.showCurrentWord === 'boolean' ? value.showCurrentWord : prefs.showWords;
+  prefs.progressExpanded = typeof value.progressExpanded === 'boolean' ? value.progressExpanded : true;
   return prefs;
 }
 

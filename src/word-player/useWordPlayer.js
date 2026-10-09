@@ -24,7 +24,7 @@ export function useWordPlayer() {
   const play = (automatic) => {
     if (!app.current) { app.error = '请先粘贴并加载词表。'; return; }
     app.error = ''; app.notice = '';
-    return player.start(app.queue, app.index, { ...app.prefs, autoAdvance: automatic && app.prefs.mode === 'listen' });
+    return player.start(app.queue, app.index, { ...app.prefs, automatic, autoAdvance: automatic && app.prefs.mode === 'listen' });
   };
   app.toggle = () => {
     if (app.playing) { app.pause(); app.notice = '已暂停，继续时从当前词重新播放。'; }
@@ -66,7 +66,7 @@ export function useWordPlayer() {
   };
   app.reveal = () => { if (app.current) { app.revealed = true; app.feedback = null; } };
   const keydown = (event) => {
-    if (event.target.closest('input, textarea, select, button, dialog, [contenteditable]')) return;
+    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, dialog, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
     if (event.code === 'Space') { event.preventDefault(); app.toggle(); }
     else if (event.key === 'ArrowLeft') { event.preventDefault(); app.move(-1); }
     else if (event.key === 'ArrowRight') { event.preventDefault(); app.move(1); }

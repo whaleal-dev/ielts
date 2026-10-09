@@ -64,7 +64,7 @@ export class QueuePlayer {
   }
 
   async run(items, index, options, generation) {
-    this.onState({ playing: true, speaking: false, finished: false });
+    this.onState({ playing: options.automatic ?? (options.autoAdvance !== false), speaking: false, finished: false });
     try {
       while (generation === this.generation && items[index]) {
         this.onPosition(index);

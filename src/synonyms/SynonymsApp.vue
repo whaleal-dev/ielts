@@ -1,5 +1,7 @@
 <script setup>
 import { computed, nextTick, ref, watch } from 'vue';
+import Select from 'primevue/select';
+import Checkbox from 'primevue/checkbox';
 import Icon from '../Icon.vue';
 import PracticeHeader from '../practice/PracticeHeader.vue';
 import BrowserNotice from '../practice/BrowserNotice.vue';
@@ -14,15 +16,15 @@ import chineseLabelsDemo from './demo-chinese-labels.txt?raw';
 import '../practice/style.css';
 
 const app = useSynonyms();
+const playbackCounts = [1, 2, 3, 5, 10];
 const importDialog = ref(null);
 const fileDemoDialog = ref(null);
 const noteDialog = ref(null);
 const synonymList = ref(null);
 const fileDemos = [
-  { title: '英文逗号分隔', filename: 'demo-basic.txt', content: basicDemo, tip: '同一行的词条归入同一组，换行开始下一组。' },
-  { title: '中文逗号分隔', filename: 'demo-chinese-comma.txt', content: chineseCommaDemo, tip: '中文逗号也可以分隔词条，两种逗号可以混用。' },
+  { title: '逗号分隔（英文／中文）', filename: 'demo-comma.txt', content: `${basicDemo.trimEnd()}\n${chineseCommaDemo}`, tip: '英文逗号和中文逗号都可以分隔词条，也可以混用。同一行的词条归入同一组，换行开始下一组。' },
   { title: '英文词组', filename: 'demo-phrases.txt', content: phrasesDemo, tip: '词组内部的空格保留，不会把一个词组拆成多个单词。' },
-  { title: '中英标签混合', filename: 'demo-chinese-labels.txt', content: chineseLabelsDemo, tip: '中文标签与英文词条一起展示，含中文的词条不参与发音。' },
+  { title: '中英标签混合', filename: 'demo-chinese-labels.txt', content: chineseLabelsDemo, tip: '中文标签及「test测试」等中英混合词条只展示，不参与发音。' },
 ].map((demo) => ({ ...demo, groups: parseGroups(demo.content, demo.filename) }));
 const files = ref([]);
 const cachedSelection = ref([]);
@@ -35,8 +37,8 @@ const noteText = ref('');
 const dialogError = ref('');
 const highlighted = (group, word) => app.current?.group === group && app.current?.word === word;
 watch(() => app.cachedFiles, (cached) => { cachedSelection.value = cachedSelection.value.filter((name) => cached.some((file) => file.name === name)); });
-watch([() => app.prefs.centerCurrent, () => app.current, () => app.playing], async ([enabled, current, playing], [wasEnabled]) => {
-  if (!app.ready || !enabled || !current || (!playing && wasEnabled) || document.querySelector('dialog[open]')) return;
+watch([() => app.prefs.centerCurrent, () => app.current, () => app.playing || app.speaking], async ([enabled, current, active], [wasEnabled]) => {
+  if (!app.ready || !enabled || !current || (!active && wasEnabled) || document.querySelector('dialog[open]')) return;
   const groupIndex = app.filteredGroups.findIndex((group) => group.index === current.group);
   app.visibleCount = Math.max(app.visibleCount, groupIndex + 1);
   await nextTick();
@@ -44,10 +46,6 @@ watch([() => app.prefs.centerCurrent, () => app.current, () => app.playing], asy
 }, { flush: 'post' });
 function openImport() { app.pause(); files.value = []; cachedSelection.value = []; dragDepth.value = 0; dialogError.value = ''; importDialog.value.showModal(); }
 function openFileDemo() { app.pause(); fileDemoDialog.value.showModal(); }
-function toggleCachedFile(name) {
-  if (cachedSelection.value.includes(name)) cachedSelection.value = cachedSelection.value.filter((selected) => selected !== name);
-  else cachedSelection.value.push(name);
-}
 function addFiles(incoming) {
   if (importing.value) return;
   const added = Array.from(incoming);
@@ -80,14 +78,20 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
       <div v-if="app.storage.mode === 'localStorage' && app.storage.state !== 'error'" class="fallback-notice">当前使用兼容存储，词库、设置与笔记仍仅保存在当前浏览器。</div>
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在读取词库与笔记……</div>
       <template v-else>
-        <section class="selection-panel synonym-controls" aria-label="同义词播放设置">
-          <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button synonym-center-toggle" :class="{ 'is-active': app.prefs.centerCurrent }" :aria-pressed="app.prefs.centerCurrent" aria-label="播放行居中" title="开启后，当前播放单词所在行自动滚动到屏幕中央" @click="app.toggleCenterCurrent">播放行居中：{{ app.prefs.centerCurrent ? '开' : '关' }}</button><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">示例文件</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
-          <div class="practice-settings synonym-settings">
-            <VoiceSelect id="synonymVoice" v-model="app.prefs.voice" @change="app.savePrefs" />
-            <label class="practice-field" for="synonymRepeat">每词播放<select id="synonymRepeat" v-model.number="app.prefs.repeat" @change="app.savePrefs"><option v-for="count in [1, 2, 3, 5, 10]" :key="count" :value="count">{{ count }} 次</option></select></label>
-            <label class="practice-field" for="synonymLoops">每组循环<select id="synonymLoops" v-model.number="app.prefs.groupLoops" @change="app.savePrefs"><option v-for="count in [1, 2, 3, 5, 10]" :key="count" :value="count">{{ count }} 轮</option></select></label>
-            <label class="practice-field" for="synonymRate">发音倍速<select id="synonymRate" v-model.number="app.prefs.rate" @change="app.savePrefs"><option v-for="rate in [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2]" :key="rate" :value="rate">{{ rate.toFixed(1) }}×</option></select></label>
-            <label class="practice-field" for="synonymInterval">词间间隔<select id="synonymInterval" v-model.number="app.prefs.interval" @change="app.savePrefs"><option v-for="interval in [0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]" :key="interval" :value="interval">{{ interval }} 秒</option></select></label>
+        <section class="content-panel practice-playback-settings synonym-controls" aria-label="同义词词库、播放设置与控制">
+          <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">示例文件</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
+          <div class="synonym-playback-settings" role="group" aria-labelledby="synonymSettingsTitle">
+            <div class="section-heading"><div><h2 id="synonymSettingsTitle">播放设置</h2><p>选择发音人、倍速、间隔与每词／每组播放次数。</p></div><Icon name="settings" :size="19" /></div>
+            <div class="practice-settings synonym-settings">
+              <div class="synonym-voice-row">
+                <VoiceSelect id="synonymVoice" v-model="app.prefs.voice" @change="app.savePrefs" />
+                <button class="secondary-button synonym-center-toggle" :class="{ 'is-active': app.prefs.centerCurrent }" :aria-pressed="app.prefs.centerCurrent" aria-label="播放行居中" title="开启后，当前播放单词所在行自动滚动到屏幕中央" @click="app.toggleCenterCurrent">播放行居中：{{ app.prefs.centerCurrent ? '开' : '关' }}</button>
+              </div>
+              <label class="practice-field" for="synonymRate">发音倍速<strong class="practice-setting-value">{{ app.prefs.rate.toFixed(1) }}×</strong><input id="synonymRate" v-model.number="app.prefs.rate" type="range" min="0.5" max="2" step="0.1" @change="app.savePrefs" /></label>
+              <label class="practice-field" for="synonymInterval">词间间隔<strong class="practice-setting-value">{{ app.prefs.interval }} 秒</strong><input id="synonymInterval" v-model.number="app.prefs.interval" type="range" min="0" max="5" step="0.5" @change="app.savePrefs" /></label>
+              <label class="practice-field" for="synonymRepeat">每词播放<strong class="practice-setting-value">{{ app.prefs.repeat }} 次</strong><input id="synonymRepeat" :value="playbackCounts.indexOf(app.prefs.repeat)" type="range" min="0" :max="playbackCounts.length - 1" step="1" :aria-valuetext="`${app.prefs.repeat} 次`" @input="app.prefs.repeat = playbackCounts[Number($event.target.value)]" @change="app.savePrefs" /></label>
+              <label class="practice-field" for="synonymLoops">每组循环<strong class="practice-setting-value">{{ app.prefs.groupLoops }} 轮</strong><input id="synonymLoops" :value="playbackCounts.indexOf(app.prefs.groupLoops)" type="range" min="0" :max="playbackCounts.length - 1" step="1" :aria-valuetext="`${app.prefs.groupLoops} 轮`" @input="app.prefs.groupLoops = playbackCounts[Number($event.target.value)]" @change="app.savePrefs" /></label>
+            </div>
           </div>
           <div class="synonym-transport"><div class="practice-current"><span class="status-dot" :class="{ 'is-speaking': app.speaking }"></span><strong>{{ app.current?.text || '准备开始' }}</strong><span v-if="app.current">第 {{ app.current.cycle }} / {{ app.prefs.groupLoops }} 轮<span v-if="app.playing"> · 第 {{ app.repetition }} / {{ app.prefs.repeat }} 次</span></span></div><div class="practice-actions"><button class="secondary-button" :disabled="!app.canMove(-1)" aria-label="上一个同义词" @click="app.move(-1)"><Icon name="left" :size="17" /></button><button id="synonymPlay" class="primary-button" :disabled="!app.items.length" @click="app.toggle"><Icon :name="app.playing ? 'pause' : 'play'" :size="16" />{{ app.playing ? '暂停播放' : app.finished ? '重新播放' : '自动播放' }}</button><button class="secondary-button" :disabled="!app.canMove(1)" aria-label="下一个同义词" @click="app.move(1)"><Icon name="right" :size="17" /></button></div></div>
         </section>
@@ -138,7 +142,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
           <ul class="practice-file-list practice-cached-list">
             <li v-for="file in app.cachedFiles.slice().reverse()" :key="file.slot" :class="{ 'is-selected': cachedSelection.includes(file.name) }">
               <div class="practice-cached-info"><strong>{{ file.name }}</strong><span>{{ fileSize(file.size) }} · {{ file.groupCount }} 组</span></div>
-              <button class="secondary-button practice-cache-select" :class="{ 'is-selected': cachedSelection.includes(file.name) }" :disabled="importing" :aria-pressed="cachedSelection.includes(file.name)" :aria-label="`${cachedSelection.includes(file.name) ? '取消选择' : '选择'}缓存文件 ${file.name}`" @click="toggleCachedFile(file.name)"><Icon v-if="cachedSelection.includes(file.name)" name="check" :size="14" />{{ cachedSelection.includes(file.name) ? '已选' : '选择' }}</button>
+              <label class="practice-cache-choice"><Checkbox v-model="cachedSelection" :value="file.name" :disabled="importing" :aria-label="`选择缓存文件 ${file.name}`" /><span>{{ cachedSelection.includes(file.name) ? '已选' : '选择' }}</span></label>
               <button class="icon-button practice-cache-delete" :disabled="importing" :aria-label="`删除缓存文件 ${file.name}`" title="删除缓存，当前已加载词库保留" @click="deleteCachedFile(file.name)"><Icon name="trash" :size="16" /></button>
             </li>
           </ul>
@@ -162,6 +166,6 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
       </div>
       <div class="dialog-footer"><button class="primary-button" @click="fileDemoDialog.close()">知道了</button></div>
     </dialog>
-    <dialog ref="noteDialog" class="settings-dialog practice-dialog" aria-labelledby="synonymNoteTitle"><div class="dialog-heading"><div><div class="eyebrow">A NOTE TO REMEMBER</div><h2 id="synonymNoteTitle">同义词笔记</h2></div><button class="icon-button" aria-label="关闭笔记窗口" @click="noteDialog.close()"><Icon name="close" /></button></div><form @submit.prevent="saveNote"><div class="dialog-body"><label class="practice-field" for="synonymNoteWord">关联词条<select id="synonymNoteWord" v-model="noteWord" @change="noteText = app.notes.get(noteWord) || ''"><option v-for="word in noteGroup" :key="word" :value="word">{{ word }}</option></select></label><label class="practice-field" for="synonymNoteText">学习笔记<textarea id="synonymNoteText" v-model="noteText" rows="4" :maxlength="Math.max(400, (app.notes.get(noteWord) || '').length)" placeholder="记下语境、搭配或易混点……"></textarea></label><span class="practice-input-count">{{ noteText.length }} / {{ Math.max(400, (app.notes.get(noteWord) || '').length) }}</span><p v-if="app.storage.state === 'error'" class="practice-error" role="alert">{{ app.storage.message }}</p></div><div class="dialog-footer"><button class="secondary-button" type="button" @click="noteDialog.close()">取消</button><button class="primary-button" type="submit">保存笔记<Icon name="check" :size="16" /></button></div></form></dialog>
+    <dialog ref="noteDialog" class="settings-dialog practice-dialog" aria-labelledby="synonymNoteTitle"><div class="dialog-heading"><div><div class="eyebrow">A NOTE TO REMEMBER</div><h2 id="synonymNoteTitle">同义词笔记</h2></div><button class="icon-button" aria-label="关闭笔记窗口" @click="noteDialog.close()"><Icon name="close" /></button></div><form @submit.prevent="saveNote"><div class="dialog-body"><label class="practice-field" for="synonymNoteWord">关联词条<Select input-id="synonymNoteWord" v-model="noteWord" :options="noteGroup" append-to="self" checkmark aria-label="关联词条" @change="noteText = app.notes.get(noteWord) || ''" /></label><label class="practice-field" for="synonymNoteText">学习笔记<textarea id="synonymNoteText" v-model="noteText" rows="4" :maxlength="Math.max(400, (app.notes.get(noteWord) || '').length)" placeholder="记下语境、搭配或易混点……"></textarea></label><span class="practice-input-count">{{ noteText.length }} / {{ Math.max(400, (app.notes.get(noteWord) || '').length) }}</span><p v-if="app.storage.state === 'error'" class="practice-error" role="alert">{{ app.storage.message }}</p></div><div class="dialog-footer"><button class="secondary-button" type="button" @click="noteDialog.close()">取消</button><button class="primary-button" type="submit">保存笔记<Icon name="check" :size="16" /></button></div></form></dialog>
   </div>
 </template>
