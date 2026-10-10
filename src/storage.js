@@ -157,8 +157,9 @@ export class RecordStore {
     const changes = new Map(values);
     const storedKeys = [...new Set([...this.saved.keys(), ...this.pending.keys()])].map((key) => key.slice(this.prefix.length));
     for (const [key, value] of values) {
-      const chunkKey = key === 'customParts' ? 'custom' : key;
-      const parts = key === 'customParts' ? value : value?.parts;
+      const noteRecord = key.startsWith('word:') && Number.isInteger(value?.noteParts);
+      const chunkKey = noteRecord ? `note:${key.slice(5)}` : key === 'customParts' ? 'custom' : key;
+      const parts = noteRecord ? value.noteParts : key === 'customParts' ? value : value?.parts;
       if (Number.isInteger(parts) && parts >= 0) for (const oldKey of obsoleteChunks(storedKeys, chunkKey, parts)) if (!changes.has(oldKey)) changes.set(oldKey, DELETE_RECORD);
     }
     for (const key of deletedKeys) changes.set(key, DELETE_RECORD);

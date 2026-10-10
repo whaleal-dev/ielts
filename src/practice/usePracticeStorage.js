@@ -12,12 +12,18 @@ export function usePracticeStorage(prefix) {
   };
   const load = async (hydrate = restore) => {
     restore = hydrate;
+    store.loaded = false;
+    Object.assign(status, { state: 'loading', loadFailed: true, message: '' });
     try {
       const entries = (await store.load()).entries;
       restore?.(entries);
       return entries;
     }
-    catch { return null; }
+    catch {
+      store.loaded = false;
+      Object.assign(status, { state: 'error', loadFailed: true, message: '无法读取浏览器存储。请允许本站使用存储后重试读取，已有数据不会被默认内容覆盖。' });
+      return null;
+    }
   };
   const retry = async (snapshot) => {
     if (status.loadFailed) return await load() !== null;

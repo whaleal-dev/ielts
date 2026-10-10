@@ -2,7 +2,7 @@ import { reactive, computed, watch, onMounted, onUnmounted } from 'vue';
 import { chapters, groups, words, sources, wordIndex, normalizeTerm, audioForTerm } from './library.js';
 import { RecordStore, wordRecords, PREFIX } from './storage.js';
 import { createWordLibrary, expandWordLibrary, directoryRecords, wordLibraryRecords, readWordLibraries, libraryDeleteKeys } from './wordLibraries.js';
-import { SpeechPlayer, chooseEnglishVoice } from './practice/player.js';
+import { SpeechPlayer } from './practice/player.js';
 import { dayKey, emptyDay, markStudied, recentDays, studyStreak } from './progress.js';
 import { normalizeDifficulty, changeDifficulty, scheduleReview, answerRecord, isReviewDue, reviewIntervals } from './learningModel.js';
 
@@ -209,11 +209,12 @@ export function useLearning() {
   };
   const expose = () => {
     const word = app.current;
-    if (!word || exposed === word.key) return;
+    if (!word) return;
+    const day = today(), exposure = `${dayKey(app.now)}:${word.key}`;
+    if (exposed === exposure) return;
     const record = app.getRecord(word.key);
     record.count += 1;
     record.lastStudiedAt = new Date().toISOString();
-    const day = today();
     day.events += 1;
     if (word.sourceId === 'all') markStudied(day, wordIndex.get(word.key), words.length);
     else {
@@ -222,7 +223,7 @@ export function useLearning() {
       const personalDay = days[dayKey(app.now)] ||= emptyDay();
       if (markStudied(personalDay, source.words.findIndex((entry) => entry.key === word.key), source.words.length)) day.studied += 1;
     }
-    exposed = word.key;
+    exposed = exposure;
     saveWord(word);
   };
   app.stop = () => {
@@ -457,14 +458,10 @@ export function useLearning() {
   function prepareVoices() {
     if (!app.ready || app.storage.loadFailed || app.libraryBusy || libraryRetry) return;
     const voices = globalThis.speechSynthesis?.getVoices() || [];
-    const selected = chooseEnglishVoice(voices, app.prefs.voice, true);
-    if (!selected) return;
-    const id = selected.voiceURI || selected.name;
-    if (app.prefs.voice !== id) {
-      app.voiceWarning = app.prefs.voice ? '已选语音暂不可用，已使用默认英语语音。' : '';
-      app.prefs.voice = id; app.savePrefs();
-    }
+    const available = voices.some((voice) => /^en/i.test(voice.lang) && (voice.voiceURI === app.prefs.voice || voice.name === app.prefs.voice));
+    app.voiceWarning = app.prefs.voice && !available ? '已选语音暂不可用，播放时使用默认英语语音；语音可用后自动恢复。' : '';
   }
+  watch(() => app.prefs.voice, prepareVoices);
 
   const onKeyboard = (event) => {
     if (!app.ready || app.prefs.view !== 'study' || event.ctrlKey || event.metaKey || event.altKey) return;

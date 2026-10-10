@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'vite';
 import { createRenderer, nextTick } from 'vue';
-import { RecordStore, PREFIX, RECORD_LIMIT, byteSize } from '../src/storage.js';
+import { RecordStore, PREFIX, RECORD_LIMIT, byteSize, wordRecords } from '../src/storage.js';
 import { valueRecords, readValue } from '../src/practice/records.js';
 import { createWordLibrary, directoryRecords, wordLibraryRecords, readWordLibraries, libraryDeleteKeys } from '../src/wordLibraries.js';
 import { parseWordText } from '../src/wordImport.js';
@@ -353,6 +353,152 @@ for (const module of ['wordPlayer', 'synonyms']) {
       assert.equal(prevented, false); assert.equal(app.index, 0);
       for (const callback of listeners.get('keydown')) callback({ target: { closest: () => null }, key: 'ArrowRight', preventDefault() { prevented = true; } });
       assert.equal(prevented, true); assert.equal(app.index, 1); assert.equal(app.playing, false);
+    } finally { mounted.close(); }
+  });
+}
+
+for (const mode of modes) for (const module of ['wordPlayer', 'synonyms', 'listening']) {
+  test(`AUDIT-011: ${module} protects complete restoration after a ${mode} legacy read failure`, async () => {
+    const options = storageOptions(mode);
+    const prefix = module === 'wordPlayer' ? 'ielts-word-player-v1:' : module === 'synonyms' ? 'ielts-synonyms-v1:' : 'ielts-listening-v1:';
+    const database = module === 'listening' ? 'ielts-dictation-data-db' : 'apple-word-trainer';
+    const seed = new RecordStore({ ...options, prefix, database }); await seed.load();
+    const prefs = { rate: 1.4, repeat: module === 'synonyms' ? 5 : 4 };
+    const content = module === 'wordPlayer' ? valueRecords('list', ['apple', 'pear']) : module === 'synonyms' ? valueRecords('groups', [['apple', 'pear']]) : [['customParts', 1], ['custom:0', 'ability']];
+    await seed.setMany([['prefs', prefs], ...content]);
+    const legacyKey = module === 'wordPlayer' ? 'ielts_listen_repeat' : module === 'synonyms' ? 'ielts_notes_v4' : 'ielts-dictation-settings-v2';
+    options.localStorage.setItem(legacyKey, JSON.stringify(module === 'synonyms' ? { apple: 'existing note' } : {}));
+    const getItem = options.localStorage.getItem.bind(options.localStorage);
+    let blocked = true;
+    options.localStorage.getItem = (key) => { if (blocked && key === legacyKey) throw new Error('legacy read unavailable'); return getItem(key); };
+    globalThis.localStorage = options.localStorage; globalThis.indexedDB = options.indexedDB;
+    const mounted = await mount(apps[module]);
+    try {
+      assert.equal(mounted.app.storage.state, 'error');
+      assert.equal(mounted.app.storage.loadFailed, true);
+      assert.match(mounted.app.storage.message, /读取/);
+      assert.equal(await mounted.app.savePrefs(), false);
+      assert.equal(await mounted.app.retrySave(), false);
+      blocked = false;
+      assert.equal(await mounted.app.retrySave(), true);
+      assert.equal(mounted.app.prefs.rate, 1.4); assert.equal(mounted.app.prefs.repeat, prefs.repeat);
+      if (module === 'wordPlayer') assert.deepEqual([...mounted.app.items], ['apple', 'pear']);
+      else if (module === 'synonyms') { assert.deepEqual(mounted.app.groups.map((group) => [...group]), [['apple', 'pear']]); assert.equal(mounted.app.notes.get('apple'), 'existing note'); }
+      else assert.equal(mounted.app.customText, 'ability');
+      assert.equal(mounted.app.speaking, false);
+      const restored = (await new RecordStore({ ...options, prefix, database }).load()).entries;
+      assert.deepEqual(restored.get('prefs'), prefs);
+    } finally { mounted.close(); }
+  });
+}
+
+test('AUDIT-011: a listening legacy IndexedDB transaction failure cannot enable default writes', async () => {
+  const options = storageOptions('IndexedDB');
+  const listeningOptions = { ...options, prefix: 'ielts-listening-v1:', database: 'ielts-dictation-data-db' };
+  const seed = new RecordStore(listeningOptions); await seed.load();
+  await seed.set('prefs', { rate: 1.6, interval: 0 });
+  const transaction = options.indexedDB.transaction.bind(options.indexedDB);
+  let failed = false;
+  options.indexedDB.transaction = (data, mode) => {
+    const tx = transaction(data, mode), store = tx.objectStore();
+    tx.objectStore = () => ({ ...store, get(key) {
+      if (!failed && key === 'ielts-dictation-word-stats-v1') { failed = true; options.indexedDB.failRead = true; }
+      return store.get(key);
+    } });
+    return tx;
+  };
+  globalThis.localStorage = options.localStorage; globalThis.indexedDB = options.indexedDB;
+  const mounted = await mount(apps.listening);
+  try {
+    assert.equal(mounted.app.storage.loadFailed, true);
+    assert.equal(await mounted.app.savePrefs(), false);
+    assert.equal(await mounted.app.retrySave(), true);
+    assert.equal(mounted.app.prefs.rate, 1.6);
+    assert.equal(mounted.app.prefs.interval, 0);
+    assert.deepEqual((await new RecordStore(listeningOptions).load()).entries.get('prefs'), { rate: 1.6, interval: 0 });
+  } finally { mounted.close(); }
+});
+
+for (const mode of modes) {
+  test(`AUDIT-012: ${mode} shrinking and clearing word notes removes old blocks after retry`, async () => {
+    const options = storageOptions(mode), store = new RecordStore(options);
+    await store.load();
+    const note = 'old note😀'.repeat(2000);
+    await store.setMany([...wordRecords('sample', { count: 2, note }), ...wordRecords('other', { count: 1, note: 'keep' }), ['day:2026-10-10', { studied: 2 }]]);
+    if (mode === 'IndexedDB') {
+      for (const [key, entry] of store.saved) if (key === PREFIX + 'word:sample' || key.startsWith(PREFIX + 'note:sample:')) options.localStorage.setItem(key, JSON.stringify(entry));
+      options.indexedDB.failWrite = true;
+    } else options.localStorage.failAt = options.localStorage.operations + 2;
+    assert.equal(await store.setMany(wordRecords('sample', { count: 2, note: 'short' })), false);
+    const failed = (await new RecordStore(options).load()).entries;
+    assert.equal(Array.from({ length: failed.get('word:sample').noteParts }, (_, index) => failed.get(`note:sample:${index}`)).join(''), note);
+    assert.equal(await store.flush(), true);
+    const shrunk = (await new RecordStore(options).load()).entries;
+    assert.equal([...shrunk.keys()].filter((key) => key.startsWith('note:sample:')).length, 1);
+    assert.equal(shrunk.get('note:sample:0'), 'short');
+    await store.setMany(wordRecords('sample', { count: 2, note: '' }));
+    const cleared = (await new RecordStore(options).load()).entries;
+    assert.equal(cleared.get('word:sample').noteParts, 0);
+    assert.equal([...cleared.keys()].filter((key) => key.startsWith('note:sample:')).length, 0);
+    assert.equal(cleared.get('note:other:0'), 'keep'); assert.deepEqual(cleared.get('day:2026-10-10'), { studied: 2 });
+    assert.ok([...store.saved].every(([key, entry]) => byteSize({ key, ...entry }) <= RECORD_LIMIT));
+    if (mode === 'IndexedDB') assert.equal([...options.localStorage.data.keys()].filter((key) => key.startsWith(PREFIX + 'note:sample:')).length, 0);
+  });
+}
+
+for (const personal of [false, true]) {
+  test(`AUDIT-013: continuing the same ${personal ? 'personal' : 'built-in'} word across Beijing midnight counts each day once`, async (context) => {
+    let clock = Date.parse('2026-10-10T15:59:59Z');
+    context.mock.method(Date, 'now', () => clock);
+    globalThis.indexedDB = null; globalThis.localStorage = new MemoryStorage();
+    const mounted = await mount(apps.learning);
+    try {
+      const app = mounted.app;
+      if (personal) {
+        const library = await app.saveLibrary(parseWordText('apple | 苹果', 'a.txt'), 'A', 'a.txt');
+        app.selectSource(library.id);
+      }
+      app.setMode('spell'); app.answer(app.current.word); app.answer('wrong');
+      await app.retrySave();
+      const previous = globalThis.localStorage.getItem(PREFIX + 'day:2026-10-10');
+      clock = Date.parse('2026-10-10T16:00:00Z');
+      app.setMode('spell'); app.answer(app.current.word);
+      assert.equal(app.today.studied, 1); assert.equal(app.today.events, 1);
+      app.setMode('spell'); app.answer(app.current.word);
+      assert.equal(app.today.studied, 1); assert.equal(app.today.events, 1);
+      assert.equal(app.currentRecord.count, 2); assert.equal(app.streak, 2);
+      assert.equal(app.lastDays(7).at(-1).studied, 1); assert.equal(app.lastDays(30).at(-1).studied, 1);
+      await app.retrySave();
+      assert.equal(globalThis.localStorage.getItem(PREFIX + 'day:2026-10-10'), previous);
+    } finally { mounted.close(); }
+  });
+}
+
+for (const manual of [false, true]) {
+  test(`AUDIT-014: delayed English voices restore ${manual ? 'a saved manual choice' : 'the Google default'} with word settings collapsed`, async (context) => {
+    const options = storageOptions('localStorage');
+    const seed = new RecordStore(options); await seed.load();
+    const local = { voiceURI: 'local', name: 'Local British', lang: 'en-GB' }, late = { voiceURI: 'late', name: 'Google US English', lang: 'en-US' };
+    if (manual) await seed.set('prefs', { voice: late.voiceURI });
+    let voices = [local]; const callbacks = new Set(), spoken = [];
+    context.mock.method(globalThis.speechSynthesis, 'getVoices', () => voices);
+    context.mock.method(globalThis.speechSynthesis, 'addEventListener', (_name, callback) => callbacks.add(callback));
+    context.mock.method(globalThis.speechSynthesis, 'removeEventListener', (_name, callback) => callbacks.delete(callback));
+    context.mock.method(globalThis.speechSynthesis, 'speak', (utterance) => { spoken.push(utterance); setImmediate(() => utterance.onend?.()); });
+    globalThis.indexedDB = null; globalThis.localStorage = options.localStorage;
+    const mounted = await mount(apps.learning);
+    try {
+      const app = mounted.app;
+      assert.equal(app.playbackOpen, false);
+      if (manual) assert.equal(app.prefs.voice, late.voiceURI);
+      voices = [local, late]; for (const callback of callbacks) callback();
+      const library = await app.saveLibrary(parseWordText('auditvoicewordzz | 测试词', 'voice.txt'), 'Voice', 'voice.txt');
+      app.selectSource(library.id); assert.equal(app.current.audio, '');
+      await app.pronounce();
+      assert.equal(spoken.at(-1).voice, late);
+      assert.equal(app.voiceWarning, '');
+      if (manual) assert.equal(app.prefs.voice, late.voiceURI);
+      assert.equal(app.playing, false);
     } finally { mounted.close(); }
   });
 }

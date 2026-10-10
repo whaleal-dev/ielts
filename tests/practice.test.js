@@ -33,6 +33,12 @@ test('word lists filter Chinese, deduplicate case and whitespace, and leave vali
   assert.deepEqual(original, ['a', 'b', 'c']);
 });
 
+test('AUDIT-015: supplementary Han characters remain display-only and are filtered from word playback', () => {
+  const terms = ['𠮷', 'test𠮷', '丽', 'happy', '𐀀'];
+  assert.deepEqual(Array.from(groupQueue([{ index: 0, words: terms }]), (item) => [item.text, item.word]), [['happy', 3], ['𐀀', 4]]);
+  assert.deepEqual(parseWords(terms.join(',')), { items: ['happy', '𐀀'], chinese: 3, duplicates: 0 });
+});
+
 test('settings enforce playback boundaries and read reference-page settings without changing them', () => {
   const legacy = { selectedVoiceURI: 'British', speechRate: '1.2', repeatCount: '3', ttsSource: 'baidu', dictationMode: true };
   const original = JSON.stringify(legacy);

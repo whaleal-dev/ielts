@@ -15,7 +15,7 @@ const preferredGoogle = computed(() => {
   return google.find((voice) => /^en[-_]GB/i.test(voice.lang)) || google[0];
 });
 watch([() => props.modelValue, preferredGoogle], ([value, voice]) => {
-  if (voice && (!value || !voices.value.some((entry) => entry.id === value))) { emit('update:modelValue', voice.id); emit('change'); }
+  if (voice && !value) { emit('update:modelValue', voice.id); emit('change'); }
 });
 const load = () => { voices.value = (globalThis.speechSynthesis?.getVoices() || []).filter((voice) => /^en/i.test(voice.lang)).map((voice) => ({ id: voice.voiceURI || voice.name, name: voice.name, lang: voice.lang })); };
 onMounted(() => { load(); globalThis.speechSynthesis?.addEventListener('voiceschanged', load); });

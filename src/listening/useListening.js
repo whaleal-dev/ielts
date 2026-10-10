@@ -236,9 +236,14 @@ export function useListening() {
   };
   const onBeforeUnload = (event) => { if (store.pending.size) { event.preventDefault(); event.returnValue = ''; } };
   async function restore() {
+    app.end(); store.loaded = false;
+    Object.assign(app.storage, { state: 'loading', loadFailed: true, message: '' });
     try {
+      await store.open();
+      const legacy = await readLegacy(store), legacyBytes = store.legacyBytes;
       const { entries } = await store.load();
-      const old = hydrateLegacy(await readLegacy(store), library);
+      const old = hydrateLegacy(legacy, library);
+      store.legacyBytes = legacyBytes;
       app.records = old.records; app.scores = old.scores; app.prefs = old.prefs; app.customText = old.customText;
       for (const [key, value] of entries) {
         if (key === 'prefs') app.prefs = sanitizePrefs(value, library.groups);
@@ -254,7 +259,8 @@ export function useListening() {
       app.session = emptySession(app.prefs.mode);
       return true;
     } catch {
-      app.storage.state = 'error'; app.storage.message = '无法读取浏览器存储。请允许本站使用存储；当前页面仍可练习。';
+      store.loaded = false;
+      Object.assign(app.storage, { state: 'error', loadFailed: true, message: '无法读取浏览器存储。请允许本站使用存储后重试读取；当前练习不会保存。' });
       return false;
     }
   }

@@ -21,5 +21,6 @@ export function readValue(entries, key, fallback) {
 }
 
 export const readLocalValue = (key) => {
-  try { return JSON.parse(globalThis.localStorage?.getItem(key) || 'null'); } catch { return null; }
+  const raw = globalThis.localStorage?.getItem(key);
+  try { return JSON.parse(raw || 'null'); } catch { return null; }
 };

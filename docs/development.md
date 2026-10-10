@@ -56,7 +56,7 @@ git diff --check
 | [listening.test.js](../tests/listening.test.js) | 语料、分隔符、播放与判题、章节计分、旧记录与存储 |
 | [practice.test.js](../tests/practice.test.js) 、[synonym-cache.test.js](../tests/synonym-cache.test.js) | 词表解析、循环、发音取消、缓存顺序与保存 |
 | [browser-notice.test.js](../tests/browser-notice.test.js) | 浏览器识别、共享每日提醒与存储不可用 |
-| [audit-regressions.test.js](../tests/audit-regressions.test.js) | 审查问题的并发、双后端故障、容量／编码、键回收、反馈、快捷键与日期回归 |
+| [audit-regressions.test.js](../tests/audit-regressions.test.js) | 审查问题的并发、双后端及旧记录读取故障、容量／编码、笔记与内容键回收、反馈、快捷键、同词跨日与语音延迟回归 |
 
 按改动范围验证核心操作、刷新恢复、桌面／手机布局、存储失败重试与实际音频。自动化测试通过不能替代真实浏览器、Windows 原生快捷键或生产缓存验收；本次执行与历史结果分别记录在路线图。
 

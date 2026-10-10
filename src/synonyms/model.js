@@ -1,4 +1,4 @@
-export const hasChinese = (text) => /[\u4e00-\u9fff\u3400-\u4dbf\uf900-\ufaff]/u.test(text);
+export const hasChinese = (text) => /\p{Script=Han}/u.test(text);
 export const MAX_GROUP_WORDS = 200;
 export const MAX_LIBRARY_WORDS = 10000;
 export const GROUP_PAGE_SIZE = 50;

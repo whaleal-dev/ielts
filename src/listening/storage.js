@@ -7,7 +7,8 @@ export const createListeningStore = (options = {}) => new RecordStore({ ...optio
 export async function readLegacy(store) {
   const result = {};
   for (const [name, key] of Object.entries(legacyKeys)) {
-    try { result[name] = JSON.parse(store.localStorage?.getItem(key) || 'null'); }
+    const raw = store.localStorage?.getItem(key);
+    try { result[name] = JSON.parse(raw || 'null'); }
     catch { result[name] = null; }
   }
   if (store.db) await new Promise((resolve, reject) => {
