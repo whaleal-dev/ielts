@@ -19,7 +19,7 @@ const chartMax = computed(() => Math.max(5, ...sevenDays.value.map((day) => day.
 const masteredPercent = computed(() => Math.round(learning.groupMastered / Math.max(1, learning.session.items.length) * 100));
 const currentWordStatus = computed(() => learning.currentRecord.mastered ? '已掌握' : learning.currentRecord.count > 0 ? '学习中' : '未学习');
 const totalPercent = computed(() => Math.round(learning.stats.mastered / Math.max(1, learning.sourceWords.length) * 100));
-const saveLabel = computed(() => learning.storage.state === 'error' ? '尚未保存' : learning.storage.state === 'saving' ? '正在保存' : learning.storage.state === 'loading' ? '正在读取' : '本地已保存');
+const saveLabel = computed(() => learning.storage.loadFailed ? '读取失败' : learning.storage.state === 'error' ? '尚未保存' : learning.storage.state === 'saving' ? '正在保存' : learning.storage.state === 'loading' ? '正在读取' : '本地已保存');
 const groupCount = (group) => group.words.filter((word) => learning.records.get(word.key)?.mastered).length;
 const heatLevel = (count) => count === 0 ? 0 : count < 10 ? 1 : count < 30 ? 2 : count < 60 ? 3 : 4;
 const chapterOptions = chapters.map((chapter) => ({ value: chapter.number, label: `${String(chapter.number).padStart(2, '0')} · ${chapter.title}` }));
@@ -89,7 +89,7 @@ function updateSearch() { learning.visibleCount = 40; }
         <form v-if="learning.prefs.view !== 'review'" class="search-field" role="search" @submit.prevent="learning.startSearch"><Icon name="search" :size="18" /><label class="sr-only" for="searchInput">搜索单词或中文释义</label><input id="searchInput" v-model="learning.search" type="search" placeholder="搜索单词或中文释义" autocomplete="off" @input="updateSearch" /><kbd v-if="!learning.search">↵</kbd></form>
       </div>
 
-      <div v-if="learning.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" :size="20" /><p>{{ learning.storage.message }}</p><button class="secondary-button" @click="learning.retrySave"><Icon name="refresh" :size="15" />重试保存</button></div>
+      <div v-if="learning.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" :size="20" /><p>{{ learning.storage.message }}</p><button class="secondary-button" @click="learning.retrySave"><Icon name="refresh" :size="15" />{{ learning.storage.loadFailed ? '重试读取' : '重试保存' }}</button></div>
       <div v-if="learning.storage.mode === 'localStorage' && learning.storage.state !== 'error'" class="fallback-notice">当前浏览器使用兼容存储，容量较小。</div>
 
       <div v-if="!learning.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在准备词库与学习记录……</div>

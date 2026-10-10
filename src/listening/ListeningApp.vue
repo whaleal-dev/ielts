@@ -50,7 +50,7 @@ function chooseChapter(id) { app.prefs.groupId = library.chapters.find((chapter)
     <main class="main-container">
       <div class="page-heading"><div><div class="eyebrow">LISTEN A LITTLE CLOSER</div><h1>听力语料库<span class="heading-dot">.</span></h1><p>从听清一个词，到听懂一段话。</p></div></div>
       <div class="workspace-nav"><nav class="page-nav" aria-label="听力模块导航"><button v-for="tab in tabs" :key="tab.id" :class="{ active: app.prefs.view === tab.id }" :aria-current="app.prefs.view === tab.id ? 'page' : undefined" @click="app.showView(tab.id)"><Icon :name="tab.icon" :size="17" />{{ tab.label }}<span v-if="tab.id === 'mistakes' && app.mistakes.length" class="nav-count">{{ app.mistakes.length }}</span></button></nav><span class="corpus-library-count">{{ library.groups.length }} 组<span>·</span>{{ library.words.length.toLocaleString() }} 条语料</span></div>
-      <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">重试保存</button></div>
+      <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">{{ app.storage.loadFailed ? '重试读取' : '重试保存' }}</button></div>
       <div v-if="app.storage.mode === 'localStorage' && app.storage.state !== 'error'" class="fallback-notice">当前使用兼容存储，容量较小。学习记录仍按词条和日期分开保存。</div>
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在准备语料与学习记录……</div>
       <template v-else>

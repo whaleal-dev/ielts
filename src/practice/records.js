@@ -1,3 +1,10 @@
+export const DELETE_RECORD = Symbol('delete record');
+
+export function obsoleteChunks(keys, key, count) {
+  const prefix = key + ':';
+  return [...keys].filter((entry) => entry.startsWith(prefix) && /^\d+$/.test(entry.slice(prefix.length)) && Number(entry.slice(prefix.length)) >= count);
+}
+
 export function valueRecords(key, value) {
   const text = JSON.stringify(value);
   const parts = [];

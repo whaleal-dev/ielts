@@ -25,11 +25,18 @@ export function expandWordLibrary(library, audioForTerm) {
   return { ...library, groups, words: groups.flatMap((group) => group.words) };
 }
 
-export const directoryRecords = (libraries) => valueRecords('libraries', libraries.map(({ id, title, createdAt, filename }) => ({ id, title, createdAt, filename })));
+export const directoryRecords = (libraries) => libraries.flatMap(({ id, title, createdAt, filename }) => valueRecords(`libraryInfo:${id}`, { id, title, createdAt, filename }));
 export const wordLibraryRecords = (library) => valueRecords(`library:${library.id}`, library.groups.map(({ title, words }) => ({ title, words: words.map(({ word, meaning, phonetic }) => ({ word, meaning, phonetic })) })));
 
 export function readWordLibraries(entries, audioForTerm) {
-  return readValue(entries, 'libraries', []).flatMap((metadata) => {
+  const directory = new Map(readValue(entries, 'libraries', []).map((metadata) => [metadata.id, metadata]));
+  for (const [key, value] of entries) {
+    if (key.startsWith('libraryInfo:') && Number.isInteger(value?.parts)) {
+      const metadata = readValue(entries, key, null);
+      if (metadata?.id === key.slice(12)) directory.set(metadata.id, metadata);
+    }
+  }
+  return [...directory.values()].flatMap((metadata) => {
     const groups = readValue(entries, `library:${metadata.id}`, null);
     if (!groups?.length) return [];
     return [expandWordLibrary({ ...metadata, personal: true, groups }, audioForTerm)];
@@ -37,6 +44,6 @@ export function readWordLibraries(entries, audioForTerm) {
 }
 
 export function libraryDeleteKeys(keys, library) {
-  const prefixes = [`library:${library.id}`, `word:personal:${library.id}:`, `note:personal:${library.id}:`, `position:personal:${library.id}:`, `libraryDay:${library.id}:`];
-  return [...keys].filter((key) => key === `libraryPosition:${library.id}` || prefixes.some((prefix) => key.startsWith(prefix.endsWith(':') ? prefix : prefix + ':')) || key === prefixes[0]);
+  const prefixes = [`library:${library.id}`, `libraryInfo:${library.id}`, `word:personal:${library.id}:`, `note:personal:${library.id}:`, `position:personal:${library.id}:`, `libraryDay:${library.id}:`];
+  return [...keys].filter((key) => key === `libraryPosition:${library.id}` || prefixes.some((prefix) => key === prefix || key.startsWith(prefix.endsWith(':') ? prefix : prefix + ':')));
 }

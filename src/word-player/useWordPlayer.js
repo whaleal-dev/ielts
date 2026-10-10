@@ -18,7 +18,7 @@ export function useWordPlayer() {
     onError: (error) => { app.error = error.message; },
   });
   const snapshot = () => [['prefs', { ...app.prefs }], ...valueRecords('list', app.items), position()];
-  app.retrySave = () => storage.retry(snapshot());
+  app.retrySave = () => storage.retry(snapshot);
   app.pause = () => player.stop();
   app.savePrefs = () => { app.pause(); app.prefs = wordPlayerPrefs(app.prefs); return storage.save([['prefs', { ...app.prefs }]]); };
   const play = (automatic) => {
@@ -66,14 +66,14 @@ export function useWordPlayer() {
   };
   app.reveal = () => { if (app.current) { app.revealed = true; app.feedback = null; } };
   const keydown = (event) => {
-    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, dialog, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
+    if (!app.ready || storage.status.loadFailed || event.ctrlKey || event.metaKey || event.altKey || document.querySelector('dialog[open]')) return;
+    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, a, dialog, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
     if (event.code === 'Space') { event.preventDefault(); app.toggle(); }
     else if (event.key === 'ArrowLeft') { event.preventDefault(); app.move(-1); }
     else if (event.key === 'ArrowRight') { event.preventDefault(); app.move(1); }
     else if (event.key.toLowerCase() === 'r') { event.preventDefault(); app.replay(); }
   };
-  onMounted(async () => {
-    const entries = await storage.load();
+  const restore = (entries) => {
     const legacy = readLocalValue('ielts_listen_repeat');
     const savedItems = readValue(entries, 'list', null);
     const items = savedItems ?? legacy?.wordItems?.map((word) => word?.text).filter((text) => typeof text === 'string') ?? [];
@@ -81,8 +81,11 @@ export function useWordPlayer() {
     app.prefs = wordPlayerPrefs(entries.get('prefs') || legacy || {});
     const saved = entries.get('position');
     app.index = Math.max(0, Math.min(app.items.length - 1, Number(saved?.index) || 0)); app.finished = saved?.finished === true;
-    app.rawText = app.items.join('\n'); app.ready = true;
+    app.rawText = app.items.join('\n');
     if (app.items.length) app.notice = `已恢复 ${app.items.length} 个词条和播放设置。`;
+  };
+  onMounted(async () => {
+    await storage.load(restore); app.ready = true;
     window.addEventListener('keydown', keydown);
   });
   onUnmounted(() => { player.stop(); window.removeEventListener('keydown', keydown); });

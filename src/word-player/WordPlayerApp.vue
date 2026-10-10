@@ -17,10 +17,10 @@ function clearWords() { if (window.confirm('清空当前词表和本模块播放
     <PracticeHeader module="word-player" :storage="app.storage" />
     <main class="main-container">
       <div class="page-heading"><div><div class="eyebrow">LET THE WORDS PLAY</div><h1>单词播放<span class="heading-dot">.</span></h1><p>放入你的词表，按自己的节奏反复听。</p></div></div>
-      <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">重试保存</button></div>
+      <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">{{ app.storage.loadFailed ? '重试读取' : '重试保存' }}</button></div>
       <div v-if="app.storage.mode === 'localStorage' && app.storage.state !== 'error'" class="fallback-notice">当前使用兼容存储，词表、播放设置与位置仅保存在当前浏览器。</div>
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在读取词表与播放设置……</div>
-      <template v-else>
+      <template v-else-if="!app.storage.loadFailed">
         <section class="selection-panel player-input-panel" aria-label="加载单词列表"><div class="practice-toolbar"><div><h2>你的播放词表</h2><p>用逗号或换行分隔单词与词组，自动过滤含中文词条并去重。</p></div><span class="player-total">{{ app.items.length }} <small>个词条</small></span></div><label class="sr-only" for="playerWords">粘贴要播放的词表</label><textarea id="playerWords" v-model="app.rawText" class="practice-textarea" rows="3" maxlength="100000" placeholder="analyze, consequence, environment&#10;significant&#10;in advance, beneficial"></textarea><div class="practice-actions"><button id="playerLoad" class="primary-button" @click="app.loadWords"><Icon name="book" :size="16" />加载并重置进度</button><button class="text-button" :disabled="!app.items.length && !app.rawText" @click="clearWords">清空词表与设置</button></div></section>
         <p v-if="app.error" class="practice-error" role="alert">{{ app.error }}</p>
         <p v-else-if="app.notice" class="practice-notice" role="status">{{ app.notice }}</p>

@@ -1,4 +1,6 @@
-# Word Save 版本审查报告
+# 单词独立 HTML 版本审查（2026-04-28）
+
+本文归档 2026-04-28 的独立 HTML 审查；下文「当前」均指当时基线，内联词库、备份、远程音频与 CDN 描述不适用于现有 Vue 入口。当前规范见 [CLAUDE.md](../../CLAUDE.md) ，使用方式见 [README.md](../../README.md) ，实际进度与验证见 [ROADMAP.md](../../ROADMAP.md) 。
 
 - 审查日期：2026-04-28
 - 主运行文件：`study_words.html`

@@ -74,10 +74,10 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
     <PracticeHeader module="synonyms" :storage="app.storage" />
     <main class="main-container">
       <div class="page-heading"><div><div class="eyebrow">SAME MEANING, NEW WORDS</div><h1>同义词<span class="heading-dot">.</span></h1><p>把同义替换放在一起，听一听，记得更牢。</p></div></div>
-      <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">重试保存</button></div>
+      <div v-if="app.storage.state === 'error'" class="storage-warning" role="alert"><Icon name="storage" /><p>{{ app.storage.message }}</p><button class="secondary-button" @click="app.retrySave">{{ app.storage.loadFailed ? '重试读取' : '重试保存' }}</button></div>
       <div v-if="app.storage.mode === 'localStorage' && app.storage.state !== 'error'" class="fallback-notice">当前使用兼容存储，词库、设置与笔记仍仅保存在当前浏览器。</div>
       <div v-if="!app.ready" class="loading-state" role="status"><span class="loading-ring"></span>正在读取词库与笔记……</div>
-      <template v-else>
+      <template v-else-if="!app.storage.loadFailed">
         <section class="content-panel practice-playback-settings synonym-controls" aria-label="同义词词库、播放设置与控制">
           <div class="practice-toolbar"><div class="synonym-source"><Icon name="book" :size="19" /><div><strong>{{ app.source || '选择你的同义词词库' }}</strong><span>{{ app.groups.length }} 组 · {{ app.noteCount }} 条笔记</span></div></div><div class="practice-actions"><button class="secondary-button" @click="app.loadSample">示例词库</button><button class="secondary-button" @click="openFileDemo">示例文件</button><button class="primary-button" @click="openImport"><Icon name="grid" :size="15" />导入词库</button></div></div>
           <div class="synonym-playback-settings" role="group" aria-labelledby="synonymSettingsTitle">
@@ -103,7 +103,8 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
         <div v-else ref="synonymList" class="synonym-list" :class="{ 'is-centering': app.prefs.centerCurrent }">
           <article v-for="group in app.filteredGroups.slice(0, app.visibleCount)" :key="group.index" class="content-panel synonym-card" :class="{ 'current-group': app.current?.group === group.index }">
             <div class="synonym-group-number">{{ String(group.index + 1).padStart(2, '0') }}</div>
-            <div class="synonym-card-body"><button class="synonym-main-word" :class="{ highlighted: highlighted(group.index, 0) }" :disabled="hasChinese(group.words[0])" :aria-label="`播放 ${group.words[0]}`" @click="app.jump(group.index, 0)">{{ group.words[0] }}<Icon v-if="!hasChinese(group.words[0])" name="volume" :size="18" /></button><div class="synonym-terms"><button v-for="(word, index) in group.words.slice(1)" :key="index" :class="{ highlighted: highlighted(group.index, index + 1) }" :disabled="hasChinese(word)" :aria-label="`播放 ${word}`" @click="app.jump(group.index, index + 1)">{{ word }}<Icon v-if="!hasChinese(word)" name="volume" :size="14" /></button></div>
+            <div class="synonym-card-body"><template v-for="page in [app.visibleWords(group)]" :key="app.groupPage(group)"><button class="synonym-main-word" :class="{ highlighted: highlighted(group.index, page[0].index) }" :disabled="hasChinese(page[0].text)" :aria-label="`播放 ${page[0].text}`" @click="app.jump(group.index, page[0].index)">{{ page[0].text }}<Icon v-if="!hasChinese(page[0].text)" name="volume" :size="18" /></button><div class="synonym-terms"><button v-for="word in page.slice(1)" :key="word.index" :class="{ highlighted: highlighted(group.index, word.index) }" :disabled="hasChinese(word.text)" :aria-label="`播放 ${word.text}`" @click="app.jump(group.index, word.index)">{{ word.text }}<Icon v-if="!hasChinese(word.text)" name="volume" :size="14" /></button></div></template>
+              <div v-if="app.groupPageCount(group) > 1" class="practice-actions synonym-pagination" :aria-label="`第 ${group.index + 1} 组词条分页`"><button class="text-button" :disabled="app.groupPage(group) === 0" @click="app.moveGroupPage(group, -1)">上一页</button><span>{{ app.groupPage(group) + 1 }} / {{ app.groupPageCount(group) }}</span><button class="text-button" :disabled="app.groupPage(group) + 1 >= app.groupPageCount(group)" @click="app.moveGroupPage(group, 1)">下一页</button></div>
               <div v-if="app.groupNotes(group.words).length" class="synonym-notes"><div v-for="note in app.groupNotes(group.words)" :key="note.word" class="synonym-note"><button class="synonym-note-content" :aria-label="`编辑 ${note.word} 的笔记`" @click="openNote(group.words, note.word)"><strong>{{ note.word }}</strong><span>{{ note.text }}</span></button><button class="icon-button" :aria-label="`移除 ${note.word} 的笔记`" @click="removeNote(note.word)"><Icon name="close" :size="13" /></button></div></div>
             </div>
           </article>
@@ -122,7 +123,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
           <label class="practice-file-drop" :class="{ 'is-dragging': dragDepth > 0 && !importing, 'is-disabled': importing }" for="synonymFiles" @dragenter.prevent="!importing && dragDepth++" @dragover.prevent @dragleave.prevent="dragDepth = Math.max(0, dragDepth - 1)" @drop.prevent="dropFiles">
             <span class="practice-file-drop-icon"><Icon name="upload" :size="25" /></span>
             <strong>{{ dragDepth > 0 && !importing ? '松开即可添加文件' : '拖拽词库文件到这里' }}</strong>
-            <span id="synonymFileHint" class="practice-file-hint">TXT · 单个最大 2 MB</span>
+            <span id="synonymFileHint" class="practice-file-hint">TXT · 单个最大 2 MB · 每批合计 10 MiB</span>
             <span class="secondary-button practice-file-button">{{ files.length ? '继续添加文件' : '选择文件' }}<Icon name="right" :size="15" /></span>
             <input id="synonymFiles" class="sr-only" type="file" accept=".txt,.json" multiple aria-label="选择 TXT 词库文件" aria-describedby="synonymFileHint synonymFilePrivacy" :disabled="importing" @change="addFiles($event.target.files); $event.target.value = ''" />
           </label>
@@ -154,7 +155,7 @@ function removeNote(word) { if (window.confirm(`移除「${word}」的笔记？`
       <div class="dialog-heading"><div><div class="eyebrow">SYNONYM FILE EXAMPLES</div><h2 id="synonymFileDemoTitle">词库文件格式与示例</h2></div><button class="icon-button" aria-label="关闭文件示例窗口" @click="fileDemoDialog.close()"><Icon name="close" /></button></div>
       <div class="dialog-body">
         <p class="practice-dialog-copy">在文本编辑器中填写词表：每行一组同义词，组内用英文逗号或中文逗号分隔。无需添加标题或序号，词组中的空格保留，空行会忽略。</p>
-        <p class="practice-dialog-copy">将内容保存为 UTF-8 编码的 .txt 纯文本文件，再点击「导入词库」，选择或拖入文件并确认导入。可同时选择多个文件，按选择顺序合并并替换当前词库。单个文件最大 2 MB，单个词条最多 200 个字符。</p>
+        <p class="practice-dialog-copy">将内容保存为 UTF-8 编码的 .txt 纯文本文件，再点击「导入词库」，选择或拖入文件并确认导入。可同时选择多个文件，按选择顺序合并并替换当前词库。单个文件最大 2 MB，每批合计最多 10 MiB，每组最多 200 条，合并词库最多 10000 条，中文标签也计入数量；单个词条最多 200 个字符。</p>
         <section v-for="(demo, index) in fileDemos" :key="demo.filename" class="practice-file-selection synonym-demo-example">
           <h3>示例 {{ index + 1 }}：{{ demo.title }}</h3>
           <p class="practice-dialog-copy">{{ demo.tip }}</p>

@@ -1,8 +1,10 @@
-# study_words.html 版本审查报告
+# 单词独立 HTML 版本审查（2026-04-29／30）
 
-## 2026-04-30 增量复审（当前最新版）
+本文归档 2026-04-29／30 的独立 HTML 审查，内嵌词库、难词标记、备份、CDN 和远程音频等描述只适用于当时版本。现有 `study_words.html` 已替换为 Vue 入口；当前规范见 [CLAUDE.md](../CLAUDE.md) ，使用方式见 [README.md](../README.md) ，实际进度与验证见 [ROADMAP.md](../ROADMAP.md) 。
 
-- 审查对象: [words/study_words.html](words/study_words.html)
+## 2026-04-30 增量复审（历史版本）
+
+- 审查对象：当时的 `words/study_words.html`。
 - 审查目标: 功能导出、关联正确性、全文交互细节、bug 与漏洞检查、文档同步
 
 ### A. 功能导出与补充
@@ -36,11 +38,11 @@
 
 1. 修复听力语料音频路径优先级
 - 问题: 显式 `mp3Path` 可能被推导 URL 覆盖，导致个别词条播放错误音频。
-- 修复: 在 [words/study_words.html](words/study_words.html#L5810) 将优先级调整为“显式路径优先，推导路径兜底”。
+- 修复：在旧版 `words/study_words.html` 当时第 5810 行，将优先级调整为「显式路径优先，推导路径兜底」；该历史行号不对应当前 Vue 入口。
 
 2. 修复全局快捷键与按钮默认行为冲突
 - 问题: 聚焦按钮或链接时按 Space/Enter，可能触发全局学习快捷键而非控件默认行为。
-- 修复: 在 [words/study_words.html](words/study_words.html#L5368) 将 `BUTTON`、`A` 纳入快捷键排除范围。
+- 修复：在旧版 `words/study_words.html` 当时第 5368 行，将 `BUTTON`、`A` 纳入快捷键排除范围；该历史行号不对应当前 Vue 入口。
 
 ### D. bug / 漏洞复核结论
 
@@ -52,13 +54,13 @@
 - 远程音频源可用性受网络与源站状态影响。
 
 3. 语法与编辑器检查
-- [words/study_words.html](words/study_words.html) 当前无错误（No errors found）。
+- 当时的 `words/study_words.html` 静态检查无错误（No errors found）。
 
 - 审查日期: 2026-04-29
 - 审查对象: words/study_words.html
 - 审查范围: 功能导出、关联链路核对、交互与细节、缺陷与风险
 
-## 1. 功能清单（当前版本）
+## 1. 功能清单（2026-04-29 历史版本）
 
 1. 学习主流程
 - 章节和分组切换（Chapter -> Group）

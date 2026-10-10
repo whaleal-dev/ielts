@@ -1,4 +1,6 @@
-# Word Save Release Notes
+# 单词独立 HTML 发布记录（2026-04-28）
+
+以下为 2026-04-28 独立 HTML 的历史发布记录，原文与验证结论按该基线保留。当前 Vue 网站的使用、规范和实际进度分别见 [README.md](../../README.md) 、[CLAUDE.md](../../CLAUDE.md) 与 [ROADMAP.md](../../ROADMAP.md) 。
 
 - Release date: 2026-04-28
 - Release scope: `study_words.html`, `version.md`

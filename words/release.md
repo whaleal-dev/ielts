@@ -1,9 +1,11 @@
-# study_words.html 发布说明
+# 单词独立 HTML 发布记录（2026-04-29／30）
+
+以下为 2026-04-29／30 独立 HTML 的历史记录，不能用作当前 Vue 网站的功能或发布状态。当前使用方式见 [README.md](../README.md) ，规范见 [CLAUDE.md](../CLAUDE.md) ，发布与验证记录见 [ROADMAP.md](../ROADMAP.md) 。
 
 ## 2026-04-30 增量发布
 
 - 发布类型: 复审修复 + 交互细节优化 + 文档同步
-- 影响文件: [words/study_words.html](words/study_words.html), [words/version.md](words/version.md), [words/release.md](words/release.md)
+- 影响文件：当时的 `words/study_words.html`、[words/version.md](version.md) 与 [words/release.md](release.md) 。
 
 ### 本次新增变更
 
@@ -32,7 +34,7 @@
 - 未发现高危漏洞；主要残余风险仍为 CDN/远程音频可用性与离线场景能力。
 
 5. 文档同步
-- 本轮结果已同步到 [words/version.md](words/version.md) 与本文件。
+- 本轮结果已同步到 [words/version.md](version.md) 与本文件。
 
 - 发布日期: 2026-04-29
 - 版本类型: 审查增强 + 交互优化 + 稳定性修复

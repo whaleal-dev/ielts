@@ -17,9 +17,9 @@ test('synonym imports preserve phrases, Chinese labels and file order while reje
 
 test('group loops stay within each group and skip Chinese without losing original highlight positions', () => {
   const items = groupQueue([{ index: 7, words: ['预订', 'reserve', 'book'] }, { index: 10, words: ['ahead', '提前'] }], 2);
-  assert.deepEqual(items.map((item) => item.text), ['reserve', 'book', 'reserve', 'book', 'ahead', 'ahead']);
-  assert.deepEqual(items.map((item) => [item.group, item.word, item.cycle]), [[7, 1, 1], [7, 2, 1], [7, 1, 2], [7, 2, 2], [10, 0, 1], [10, 0, 2]]);
-  assert.deepEqual(groupQueue([{ index: 0, words: ['中文', '中文词组'] }], 3), []);
+  assert.deepEqual(Array.from(items, (item) => item.text), ['reserve', 'book', 'reserve', 'book', 'ahead', 'ahead']);
+  assert.deepEqual(Array.from(items, (item) => [item.group, item.word, item.cycle]), [[7, 1, 1], [7, 2, 1], [7, 1, 2], [7, 2, 2], [10, 0, 1], [10, 0, 2]]);
+  assert.equal(groupQueue([{ index: 0, words: ['中文', '中文词组'] }], 3).length, 0);
 });
 
 test('word lists filter Chinese, deduplicate case and whitespace, and leave valid English phrases intact', () => {

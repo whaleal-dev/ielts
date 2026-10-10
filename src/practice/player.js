@@ -64,7 +64,7 @@ export class QueuePlayer {
 
   start(items, index, options = {}) {
     this.stop();
-    if (!items[index]) return Promise.resolve();
+    if (!items.at(index)) return Promise.resolve();
     const generation = this.generation;
     return this.run(items, index, options, generation);
   }
@@ -72,11 +72,11 @@ export class QueuePlayer {
   async run(items, index, options, generation) {
     this.onState({ playing: options.automatic ?? (options.autoAdvance !== false), speaking: false, finished: false });
     try {
-      while (generation === this.generation && items[index]) {
+      while (generation === this.generation && items.at(index)) {
         this.onPosition(index);
         for (let repeat = 0; repeat < (options.repeat || 1); repeat += 1) {
           this.onState({ speaking: true, repetition: repeat + 1 });
-          const complete = await this.speech.play(items[index].text, options);
+          const complete = await this.speech.play(items.at(index).text, options);
           if (!complete || generation !== this.generation) return;
           this.onState({ speaking: false });
           if (repeat + 1 < options.repeat && !await this.wait(120)) return;

@@ -3,11 +3,12 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { parseGroups } from '../src/synonyms/model.js';
 import { MAX_FILE_SIZE, MAX_CACHED_FILES, readImportedFiles, updateFileCache, fileCacheRecords, readFileCache, selectCachedFiles } from '../src/synonyms/fileCache.js';
-import { readValue, valueRecords } from '../src/practice/records.js';
+import { DELETE_RECORD, readValue, valueRecords } from '../src/practice/records.js';
 import { byteSize, RecordStore } from '../src/storage.js';
 
-const file = (name, text = 'reserve, book') => ({ name, size: Buffer.byteLength(text), text: async () => text });
+const file = (name, text = 'reserve, book') => ({ name, size: Buffer.byteLength(text), text: async () => text, arrayBuffer: async () => new TextEncoder().encode(text).buffer });
 const cachedFile = (name, text = 'reserve, book') => ({ name, size: Buffer.byteLength(text), text, groupCount: 1 });
+const applyRecords = (entries, records) => records.forEach(([key, value]) => value === DELETE_RECORD ? entries.delete(key) : entries.set(key, value));
 
 test('the default synonym library contains all 179 groups and 672 terms', async () => {
   const text = await readFile(new URL('../src/synonyms/default-groups.json', import.meta.url), 'utf8');
@@ -27,8 +28,8 @@ test('file imports accept exactly 2 MiB and reject any oversized batch before re
   assert.equal(imported.files[0].text, text);
   let reads = 0;
   const incoming = [
-    { name: 'ok.txt', size: 10, text: async () => { reads++; return 'fee, cost'; } },
-    { name: 'large.txt', size: MAX_FILE_SIZE + 1, text: async () => { reads++; return 'fee, cost'; } },
+    { name: 'ok.txt', size: 10, arrayBuffer: async () => { reads++; return new TextEncoder().encode('fee, cost').buffer; } },
+    { name: 'large.txt', size: MAX_FILE_SIZE + 1, arrayBuffer: async () => { reads++; return new TextEncoder().encode('fee, cost').buffer; } },
   ];
   await assert.rejects(readImportedFiles(incoming), /large\.txt.*2 MB/);
   assert.equal(reads, 0);
@@ -70,7 +71,7 @@ test('the twenty-first cached file evicts the oldest slot and same-name uploads 
 
 test('cache persistence stays below 8 KiB per record and clears replaced content chunks', async () => {
   const data = new Map();
-  const localStorage = { setItem: (key, value) => data.set(key, value), getItem: (key) => data.get(key) ?? null };
+  const localStorage = { setItem: (key, value) => data.set(key, value), getItem: (key) => data.get(key) ?? null, removeItem: (key) => data.delete(key) };
   const store = new RecordStore({ indexedDB: null, localStorage, prefix: 'ielts-synonyms-v1:', legacyKey: null });
   await store.open();
   const oldText = 'old unique content, book\n'.padEnd(MAX_FILE_SIZE, ' ');
@@ -78,7 +79,7 @@ test('cache persistence stays below 8 KiB per record and clears replaced content
   const entries = new Map();
   const persist = async (records) => {
     assert.equal(await store.setMany(records), true);
-    records.forEach(([key, value]) => entries.set(key, value));
+    applyRecords(entries, records);
     assert.ok([...store.saved].every(([key, record]) => byteSize({ key, ...record }) <= 8192));
   };
   await persist(fileCacheRecords([], previous));
@@ -87,7 +88,8 @@ test('cache persistence stays below 8 KiB per record and clears replaced content
   await persist(fileCacheRecords(previous, next));
   assert.deepEqual(readFileCache(entries), next);
   assert.ok(![...data.values()].some((record) => record.includes('old unique content')));
-  assert.ok([...entries].filter(([key]) => /^file-cache:0:\d+$/.test(key)).slice(1).every(([, value]) => value === null));
+  assert.equal([...entries.keys()].filter((key) => /^file-cache:0:\d+$/.test(key)).length, 1);
+  assert.equal([...data.keys()].filter((key) => /^ielts-synonyms-v1:file-cache:0:\d+$/.test(key)).length, 1);
 });
 
 test('cache restore ignores incomplete or invalid slots and filenames use bounded chunk keys', () => {
@@ -118,17 +120,17 @@ test('manual cache deletion clears the complete file, keeps learning data and fr
   const next = previous.filter((file) => file.name !== 'delete.txt');
   const changes = fileCacheRecords(previous, next);
   assert.ok(changes.every(([key]) => key.startsWith('file-cache:')));
-  changes.forEach(([key, value]) => entries.set(key, value));
+  applyRecords(entries, changes);
   assert.deepEqual(readFileCache(entries), next);
-  assert.ok([...entries].filter(([key]) => key === 'file-cache:0' || key.startsWith('file-cache:0:')).every(([, value]) => value === null));
+  assert.equal([...entries.keys()].filter((key) => key === 'file-cache:0' || key.startsWith('file-cache:0:')).length, 0);
   assert.deepEqual(readValue(entries, 'groups'), [['current', 'library']]);
   assert.equal(readValue(entries, 'note:current'), 'Learning note retained');
-  fileCacheRecords(next, []).forEach(([key, value]) => entries.set(key, value));
+  applyRecords(entries, fileCacheRecords(next, []));
   assert.deepEqual(readFileCache(entries), []);
-  assert.ok([...entries].filter(([key]) => /^file-cache:\d+(?::\d+)?$/.test(key)).every(([, value]) => value === null));
+  assert.equal([...entries.keys()].filter((key) => /^file-cache:\d+(?::\d+)?$/.test(key)).length, 0);
   const reused = updateFileCache([], [cachedFile('new.txt', 'new, latest')]);
   assert.equal(reused[0].slot, 0);
-  fileCacheRecords([], reused).forEach(([key, value]) => entries.set(key, value));
+  applyRecords(entries, fileCacheRecords([], reused));
   assert.deepEqual(readFileCache(entries), reused);
 });
 
@@ -139,7 +141,10 @@ test('a failed cache deletion keeps the persisted file and retries without chang
     get length() { return data.size; },
     key: (index) => [...data.keys()][index],
     getItem: (key) => data.get(key) ?? null,
-    removeItem: (key) => data.delete(key),
+    removeItem: (key) => {
+      if (key === failKey) { failKey = null; throw new DOMException('Blocked', 'SecurityError'); }
+      data.delete(key);
+    },
     setItem: (key, value) => {
       if (key === failKey) { failKey = null; throw new DOMException('Full', 'QuotaExceededError'); }
       data.set(key, value);

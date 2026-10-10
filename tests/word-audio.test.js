@@ -29,7 +29,11 @@ test('audio generation chooses complete matches by priority and copies word-only
   assert.equal(index['space plus+100%'], '/words/assets/audio/eng_by_word/space_plus+100%25.mp3');
   assert.equal(index['exact phrase'], '/listening-word/folder%20%E7%A9%BA%E6%A0%BC/audio+100%25.mp3');
   for (const term of ['only', 'only words', 'exact', 'not available']) assert.equal(index[term], undefined);
-  execFileSync(process.execPath, [join(root, 'scripts/copy-audio.mjs')], { stdio: 'pipe' });
-  for (const url of Object.values(index)) await access(join(root, 'dist', decodeURIComponent(url)));
-  assert.equal(await readFile(join(root, 'dist/words/assets/audio/eng_by_word/only_word.mp3'), 'utf8'), 'fixture');
+  await save('dist/obsolete.js', 'old build');
+  const output = join(root, 'dist/releases/current-build');
+  execFileSync(process.execPath, [join(root, 'scripts/copy-audio.mjs'), output], { stdio: 'pipe' });
+  for (const url of Object.values(index)) await access(join(output, decodeURIComponent(url)));
+  assert.equal(await readFile(join(output, 'words/assets/audio/eng_by_word/only_word.mp3'), 'utf8'), 'fixture');
+  await assert.rejects(access(join(output, 'obsolete.js')), { code: 'ENOENT' });
+  await access(join(root, 'dist/obsolete.js'));
 });

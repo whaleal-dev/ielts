@@ -65,6 +65,7 @@ export function useListening() {
   app.storageSizes = computed(() => { void app.storage.revision; return store.sizes(); });
   app.notify = (message) => { clearTimeout(noticeTimer); app.notice = message; noticeTimer = setTimeout(() => { app.notice = ''; }, 4500); };
   const persist = (entries) => {
+    if (!store.loaded) return Promise.resolve(false);
     try { return store.setMany(entries); }
     catch (error) { app.storage.state = 'error'; app.storage.message = error.message; return Promise.resolve(false); }
   };
@@ -77,7 +78,10 @@ export function useListening() {
     for (let index = 0; index < app.customText.length; index += 1024) chunks.push(app.customText.slice(index, index + 1024));
     return persist([['customParts', chunks.length], ...chunks.map((text, index) => [`custom:${index}`, text])]);
   };
-  app.retrySave = () => store.pending.size ? store.flush() : app.savePrefs();
+  app.retrySave = async () => {
+    if (app.storage.loadFailed) return restore();
+    return store.pending.size ? store.flush() : app.savePrefs();
+  };
   const clearTimer = () => { clearTimeout(timer); timer = null; task = null; remaining = 0; };
   const queue = (callback, milliseconds) => {
     clearTimer(); task = callback; remaining = milliseconds;
@@ -165,9 +169,9 @@ export function useListening() {
         if (app.session.options.order === 'random') app.session.items = shuffle(app.session.items);
       } else { finish(); return; }
     } else app.session.index += 1;
-    app.answer = ''; app.replay();
+    app.answer = ''; app.feedback = null; app.replay();
   };
-  app.previous = () => { if (app.active && app.session.mode === 'listen' && app.session.index > 0) { app.session.index -= 1; app.answer = ''; app.replay(); } };
+  app.previous = () => { if (app.active && app.session.mode === 'listen' && app.session.index > 0) { app.session.index -= 1; app.answer = ''; app.feedback = null; app.replay(); } };
   app.skipAudio = () => {
     if (!app.active || !app.audioError) return;
     app.session.full = false; app.session.skipped += 1;
@@ -231,7 +235,7 @@ export function useListening() {
     if (event.key === 'ArrowLeft') { event.preventDefault(); app.previous(); }
   };
   const onBeforeUnload = (event) => { if (store.pending.size) { event.preventDefault(); event.returnValue = ''; } };
-  onMounted(async () => {
+  async function restore() {
     try {
       const { entries } = await store.load();
       const old = hydrateLegacy(await readLegacy(store), library);
@@ -248,9 +252,14 @@ export function useListening() {
       if (app.group) app.customText = formatWords(parseWords(app.customText, library, app.prefs.groupId));
       app.storage.revision += 1;
       app.session = emptySession(app.prefs.mode);
+      return true;
     } catch {
       app.storage.state = 'error'; app.storage.message = '无法读取浏览器存储。请允许本站使用存储；当前页面仍可练习。';
+      return false;
     }
+  }
+  onMounted(async () => {
+    await restore();
     app.ready = true;
     window.addEventListener('keydown', onKeyboard); window.addEventListener('beforeunload', onBeforeUnload);
   });

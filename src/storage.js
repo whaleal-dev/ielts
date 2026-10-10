@@ -1,3 +1,5 @@
+import { DELETE_RECORD, obsoleteChunks, readValue, valueRecords } from './practice/records.js';
+
 export const PREFIX = 'ielts-words-v1:';
 export const RECORD_LIMIT = 8 * 1024;
 const DATABASE = 'apple-word-trainer';
@@ -28,9 +30,12 @@ export class RecordStore {
     this.clock = 0;
     this.writer = null;
     this.legacyBytes = 0;
+    this.loaded = false;
+    this.mirrorCleanups = new Map();
   }
 
   async open() {
+    if (this.db) return;
     try {
       if (!this.indexedDB) throw new Error('IndexedDB unavailable');
       this.db = await new Promise((resolve, reject) => {
@@ -64,8 +69,9 @@ export class RecordStore {
       for (let i = 0; i < (this.localStorage?.length || 0); i += 1) {
         const key = this.localStorage.key(i);
         if (!key?.startsWith(this.prefix)) continue;
+        const rawRecord = this.localStorage.getItem(key);
         try {
-          const record = JSON.parse(this.localStorage.getItem(key));
+          const record = JSON.parse(rawRecord);
           if (record && Number.isFinite(record.at) && 'value' in record) entries.set(key, record);
         } catch { /* Keep malformed records; do not overwrite them during loading. */ }
       }
@@ -76,10 +82,19 @@ export class RecordStore {
   }
 
   async load() {
+    try { return await this.read(); }
+    catch (error) {
+      this.onStatus({ state: 'error', loadFailed: !this.loaded, message: '无法读取浏览器存储。请允许本站使用存储后重试读取，已有数据不会被默认内容覆盖。', mode: this.mode });
+      throw error;
+    }
+  }
+
+  async read() {
     await this.open();
     const local = this.readLocal();
     let legacy = local.legacy;
     const entries = local.entries;
+    const databaseEntries = new Map();
     if (this.db) {
       await new Promise((resolve, reject) => {
         const transaction = this.db.transaction('kv', 'readonly');
@@ -94,6 +109,7 @@ export class RecordStore {
           if (!cursor) return;
           const entry = cursor.value;
           if (entry && Number.isFinite(entry.at) && 'value' in entry) {
+            databaseEntries.set(cursor.key, entry);
             if (!entries.has(cursor.key) || entries.get(cursor.key).at < entry.at) entries.set(cursor.key, entry);
           }
           cursor.continue();
@@ -103,10 +119,24 @@ export class RecordStore {
         transaction.onabort = () => reject(transaction.error);
       });
     }
+    const databaseValues = new Map([...databaseEntries].map(([key, entry]) => [key.slice(this.prefix.length), entry.value]));
+    for (const [key, value] of databaseValues) {
+      if (!key.startsWith('__mirrorCleanup:') || !Number.isInteger(value?.parts)) continue;
+      const mirroredKeys = readValue(databaseValues, key, null);
+      if (!Array.isArray(mirroredKeys) || mirroredKeys.some((entry) => typeof entry !== 'string' || !entry.startsWith(this.prefix))) throw new Error('Invalid mirror cleanup record');
+      const journalKeys = [this.prefix + key, ...Array.from({ length: value.parts }, (_, index) => this.prefix + key + ':' + index)];
+      await this.cleanMirrors(mirroredKeys, journalKeys);
+      for (const mirroredKey of mirroredKeys) {
+        if (databaseEntries.has(mirroredKey)) entries.set(mirroredKey, databaseEntries.get(mirroredKey));
+        else entries.delete(mirroredKey);
+      }
+      for (const journalKey of journalKeys) entries.delete(journalKey);
+    }
     this.saved = new Map(entries);
     this.clock = [...entries.values()].reduce((clock, entry) => Math.max(clock, entry.at), 0);
     this.legacyBytes = legacy ? byteSize(legacy) : 0;
-    this.onStatus({ state: 'saved', message: '', mode: this.mode });
+    this.loaded = true;
+    this.onStatus({ state: 'saved', loadFailed: false, message: '', mode: this.mode });
     return { entries: new Map([...entries].map(([key, entry]) => [key.slice(this.prefix.length), entry.value])), legacy };
   }
 
@@ -116,8 +146,25 @@ export class RecordStore {
 
   setMany(values) {
     const at = Math.max(Date.now(), this.clock + 1);
-    const entries = values.map(([key, value]) => {
+    const entries = this.prepareEntries(values, at);
+    this.clock = at;
+    for (const [key, entry] of entries) this.pending.set(key, entry);
+    this.onStatus({ state: 'saving', message: '', mode: this.mode });
+    return this.flush();
+  }
+
+  prepareEntries(values, at, deletedKeys = []) {
+    const changes = new Map(values);
+    const storedKeys = [...new Set([...this.saved.keys(), ...this.pending.keys()])].map((key) => key.slice(this.prefix.length));
+    for (const [key, value] of values) {
+      const chunkKey = key === 'customParts' ? 'custom' : key;
+      const parts = key === 'customParts' ? value : value?.parts;
+      if (Number.isInteger(parts) && parts >= 0) for (const oldKey of obsoleteChunks(storedKeys, chunkKey, parts)) if (!changes.has(oldKey)) changes.set(oldKey, DELETE_RECORD);
+    }
+    for (const key of deletedKeys) changes.set(key, DELETE_RECORD);
+    return [...changes].map(([key, value]) => {
       const fullKey = this.prefix + key;
+      if (value === DELETE_RECORD) return [fullKey, null];
       const entry = { at, value: JSON.parse(JSON.stringify(value)) };
       if (byteSize({ key: fullKey, ...entry }) > RECORD_LIMIT) {
         const error = new RangeError('单条学习记录超过 8 KiB，本次修改尚未保存。');
@@ -126,30 +173,44 @@ export class RecordStore {
       }
       return [fullKey, entry];
     });
-    this.clock = at;
-    for (const [key, entry] of entries) this.pending.set(key, entry);
-    this.onStatus({ state: 'saving', message: '', mode: this.mode });
-    return this.flush();
+  }
+
+  async writeIndexed(entries) {
+    if (!this.db) throw new Error('IndexedDB closed');
+    await new Promise((resolve, reject) => {
+      const transaction = this.db.transaction('kv', 'readwrite');
+      transaction.oncomplete = resolve;
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+      try {
+        for (const [key, value] of entries) {
+          if (value === null) transaction.objectStore('kv').delete(key);
+          else transaction.objectStore('kv').put(value, key);
+        }
+      } catch (error) {
+        transaction.abort();
+        reject(error);
+      }
+    });
+  }
+
+  async cleanMirrors(keys, journalKeys) {
+    for (const key of keys) this.localStorage.removeItem(key);
+    if (journalKeys.length) await this.writeIndexed(journalKeys.map((key) => [key, null]));
+    this.mirrorCleanups.delete(journalKeys[0]);
   }
 
   async write(entries) {
     if (this.mode === 'IndexedDB') {
-      if (!this.db) throw new Error('IndexedDB closed');
-      await new Promise((resolve, reject) => {
-        const transaction = this.db.transaction('kv', 'readwrite');
-        transaction.oncomplete = resolve;
-        transaction.onerror = () => reject(transaction.error);
-        transaction.onabort = () => reject(transaction.error);
-        try {
-          for (const [key, value] of entries) {
-            if (value === null) transaction.objectStore('kv').delete(key);
-            else transaction.objectStore('kv').put(value, key);
-          }
-        } catch (error) {
-          transaction.abort();
-          reject(error);
-        }
-      });
+      for (const cleanup of this.mirrorCleanups.values()) await this.cleanMirrors(cleanup.keys, cleanup.journalKeys);
+      const mirrored = this.localStorage ? entries.filter(([key]) => this.localStorage.getItem(key) !== null).map(([key]) => key) : [];
+      if (!mirrored.length) { await this.writeIndexed(entries); return; }
+      const journal = '__mirrorCleanup:' + Date.now() + '-' + Math.random().toString(36).slice(2);
+      const journalEntries = this.prepareEntries(valueRecords(journal, mirrored), Math.max(this.clock, Date.now()));
+      await this.writeIndexed([...entries, ...journalEntries]);
+      const journalKeys = journalEntries.map(([key]) => key);
+      this.mirrorCleanups.set(journalKeys[0], { keys: mirrored, journalKeys });
+      await this.cleanMirrors(mirrored, journalKeys);
       return;
     }
     this.localStorage ||= availableStorage('localStorage');
@@ -180,9 +241,7 @@ export class RecordStore {
   async commit(values, deletedKeys = []) {
     if (!await this.flush()) return false;
     const at = Math.max(Date.now(), this.clock + 1);
-    const entries = values.map(([key, value]) => [this.prefix + key, { at, value: JSON.parse(JSON.stringify(value)) }]);
-    if (entries.some(([key, entry]) => byteSize({ key, ...entry }) > RECORD_LIMIT)) throw new RangeError('单条词库记录超过 8 KiB，本次修改尚未保存。');
-    const writes = [...entries, ...deletedKeys.map((key) => [this.prefix + key, null])];
+    const writes = this.prepareEntries(values, at, deletedKeys);
     this.onStatus({ state: 'saving', message: '', mode: this.mode });
     try {
       await this.write(writes);
@@ -202,7 +261,7 @@ export class RecordStore {
         const entries = [...this.pending.entries()];
         await this.write(entries);
         for (const [key, value] of entries) {
-          this.saved.set(key, value);
+          if (value === null) this.saved.delete(key); else this.saved.set(key, value);
           if (this.pending.get(key) === value) this.pending.delete(key);
         }
       }

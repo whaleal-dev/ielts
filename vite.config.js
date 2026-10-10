@@ -1,12 +1,14 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'node:url';
+import { createBuildDirectory, latestBuildDirectory } from './scripts/build-output.mjs';
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [vue()],
   base: '/',
   publicDir: false,
   build: {
+    outDir: command === 'build' ? createBuildDirectory() : latestBuildDirectory(),
     emptyOutDir: false,
     rolldownOptions: {
       input: {
@@ -18,4 +20,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));

@@ -89,6 +89,7 @@
 .synonym-terms { display: flex; flex-wrap: wrap; gap: 8px; }
 .synonym-terms button { display: inline-flex; gap: 9px; align-items: center; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; font-size: 14px; color: var(--muted); text-align: left; overflow-wrap: anywhere; max-width: 100%; }
 .synonym-terms svg { flex-shrink: 0; color: var(--subtle); }
+.synonym-pagination { margin-top: 12px; font-size: 13px; color: var(--muted); }
 .synonym-main-word.highlighted, .synonym-terms button.highlighted { background: var(--blue-soft); color: var(--blue-dark); border-color: var(--blue-line); }
 .synonym-main-word:disabled, .synonym-terms button:disabled { opacity: 1; color: var(--muted); cursor: default; }
 .synonym-notes { display: flex; flex-direction: column; gap: 9px; margin-top: 18px; }

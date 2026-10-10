@@ -2,19 +2,27 @@ import { computed, onMounted, onUnmounted, reactive, watch } from 'vue';
 import { QueuePlayer } from '../practice/player.js';
 import { readLocalValue, readValue, valueRecords } from '../practice/records.js';
 import { usePracticeStorage } from '../practice/usePracticeStorage.js';
-import { groupQueue, parseGroups, synonymPrefs } from './model.js';
-import { fileCacheRecords, readFileCache, readImportedFiles, selectCachedFiles, updateFileCache } from './fileCache.js';
+import { groupQueue, GROUP_PAGE_SIZE, parseGroups, synonymPrefs, validateGroups } from './model.js';
+import { fileCacheRecords, readFileCache, readImportedFiles, selectCachedFiles, updateFileCache, validateBatchSize } from './fileCache.js';
 import defaultGroups from './default-groups.json';
 
 const DEFAULT_SOURCE = '同义词-听力179考点词（默认示例）';
 
 export function useSynonyms() {
-  const app = reactive({ ready: false, groups: [], cachedFiles: [], pendingFiles: null, notes: new Map(), prefs: synonymPrefs(), index: 0, search: '', visibleCount: 40, playing: false, speaking: false, finished: false, repetition: 1, error: '', notice: '', source: '' });
+  const app = reactive({ ready: false, groups: [], groupPages: new Map(), cachedFiles: [], pendingFiles: null, notes: new Map(), prefs: synonymPrefs(), index: 0, search: '', visibleCount: 40, playing: false, speaking: false, finished: false, repetition: 1, error: '', notice: '', source: '' });
   const storage = usePracticeStorage('ielts-synonyms-v1:');
   app.storage = storage.status;
   app.filteredGroups = computed(() => app.groups.map((words, index) => ({ words, index })).filter((group) => group.words.some((word) => word.toLowerCase().includes(app.search.trim().toLowerCase()))));
   app.items = computed(() => groupQueue(app.filteredGroups, app.prefs.groupLoops));
-  app.current = computed(() => app.items[app.index] || null);
+  app.current = computed(() => app.items.at(app.index) || null);
+  app.groupPage = (group) => app.groupPages.get(group.index) || 0;
+  app.groupPageCount = (group) => Math.ceil(group.words.length / GROUP_PAGE_SIZE);
+  app.visibleWords = (group) => {
+    const start = app.groupPage(group) * GROUP_PAGE_SIZE;
+    return group.words.slice(start, start + GROUP_PAGE_SIZE).map((text, index) => ({ text, index: start + index }));
+  };
+  app.moveGroupPage = (group, step) => app.groupPages.set(group.index, Math.max(0, Math.min(app.groupPageCount(group) - 1, app.groupPage(group) + step)));
+  watch(() => app.current, (current) => { if (current) app.groupPages.set(current.group, Math.floor(current.word / GROUP_PAGE_SIZE)); }, { flush: 'sync' });
   app.noteCount = computed(() => [...app.notes.values()].filter((text) => text.trim()).length);
   let selection = null;
   const position = () => ['position', selection ? { group: selection.group, word: selection.word, cycle: selection.cycle } : null];
@@ -26,7 +34,7 @@ export function useSynonyms() {
   const snapshot = () => [['prefs', { ...app.prefs }], position(), ...valueRecords('source', app.source), ...valueRecords('groups', app.groups), ...fileCacheRecords([], app.pendingFiles || app.cachedFiles), ...[...app.notes].flatMap(([word, note]) => valueRecords(`note:${encodeURIComponent(word)}`, note))];
   const confirmFiles = () => { if (app.pendingFiles) { app.cachedFiles = app.pendingFiles; app.pendingFiles = null; } };
   watch(() => storage.status.state, (state) => { if (state === 'saved') confirmFiles(); });
-  app.retrySave = async () => { const saved = await storage.retry(snapshot()); if (saved) confirmFiles(); return saved; };
+  app.retrySave = async () => { const saved = await storage.retry(snapshot); if (saved) confirmFiles(); return saved; };
   app.pause = () => { player.stop(); };
   app.toggleCenterCurrent = () => {
     app.prefs.centerCurrent = !app.prefs.centerCurrent;
@@ -35,7 +43,7 @@ export function useSynonyms() {
   app.savePrefs = () => {
     const current = selection;
     app.pause(); app.prefs = synonymPrefs(app.prefs); app.finished = false;
-    app.index = Math.max(0, app.items.findIndex((item) => item.group === current?.group && item.word === current?.word && item.cycle === Math.min(current.cycle, app.prefs.groupLoops)));
+    app.index = Math.max(0, app.items.position(current?.group, current?.word, Math.min(current?.cycle || 1, app.prefs.groupLoops)));
     selection = app.current;
     return storage.save([['prefs', { ...app.prefs }], position()]);
   };
@@ -49,7 +57,7 @@ export function useSynonyms() {
     else { if (app.finished) app.index = 0; return play(); }
   };
   app.jump = (group, word) => {
-    const index = app.items.findIndex((item) => item.group === group && item.word === word);
+    const index = app.items.position(group, word);
     if (index < 0) return;
     const automatic = app.playing;
     app.pause(); app.index = index;
@@ -57,16 +65,19 @@ export function useSynonyms() {
   };
   app.move = (step) => {
     const unique = groupQueue(app.filteredGroups);
-    const index = unique.findIndex((item) => item.group === app.current?.group && item.word === app.current?.word);
-    const next = unique[index + step];
+    const index = unique.position(app.current?.group, app.current?.word);
+    const next = unique.at(index + step);
     if (next) return app.jump(next.group, next.word);
   };
   app.canMove = (step) => {
     const unique = groupQueue(app.filteredGroups);
-    const index = unique.findIndex((item) => item.group === app.current?.group && item.word === app.current?.word);
-    return Boolean(unique[index + step]);
+    const index = unique.position(app.current?.group, app.current?.word);
+    return Boolean(unique.at(index + step));
   };
   app.setGroups = (groups, source, records = []) => {
+    if (storage.status.loadFailed) return Promise.resolve(false);
+    try { validateGroups(groups); } catch (error) { app.error = error.message; return Promise.resolve(false); }
+    app.groupPages.clear();
     app.pause(); app.groups = groups; app.source = source; app.search = ''; app.index = 0; app.finished = false; app.visibleCount = 40; app.error = '';
     selection = app.current;
     app.notice = `已加载 ${groups.length} 组同义词。`;
@@ -76,7 +87,12 @@ export function useSynonyms() {
   app.importFiles = async (files, cachedNames = []) => {
     if (!files.length && !cachedNames.length) return false;
     let imported, selected;
-    try { imported = await readImportedFiles(files); selected = selectCachedFiles(app.cachedFiles, cachedNames); }
+    try {
+      selected = selectCachedFiles(app.cachedFiles, cachedNames);
+      validateBatchSize([...app.cachedFiles.filter((file) => cachedNames.includes(file.name)), ...files]);
+      imported = await readImportedFiles(files);
+      validateGroups([...selected.groups, ...imported.groups]);
+    }
     catch (error) { app.error = error.message; return false; }
     const groups = [...selected.groups, ...imported.groups];
     const source = [...selected.names, ...files.map((file) => file.name)].join('、');
@@ -107,13 +123,13 @@ export function useSynonyms() {
   app.groupNotes = (group) => [...new Set(group)].filter((word) => app.notes.get(word)?.trim()).map((word) => ({ word, text: app.notes.get(word) }));
   watch(() => app.search, () => { app.pause(); app.index = 0; selection = app.current; app.visibleCount = 40; app.finished = false; app.error = ''; });
   const keydown = (event) => {
-    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, dialog, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
+    if (!app.ready || storage.status.loadFailed || event.ctrlKey || event.metaKey || event.altKey || document.querySelector('dialog[open]')) return;
+    if (event.defaultPrevented || event.target.closest('input, textarea, select, button, a, dialog, [contenteditable], [role="combobox"], [role="listbox"], [role="option"]')) return;
     if (event.code === 'Space') { event.preventDefault(); app.toggle(); }
     else if (event.key === 'ArrowLeft') { event.preventDefault(); app.move(-1); }
     else if (event.key === 'ArrowRight') { event.preventDefault(); app.move(1); }
   };
-  onMounted(async () => {
-    const entries = await storage.load();
+  const restore = (entries) => {
     const groups = readValue(entries, 'groups', []);
     try { if (groups.length) app.groups = parseGroups(JSON.stringify(groups), 'saved.json'); } catch { app.error = '已保存词库格式不正确，已加载默认示例，请重新导入词库。'; }
     app.cachedFiles = readFileCache(entries);
@@ -128,8 +144,11 @@ export function useSynonyms() {
     }
     app.prefs = synonymPrefs(entries.get('prefs'));
     const saved = entries.get('position');
-    app.index = Math.max(0, app.items.findIndex((item) => item.group === saved?.group && item.word === saved?.word && item.cycle === saved?.cycle));
+    app.index = Math.max(0, app.items.position(saved?.group, saved?.word, saved?.cycle || 1));
     selection = app.current;
+  };
+  onMounted(async () => {
+    await storage.load(restore);
     app.ready = true; window.addEventListener('keydown', keydown);
   });
   onUnmounted(() => { player.stop(); window.removeEventListener('keydown', keydown); });

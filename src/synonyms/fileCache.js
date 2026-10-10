@@ -1,25 +1,34 @@
-import { readValue, valueRecords } from '../practice/records.js';
-import { parseGroups } from './model.js';
+import { DELETE_RECORD, readValue, valueRecords } from '../practice/records.js';
+import { parseGroups, validateGroups } from './model.js';
 
 export const MAX_FILE_SIZE = 2 * 1024 * 1024;
 export const MAX_CACHED_FILES = 20;
+export const MAX_BATCH_SIZE = 10 * 1024 * 1024;
 
 export function validateFileSize(file) {
   if (file.size > MAX_FILE_SIZE) throw new Error(`${file.name}：单个文件不能超过 2 MB。`);
 }
 
+export function validateBatchSize(files) {
+  files.forEach(validateFileSize);
+  if (files.reduce((total, file) => total + file.size, 0) > MAX_BATCH_SIZE) throw new Error('每批文件合计不能超过 10 MiB，请减少所选文件。');
+}
+
 export async function readImportedFiles(incoming) {
-  incoming.forEach(validateFileSize);
+  validateBatchSize(incoming);
   const files = [], groups = [];
   for (const file of incoming) {
     try {
-      const text = await file.text();
+      let text;
+      try { text = new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(await file.arrayBuffer()); }
+      catch { throw new Error('文件必须使用 UTF-8 编码，请转换编码后重新导入。'); }
+      if (text.includes('\u0000')) throw new Error('文件包含空字符，请使用 UTF-8 纯文本编码重新保存。');
       const parsed = parseGroups(text, file.name);
       files.push({ name: file.name, size: file.size, text, groupCount: parsed.length });
       groups.push(parsed);
     } catch (error) { throw new Error(`${file.name}：${error.message}`); }
   }
-  return { files, groups: groups.flat() };
+  return { files, groups: validateGroups(groups.flat()) };
 }
 
 export function updateFileCache(previous, incoming) {
@@ -42,14 +51,15 @@ export function selectCachedFiles(files, names) {
     try { return parseGroups(file.text, file.name); }
     catch (error) { throw new Error(`${file.name}：${error.message}`); }
   });
-  return { groups, names: selected.map((file) => file.name) };
+  validateBatchSize(selected);
+  return { groups: validateGroups(groups), names: selected.map((file) => file.name) };
 }
 
 const manifest = (files) => files.map(({ slot, name, size, groupCount }) => ({ slot, name, size, groupCount }));
 function replacementRecords(key, previous, next) {
   const records = valueRecords(key, next);
   if (previous !== undefined) {
-    for (const [oldKey] of valueRecords(key, previous).slice(records.length)) records.push([oldKey, null]);
+    for (const [oldKey] of valueRecords(key, previous).slice(records.length)) records.push([oldKey, DELETE_RECORD]);
   }
   return records;
 }
@@ -62,7 +72,7 @@ export function fileCacheRecords(previous, next) {
   }
   for (const file of previous) {
     if (!next.some((entry) => entry.slot === file.slot)) {
-      for (const [key] of valueRecords(`file-cache:${file.slot}`, file.text)) records.push([key, null]);
+      for (const [key] of valueRecords(`file-cache:${file.slot}`, file.text)) records.push([key, DELETE_RECORD]);
     }
   }
   return records;

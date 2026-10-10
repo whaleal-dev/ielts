@@ -3,7 +3,7 @@ import { chapters, groups, words, sources, wordIndex, normalizeTerm, audioForTer
 import { RecordStore, wordRecords, PREFIX } from './storage.js';
 import { createWordLibrary, expandWordLibrary, directoryRecords, wordLibraryRecords, readWordLibraries, libraryDeleteKeys } from './wordLibraries.js';
 import { SpeechPlayer, chooseEnglishVoice } from './practice/player.js';
-import { dayKey, emptyDay, markStudied } from './progress.js';
+import { dayKey, emptyDay, markStudied, recentDays, studyStreak } from './progress.js';
 import { normalizeDifficulty, changeDifficulty, scheduleReview, answerRecord, isReviewDue, reviewIntervals } from './learningModel.js';
 
 const number = (value) => Math.max(0, Math.min(Number.MAX_SAFE_INTEGER, Math.floor(Number(value) || 0)));
@@ -25,7 +25,7 @@ export function useLearning() {
     round: { options: [], selected: '', answered: false, correct: false },
     spelling: '', playing: false, speaking: false, search: '', visibleCount: 40,
     reviewSearch: '', notice: '', now: Date.now(),
-    storage: { state: 'loading', message: '', mode: 'IndexedDB' },
+    storage: { state: 'loading', message: '', mode: 'IndexedDB', loadFailed: false },
   });
   const store = new RecordStore({ legacyKey: null, onStatus: (status) => Object.assign(app.storage, status) });
   let token = 0;
@@ -87,45 +87,70 @@ export function useLearning() {
   app.reviewDueWords = computed(() => app.reviewMatches.filter(app.isDue));
   app.filteredReview = computed(() => app.prefs.reviewFilter === 'due' ? app.reviewDueWords : app.reviewMatches);
   watch(() => [app.reviewSearch, app.prefs.reviewMin, app.prefs.reviewMax, app.prefs.reviewFilter, app.prefs.reviewSort], () => { app.visibleCount = 40; });
-  app.lastDays = (count) => Array.from({ length: count }, (_, index) => {
-    const date = new Date(app.now);
-    date.setDate(date.getDate() - count + 1 + index);
-    const key = dayKey(date);
-    return { key, label: `${date.getMonth() + 1}/${date.getDate()}`, ...emptyDay(), ...app.days[key] };
-  });
-  app.streak = computed(() => {
-    const date = new Date(app.now);
-    if (!app.days[dayKey(date)]?.studied) date.setDate(date.getDate() - 1);
-    let result = 0;
-    while (app.days[dayKey(date)]?.studied) { result += 1; date.setDate(date.getDate() - 1); }
-    return result;
-  });
+  app.lastDays = (count) => recentDays(count, app.now).map((key) => ({ key, label: `${Number(key.slice(5, 7))}/${Number(key.slice(8))}`, ...emptyDay(), ...app.days[key] }));
+  app.streak = computed(() => studyStreak(app.days, app.now));
   app.notify = (text) => {
     app.notice = text;
     clearTimeout(noticeTimer);
     noticeTimer = setTimeout(() => { app.notice = ''; }, 4000);
   };
   const persist = (entries) => {
+    if (!store.loaded) return Promise.resolve(false);
     try { return store.setMany(entries); }
     catch (error) { app.storage.state = 'error'; app.storage.message = error.message; return Promise.resolve(false); }
   };
   app.savePrefs = () => persist([['prefs', { ...app.prefs }]]);
-  app.retrySave = () => libraryRetry ? libraryRetry() : store.pending.size ? store.flush() : app.savePrefs();
+  app.retrySave = async () => {
+    if (app.storage.loadFailed) {
+      try { hydrate((await store.load()).entries); prepareVoices(); return true; } catch { return false; }
+    }
+    return libraryRetry ? libraryRetry() : store.pending.size ? store.flush() : app.savePrefs();
+  };
   app.cancelLibrarySave = () => { const cancelled = !!libraryRetry; libraryRetry = null; app.libraryError = ''; if (cancelled && !store.pending.size && app.storage.state === 'error') Object.assign(app.storage, { state: 'saved', message: '' }); prepareVoices(); };
   const storedKeys = () => [...new Set([...store.saved.keys(), ...store.pending.keys()])].map((key) => key.slice(PREFIX.length));
-  const oldDirectoryKeys = (records) => storedKeys().filter((key) => key.startsWith('libraries:') && !records.some(([next]) => next === key));
-  app.saveLibrary = async (parsed, name, filename) => {
+  const channel = window.BroadcastChannel ? new window.BroadcastChannel('ielts-word-libraries') : null;
+  function adoptLibraries(libraries, entries) {
+    app.libraries = libraries;
+    for (const [key, value] of entries) {
+      if (key.startsWith('word:') && byKey.value.has(key.slice(5)) && !app.records.has(key.slice(5)) && value && typeof value === 'object') hydrateWord(key.slice(5), value, entries);
+      if (key.startsWith('position:') && !(key.slice(9) in app.positions)) app.positions[key.slice(9)] = number(value);
+      if (key.startsWith('libraryPosition:') && !app.libraryPositions[key.slice(16)] && value && typeof value === 'object') app.libraryPositions[key.slice(16)] = value;
+      if (key.startsWith('libraryDay:') && value && typeof value === 'object') {
+        const [, id, date] = key.split(':');
+        const days = app.personalDays[id] ||= {}; days[date] ||= { ...emptyDay(), ...value };
+      }
+    }
+  }
+  const refreshLibraries = async () => {
+    if (!app.ready || app.libraryBusy || app.storage.loadFailed || !await store.flush()) return;
+    try {
+      const { entries } = await store.load();
+      adoptLibraries(readWordLibraries(entries, audioForTerm), entries);
+      if (!app.sources.some((source) => source.id === app.prefs.source)) {
+        app.stop(); app.selectSource('all', false); app.notify('当前个人词库已在其他页面删除，已返回雅思主题词汇。');
+      }
+    } catch { /* The storage status reports the read error and preserves the current library. */ }
+  };
+  let librarySyncTimer;
+  const scheduleLibrarySync = () => { clearTimeout(librarySyncTimer); librarySyncTimer = setTimeout(refreshLibraries, 40); };
+  if (channel) channel.onmessage = scheduleLibrarySync;
+  const onLibraryStorage = (event) => { if (event.key?.startsWith(PREFIX + 'libraryInfo:') || event.key?.startsWith(PREFIX + 'library:')) scheduleLibrarySync(); };
+  app.saveLibrary = async (parsed, name, filename, pendingLibrary = null) => {
     if (app.libraryBusy) return null;
     app.libraryBusy = true; app.libraryError = '';
     libraryRetry = () => app.saveLibrary(parsed, name, filename);
     try {
-      const library = expandWordLibrary(createWordLibrary(parsed, name, app.sources.map((source) => source.title), { filename }), audioForTerm);
-      const next = [library, ...app.libraries];
-      const directory = directoryRecords(next);
-      if (!await store.commit([...wordLibraryRecords(library), ...directory], oldDirectoryKeys(directory))) {
+      if (!await store.flush()) return null;
+      const { entries } = await store.load();
+      const latest = readWordLibraries(entries, audioForTerm);
+      const library = pendingLibrary || expandWordLibrary(createWordLibrary(parsed, name, [sources[0].title, ...latest.map((source) => source.title)], { filename }), audioForTerm);
+      libraryRetry = () => app.saveLibrary(parsed, name, filename, library);
+      const next = [library, ...latest.filter((entry) => entry.id !== library.id)];
+      if (!await store.commit([...wordLibraryRecords(library), ...directoryRecords([library])])) {
         app.libraryError = '尚未保存。解析结果和名称已保留，请重试保存。'; return null;
       }
-      app.libraries = next; libraryRetry = null;
+      adoptLibraries(next, entries); libraryRetry = null;
+      channel?.postMessage('changed');
       app.notify('词库已导入，可以开始学习。');
       return library;
     } catch (error) { app.libraryError = error.message; return null; }
@@ -136,14 +161,17 @@ export function useLearning() {
     app.stop(); app.libraryBusy = true; app.libraryError = '';
     libraryRetry = () => app.deleteLibrary(library);
     try {
-      const next = app.libraries.filter((entry) => entry.id !== library.id);
-      const directory = directoryRecords(next);
+      if (!await store.flush()) return false;
+      const { entries } = await store.load();
+      const latest = readWordLibraries(entries, audioForTerm);
+      const next = latest.filter((entry) => entry.id !== library.id);
       const selected = app.prefs.source === library.id;
       const builtIn = app.libraryPositions.all || { group: groups[0].id, chapter: 1 };
       const prefs = selected ? { ...app.prefs, source: 'all', ...builtIn } : { ...app.prefs };
-      const deleted = [...libraryDeleteKeys(storedKeys(), library), ...oldDirectoryKeys(directory)];
-      if (!await store.commit([...directory, ['prefs', prefs]], deleted)) { app.libraryError = '删除失败，词库和当前选择已保留，请重试。'; return false; }
-      app.libraries = next; libraryRetry = null;
+      const deleted = libraryDeleteKeys(storedKeys(), library);
+      if (!await store.commit([['prefs', prefs]], deleted)) { app.libraryError = '删除失败，词库和当前选择已保留，请重试。'; return false; }
+      adoptLibraries(next, entries); libraryRetry = null;
+      channel?.postMessage('changed');
       for (const word of library.words) app.records.delete(word.key);
       for (const key of Object.keys(app.positions)) if (key.startsWith(`personal:${library.id}:`)) delete app.positions[key];
       delete app.libraryPositions[library.id]; delete app.personalDays[library.id];
@@ -377,6 +405,14 @@ export function useLearning() {
     }
   };
 
+  function hydrateWord(wordKey, value, entries) {
+    const parts = Math.min(number(value.noteParts), 20000);
+    app.records.set(wordKey, { ...defaultRecord(), count: number(value.count), mastered: value.mastered === true,
+      masteredAt: String(value.masteredAt || ''), lastStudiedAt: String(value.lastStudiedAt || ''), difficulty: normalizeDifficulty(value.difficulty),
+      stage: Math.min(number(value.stage), reviewIntervals.length), nextReviewAt: String(value.nextReviewAt || ''), failures: number(value.failures),
+      note: Array.from({ length: parts }, (_, index) => entries.get(`note:${wordKey}:${index}`) || '').join('') });
+  }
+
   function hydrate(entries) {
     app.libraries = readWordLibraries(entries, audioForTerm);
     for (const [key, value] of entries) {
@@ -393,12 +429,7 @@ export function useLearning() {
         app.days[key.slice(4)] = { studied: number(value.studied), events: number(value.events), mastered: number(value.mastered), reviewed: number(value.reviewed), seen: typeof value.seen === 'string' ? value.seen : '' };
       }
       if (key.startsWith('word:') && byKey.value.has(key.slice(5)) && value && typeof value === 'object') {
-        const wordKey = key.slice(5);
-        const parts = Math.min(number(value.noteParts), 20000);
-        app.records.set(wordKey, { ...defaultRecord(), count: number(value.count), mastered: value.mastered === true,
-          masteredAt: String(value.masteredAt || ''), lastStudiedAt: String(value.lastStudiedAt || ''), difficulty: normalizeDifficulty(value.difficulty),
-          stage: Math.min(number(value.stage), reviewIntervals.length), nextReviewAt: String(value.nextReviewAt || ''), failures: number(value.failures),
-          note: Array.from({ length: parts }, (_, index) => entries.get(`note:${wordKey}:${index}`) || '').join('') });
+        hydrateWord(key.slice(5), value, entries);
       }
     }
     if (!app.sources.some((source) => source.id === app.prefs.source)) app.prefs.source = 'all';
@@ -424,7 +455,7 @@ export function useLearning() {
   }
 
   function prepareVoices() {
-    if (!app.ready || app.libraryBusy || libraryRetry) return;
+    if (!app.ready || app.storage.loadFailed || app.libraryBusy || libraryRetry) return;
     const voices = globalThis.speechSynthesis?.getVoices() || [];
     const selected = chooseEnglishVoice(voices, app.prefs.voice, true);
     if (!selected) return;
@@ -460,11 +491,16 @@ export function useLearning() {
     clockTimer = setInterval(() => { app.now = Date.now(); }, 60000);
     window.addEventListener('keydown', onKeyboard);
     window.addEventListener('beforeunload', onBeforeUnload);
+    window.addEventListener('focus', scheduleLibrarySync);
+    window.addEventListener('storage', onLibraryStorage);
   });
   onUnmounted(() => {
     app.stop(); clearInterval(clockTimer); clearTimeout(noticeTimer);
     window.removeEventListener('keydown', onKeyboard);
     window.removeEventListener('beforeunload', onBeforeUnload);
+    window.removeEventListener('focus', scheduleLibrarySync);
+    window.removeEventListener('storage', onLibraryStorage);
+    clearTimeout(librarySyncTimer); channel?.close();
     globalThis.speechSynthesis?.removeEventListener('voiceschanged', prepareVoices);
     store.db?.close();
   });
