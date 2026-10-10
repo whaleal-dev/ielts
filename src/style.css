@@ -93,6 +93,15 @@ kbd { font-family: inherit; font-size: 12px; border: 1px solid var(--line); back
 .word-playback-settings .section-heading { margin-bottom: 18px; }
 .word-playback-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
 .word-playback-grid .range-setting { margin-bottom: 0; }
+.word-playback-settings .section-heading { margin-bottom: 0; }
+.word-playback-settings .rotated { transform: rotate(180deg); }
+.word-voice { margin: 18px 0 22px; }
+.word-voice .practice-field { display: flex; flex-direction: column; gap: 8px; max-width: 480px; }
+.word-voice label { color: var(--muted); font-size: 13px; }
+.word-voice p { color: var(--subtle); font-size: 12px; line-height: 1.6; margin-top: 8px; }
+.source-select { min-width: 0; max-width: 100%; }
+.source-select .p-select { max-width: 260px; min-width: 0; }
+.selection-meta { flex-shrink: 0; }
 .word-detail-hidden { visibility: hidden; }
 .study-card { display: flex; flex-direction: column; border: 1px solid rgba(255, 255, 255, .94); background: var(--surface); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); }
 .card-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid var(--line); }
@@ -100,6 +109,9 @@ kbd { font-family: inherit; font-size: 12px; border: 1px solid var(--line); back
 .icon-button:hover { background: var(--blue-soft); color: var(--blue); }
 .word-content { flex: 1; padding: 22px 34px 30px; min-height: 334px; }
 .word-context { display: flex; justify-content: space-between; gap: 12px; color: var(--subtle); font-size: 13px; }
+.word-context > span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.group-picker .p-togglebutton { max-width: 100%; }
+.group-picker .p-togglebutton-content { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
 .word-sequence { color: var(--blue-dark); font-size: 13px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .word-sequence span { color: var(--muted); }
 .word-heading { text-align: center; padding-top: 27px; }
@@ -192,6 +204,7 @@ kbd { font-family: inherit; font-size: 12px; border: 1px solid var(--line); back
 .subtle-count { display: inline-block; vertical-align: middle; margin-left: 9px; border: 1px solid var(--line); color: var(--subtle); background: var(--surface-soft); border-radius: 10px; font-size: 12px; padding: 1px 6px; font-weight: 400; }
 .session-list .section-heading p { font-size: 12px; margin-top: 6px; }
 .session-label { font-size: 12px; color: var(--subtle); }
+.session-label { min-width: 0; overflow-wrap: anywhere; }
 .session-words { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 18px; row-gap: 3px; }
 .session-words button { display: flex; gap: 8px; align-items: center; padding: 10px 7px; text-align: left; border-radius: 10px; color: var(--muted); font-size: 14px; min-width: 0; }
 .session-words button > span:nth-child(2) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -231,9 +244,49 @@ kbd { font-family: inherit; font-size: 12px; border: 1px solid var(--line); back
 .source-card-copy { flex: 1; min-width: 0; }
 .source-card h3 { font-size: 16px; font-weight: 600; color: var(--text); }
 .source-card p { font-size: 12px; color: var(--subtle); margin-top: 8px; line-height: 1.6; }
-.source-card-count { display: flex; align-items: center; gap: 20px; color: var(--muted); }
-.source-card strong { font-size: 24px; font-weight: 600; color: var(--text); }
-.source-card strong span { font-size: 11px; color: var(--subtle); font-weight: 400; }
+.library-heading { flex-wrap: wrap; }
+.library-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.source-grid { gap: 14px; }
+.library-card h3, .library-card p { overflow-wrap: anywhere; }
+.library-card .small-progress { margin-top: 12px; max-width: 400px; }
+.library-delete { color: var(--danger); }
+.personal-library-empty { font-size: 14px; color: var(--muted); margin: -12px 0 28px; }
+.word-library-dialog { width: min(850px, calc(100% - 32px)); }
+.word-library-dialog .dialog-body { min-width: 0; }
+.import-tip { font-size: 13px; line-height: 1.8; color: var(--muted); margin-bottom: 18px; overflow-wrap: anywhere; }
+.word-upload-drop { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 26px 18px; border: 1px dashed var(--blue-line); border-radius: 14px; background: var(--blue-soft); color: var(--blue-dark); cursor: pointer; text-align: center; }
+.word-upload-drop strong { max-width: 100%; overflow-wrap: anywhere; font-size: 15px; }
+.word-upload-drop span { color: var(--muted); font-size: 12px; }
+.word-upload-drop.dragging, .word-upload-drop:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.word-upload-drop[aria-disabled="true"] { opacity: .6; cursor: default; }
+.word-library-name { display: flex; flex-direction: column; gap: 8px; font-size: 13px; margin: 20px 0 14px; color: var(--muted); }
+.word-library-name input { width: 100%; min-width: 0; padding: 12px; color: var(--text); background: var(--surface-strong); border: 1px solid var(--line); border-radius: 10px; }
+.word-import-preview { max-height: 340px; overflow: auto; border: 1px solid var(--line); border-radius: 12px; margin-top: 12px; }
+.word-import-preview table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 12px; line-height: 1.7; }
+.word-import-preview caption { padding: 10px; color: var(--muted); text-align: left; }
+.word-import-preview th, .word-import-preview td { padding: 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: anywhere; white-space: pre-wrap; }
+.word-import-preview th { background: var(--surface-soft); color: var(--muted); }
+.word-import-errors { color: var(--danger); background: var(--danger-soft); padding: 14px; border-radius: 12px; margin-top: 16px; font-size: 13px; line-height: 1.8; overflow-wrap: anywhere; }
+.word-import-errors h3 { font-size: 14px; margin-bottom: 8px; }
+.word-import-success { text-align: center; color: var(--success); padding: 32px 0; overflow-wrap: anywhere; }
+.word-import-success h3 { margin: 14px 0; }
+.word-import-success p { font-size: 14px; color: var(--muted); }
+.word-format-example + .word-format-example { margin-top: 28px; }
+.word-format-example h3 { font-size: 16px; }
+.word-format-example > strong { font-size: 13px; color: var(--muted); }
+.word-format-example pre { max-width: 100%; overflow: auto; padding: 16px; background: var(--surface-soft); border: 1px solid var(--line); border-radius: 12px; font-size: 12px; line-height: 1.8; }
+.word-delete-body h3 { overflow-wrap: anywhere; font-size: 16px; margin-bottom: 15px; }
+.word-delete-body p { font-size: 14px; line-height: 1.8; color: var(--muted); }
+.word-delete-body .word-import-errors { color: var(--danger); }
+.delete-confirm { background: var(--danger); }
+@media (max-width: 768px) {
+  .library-card { flex-wrap: wrap; }
+  .library-card .library-actions { flex-basis: 100%; }
+  .library-heading { align-items: flex-start; gap: 18px; }
+  .library-heading .library-actions { flex-basis: 100%; }
+  .source-select .p-select { max-width: 100%; }
+  .word-import-preview th, .word-import-preview td { padding: 8px 6px; }
+}
 .chapters-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
 .chapters-heading h2 { font-size: 15px; font-weight: 550; color: var(--muted); }
 .chapters-heading span { font-size: 12px; color: var(--subtle); }
@@ -273,7 +326,8 @@ button.word-row:hover { background: var(--surface-strong); }
 .review-word-main { min-width: 0; text-align: left; }
 .review-word-main strong { display: block; color: var(--text); font-size: 17px; font-weight: 550; overflow-wrap: anywhere; }
 .review-word-main .row-meaning { display: block; margin-top: 6px; overflow-wrap: anywhere; }
-.review-source { display: block; font-size: 11px; color: var(--subtle); margin-top: 7px; }
+.review-source { display: block; font-size: 11px; color: var(--subtle); margin-top: 7px; overflow-wrap: anywhere; }
+.review-view .section-heading > div, .stats-view .section-heading > div { min-width: 0; overflow-wrap: anywhere; }
 .review-row-status { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
 .difficulty-badge { white-space: nowrap; font-size: 13px; font-weight: 550; color: var(--blue-dark); background: var(--blue-soft); border: 1px solid var(--blue-line); border-radius: 9px; padding: 5px 8px; font-variant-numeric: tabular-nums; }
 .difficulty-badge small { font-size: 11px; font-weight: 400; }
@@ -502,8 +556,6 @@ button.word-row:hover { background: var(--surface-strong); }
   .source-card { flex-wrap: wrap; gap: 12px; padding: 18px 15px; }
   .source-card h3 { font-size: 14px; }
   .source-card p { font-size: 11px; }
-  .source-card strong { font-size: 18px; }
-  .source-card-count { flex-basis: 100%; justify-content: space-between; }
   .library-groups { grid-template-columns: repeat(2, 1fr); gap: 9px; padding: 0 17px 17px; }
   .chapter-collection summary { padding: 16px 17px; gap: 12px; }
   .review-filters { gap: 12px; }

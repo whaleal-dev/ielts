@@ -104,7 +104,7 @@ export class RecordStore {
       });
     }
     this.saved = new Map(entries);
-    this.clock = Math.max(0, ...[...entries.values()].map((entry) => entry.at));
+    this.clock = [...entries.values()].reduce((clock, entry) => Math.max(clock, entry.at), 0);
     this.legacyBytes = legacy ? byteSize(legacy) : 0;
     this.onStatus({ state: 'saved', message: '', mode: this.mode });
     return { entries: new Map([...entries].map(([key, entry]) => [key.slice(this.prefix.length), entry.value])), legacy };
@@ -141,7 +141,10 @@ export class RecordStore {
         transaction.onerror = () => reject(transaction.error);
         transaction.onabort = () => reject(transaction.error);
         try {
-          for (const [key, value] of entries) transaction.objectStore('kv').put(value, key);
+          for (const [key, value] of entries) {
+            if (value === null) transaction.objectStore('kv').delete(key);
+            else transaction.objectStore('kv').put(value, key);
+          }
         } catch (error) {
           transaction.abort();
           reject(error);
@@ -153,7 +156,10 @@ export class RecordStore {
     if (!this.localStorage) throw new Error('Local storage unavailable');
     const previous = entries.map(([key]) => [key, this.localStorage.getItem(key)]);
     try {
-      for (const [key, value] of entries) this.localStorage.setItem(key, JSON.stringify(value));
+      for (const [key, value] of entries) {
+        if (value === null) this.localStorage.removeItem(key);
+        else this.localStorage.setItem(key, JSON.stringify(value));
+      }
     } catch (error) {
       for (const [key, value] of previous.reverse()) {
         try {
@@ -169,6 +175,25 @@ export class RecordStore {
     if (this.writer) return this.writer;
     this.writer = this.drain().finally(() => { this.writer = null; });
     return this.writer;
+  }
+
+  async commit(values, deletedKeys = []) {
+    if (!await this.flush()) return false;
+    const at = Math.max(Date.now(), this.clock + 1);
+    const entries = values.map(([key, value]) => [this.prefix + key, { at, value: JSON.parse(JSON.stringify(value)) }]);
+    if (entries.some(([key, entry]) => byteSize({ key, ...entry }) > RECORD_LIMIT)) throw new RangeError('单条词库记录超过 8 KiB，本次修改尚未保存。');
+    const writes = [...entries, ...deletedKeys.map((key) => [this.prefix + key, null])];
+    this.onStatus({ state: 'saving', message: '', mode: this.mode });
+    try {
+      await this.write(writes);
+      this.clock = at;
+      for (const [key, entry] of writes) { if (entry === null) this.saved.delete(key); else this.saved.set(key, entry); }
+      this.onStatus({ state: this.pending.size ? 'saving' : 'saved', message: '', mode: this.mode });
+      return true;
+    } catch (error) {
+      this.onStatus({ state: 'error', message: storageMessage(error), mode: this.mode });
+      return false;
+    }
   }
 
   async drain() {
@@ -191,7 +216,7 @@ export class RecordStore {
 
   sizes() {
     const bytes = [...this.saved].map(([key, entry]) => byteSize({ key, ...entry }));
-    return { total: bytes.reduce((sum, size) => sum + size, this.legacyBytes), largest: Math.max(0, ...bytes), count: this.saved.size };
+    return { total: bytes.reduce((sum, size) => sum + size, this.legacyBytes), largest: bytes.reduce((largest, size) => Math.max(largest, size), 0), count: this.saved.size };
   }
 }
 

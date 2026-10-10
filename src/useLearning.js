@@ -1,6 +1,8 @@
 import { reactive, computed, watch, onMounted, onUnmounted } from 'vue';
-import { chapters, groups, words, wordByKey, wordIndex, normalizeTerm } from './library.js';
-import { RecordStore, wordRecords } from './storage.js';
+import { chapters, groups, words, sources, wordIndex, normalizeTerm, audioForTerm } from './library.js';
+import { RecordStore, wordRecords, PREFIX } from './storage.js';
+import { createWordLibrary, expandWordLibrary, directoryRecords, wordLibraryRecords, readWordLibraries, libraryDeleteKeys } from './wordLibraries.js';
+import { SpeechPlayer, chooseEnglishVoice } from './practice/player.js';
 import { dayKey, emptyDay, markStudied } from './progress.js';
 import { normalizeDifficulty, changeDifficulty, scheduleReview, answerRecord, isReviewDue, reviewIntervals } from './learningModel.js';
 
@@ -17,8 +19,8 @@ const shuffled = (items) => {
 
 export function useLearning() {
   const app = reactive({
-    ready: false, records: new Map(), days: {}, positions: {},
-    prefs: { source: 'all', chapter: 1, group: groups[0].id, view: 'study', mode: 'word', rate: 1, repeat: 1, interval: 2, showWord: true, showMeaning: true, reviewMin: 1, reviewMax: 10, reviewFilter: 'all', reviewSort: 'desc' },
+    ready: false, records: new Map(), days: {}, positions: {}, libraries: [], libraryPositions: {}, personalDays: {}, libraryBusy: false, libraryError: '', playbackOpen: false, voiceWarning: '',
+    prefs: { source: 'all', chapter: 1, group: groups[0].id, view: 'study', mode: 'word', voice: '', rate: 1, repeat: 1, interval: 2, showWord: true, showMeaning: true, reviewMin: 1, reviewMax: 10, reviewFilter: 'all', reviewSort: 'desc' },
     session: { items: groups[0].words, index: 0, key: groups[0].id, label: '自然地理 · 第一组', kind: 'group' },
     round: { options: [], selected: '', answered: false, correct: false },
     spelling: '', playing: false, speaking: false, search: '', visibleCount: 40,
@@ -32,6 +34,15 @@ export function useLearning() {
   let noticeTimer;
   let clockTimer;
   let exposed = '';
+  let libraryRetry = null;
+  let waitTimer, resolveWait;
+  const speech = new SpeechPlayer();
+
+  app.sources = computed(() => [sources[0], ...app.libraries]);
+  app.source = computed(() => app.sources.find((source) => source.id === app.prefs.source) || sources[0]);
+  app.sourceWords = computed(() => app.source.words);
+  app.sourceGroups = computed(() => app.source.personal ? app.source.groups : app.chapter.groups);
+  const byKey = computed(() => new Map(app.sources.flatMap((source) => source.words).map((word) => [word.key, word])));
 
   watch(() => app.prefs.rate, (rate) => {
     if (audio) audio.playbackRate = rate;
@@ -45,11 +56,11 @@ export function useLearning() {
   app.currentRecord = computed(() => app.current ? app.getRecord(app.current.key) : defaultRecord());
   app.chapter = computed(() => chapters.find((chapter) => chapter.number === app.prefs.chapter) || chapters[0]);
   app.today = computed(() => app.days[dayKey(app.now)] || emptyDay());
-  app.reviewWords = computed(() => words.filter((word) => app.records.get(word.key)?.difficulty > 0));
+  app.reviewWords = computed(() => app.sourceWords.filter((word) => app.records.get(word.key)?.difficulty > 0));
   app.isDue = (word) => isReviewDue(app.records.get(word.key), app.now);
   app.dueWords = computed(() => app.reviewWords.filter(app.isDue));
   app.stats = computed(() => {
-    const records = words.map((word) => app.records.get(word.key));
+    const records = app.sourceWords.map((word) => app.records.get(word.key));
     return {
       studied: records.filter((record) => record?.count > 0).length,
       mastered: records.filter((record) => record?.mastered).length,
@@ -60,11 +71,11 @@ export function useLearning() {
   app.groupMastered = computed(() => app.session.items.filter((word) => app.records.get(word.key)?.mastered).length);
   app.searchResults = computed(() => {
     const query = normalizeTerm(app.search);
-    return query ? words.filter((word) => normalizeTerm(`${word.word} ${word.meaning} ${word.phonetic}`).includes(query)) : [];
+    return query ? app.sourceWords.filter((word) => normalizeTerm(`${word.word} ${word.meaning} ${word.phonetic}`).includes(query)) : [];
   });
   app.reviewMatches = computed(() => {
     const query = normalizeTerm(app.reviewSearch);
-    return words.filter((word) => {
+    return app.sourceWords.filter((word) => {
       const difficulty = app.records.get(word.key)?.difficulty || 0;
       return difficulty >= app.prefs.reviewMin && difficulty <= app.prefs.reviewMax
         && (!query || normalizeTerm(`${word.word} ${word.meaning} ${word.phonetic}`).includes(query));
@@ -99,7 +110,49 @@ export function useLearning() {
     catch (error) { app.storage.state = 'error'; app.storage.message = error.message; return Promise.resolve(false); }
   };
   app.savePrefs = () => persist([['prefs', { ...app.prefs }]]);
-  app.retrySave = () => store.pending.size ? store.flush() : app.savePrefs();
+  app.retrySave = () => libraryRetry ? libraryRetry() : store.pending.size ? store.flush() : app.savePrefs();
+  app.cancelLibrarySave = () => { const cancelled = !!libraryRetry; libraryRetry = null; app.libraryError = ''; if (cancelled && !store.pending.size && app.storage.state === 'error') Object.assign(app.storage, { state: 'saved', message: '' }); prepareVoices(); };
+  const storedKeys = () => [...new Set([...store.saved.keys(), ...store.pending.keys()])].map((key) => key.slice(PREFIX.length));
+  const oldDirectoryKeys = (records) => storedKeys().filter((key) => key.startsWith('libraries:') && !records.some(([next]) => next === key));
+  app.saveLibrary = async (parsed, name, filename) => {
+    if (app.libraryBusy) return null;
+    app.libraryBusy = true; app.libraryError = '';
+    libraryRetry = () => app.saveLibrary(parsed, name, filename);
+    try {
+      const library = expandWordLibrary(createWordLibrary(parsed, name, app.sources.map((source) => source.title), { filename }), audioForTerm);
+      const next = [library, ...app.libraries];
+      const directory = directoryRecords(next);
+      if (!await store.commit([...wordLibraryRecords(library), ...directory], oldDirectoryKeys(directory))) {
+        app.libraryError = '尚未保存。解析结果和名称已保留，请重试保存。'; return null;
+      }
+      app.libraries = next; libraryRetry = null;
+      app.notify('词库已导入，可以开始学习。');
+      return library;
+    } catch (error) { app.libraryError = error.message; return null; }
+    finally { app.libraryBusy = false; prepareVoices(); }
+  };
+  app.deleteLibrary = async (library) => {
+    if (app.libraryBusy || !library.personal || !app.libraries.some((entry) => entry.id === library.id)) return false;
+    app.stop(); app.libraryBusy = true; app.libraryError = '';
+    libraryRetry = () => app.deleteLibrary(library);
+    try {
+      const next = app.libraries.filter((entry) => entry.id !== library.id);
+      const directory = directoryRecords(next);
+      const selected = app.prefs.source === library.id;
+      const builtIn = app.libraryPositions.all || { group: groups[0].id, chapter: 1 };
+      const prefs = selected ? { ...app.prefs, source: 'all', ...builtIn } : { ...app.prefs };
+      const deleted = [...libraryDeleteKeys(storedKeys(), library), ...oldDirectoryKeys(directory)];
+      if (!await store.commit([...directory, ['prefs', prefs]], deleted)) { app.libraryError = '删除失败，词库和当前选择已保留，请重试。'; return false; }
+      app.libraries = next; libraryRetry = null;
+      for (const word of library.words) app.records.delete(word.key);
+      for (const key of Object.keys(app.positions)) if (key.startsWith(`personal:${library.id}:`)) delete app.positions[key];
+      delete app.libraryPositions[library.id]; delete app.personalDays[library.id];
+      if (selected) { const view = app.prefs.view; app.selectSource('all', false); app.prefs.view = view; }
+      app.notify('个人词库已删除。');
+      return true;
+    } catch (error) { app.libraryError = error.message; return false; }
+    finally { app.libraryBusy = false; prepareVoices(); }
+  };
   app.setReviewRange = (bound, value) => {
     app.prefs[bound] = normalizeDifficulty(value);
     if (app.prefs.reviewMin > app.prefs.reviewMax) {
@@ -123,6 +176,7 @@ export function useLearning() {
     return persist([
       ...wordRecords(word.key, app.getRecord(word.key)),
       [`day:${dayKey(app.now)}`, { ...day }],
+      ...(word.sourceId !== 'all' && app.personalDays[word.sourceId]?.[dayKey(app.now)] ? [[`libraryDay:${word.sourceId}:${dayKey(app.now)}`, { ...app.personalDays[word.sourceId][dayKey(app.now)] }]] : []),
     ]);
   };
   const expose = () => {
@@ -133,7 +187,13 @@ export function useLearning() {
     record.lastStudiedAt = new Date().toISOString();
     const day = today();
     day.events += 1;
-    markStudied(day, wordIndex.get(word.key), words.length);
+    if (word.sourceId === 'all') markStudied(day, wordIndex.get(word.key), words.length);
+    else {
+      const source = app.sources.find((entry) => entry.id === word.sourceId);
+      const days = app.personalDays[word.sourceId] ||= {};
+      const personalDay = days[dayKey(app.now)] ||= emptyDay();
+      if (markStudied(personalDay, source.words.findIndex((entry) => entry.key === word.key), source.words.length)) day.studied += 1;
+    }
     exposed = word.key;
     saveWord(word);
   };
@@ -141,23 +201,31 @@ export function useLearning() {
     token += 1;
     app.playing = false;
     app.speaking = false;
-    if (audio) { audio.pause(); audio = null; }
+    if (audio) { audio.onended = null; audio.onerror = null; audio.pause(); audio = null; }
     if (resolveAudio) { resolveAudio(); resolveAudio = null; }
+    speech.stop(); clearTimeout(waitTimer); resolveWait?.(); resolveWait = null;
   };
   const resetRound = () => {
     app.spelling = '';
     const meaning = app.current?.meaning;
-    const alternatives = shuffled([...new Set(words.map((word) => word.meaning))].filter((text) => text && text !== meaning)).slice(0, 3);
+    const local = shuffled([...new Set(app.sourceWords.map((word) => word.meaning))].filter((text) => text && text !== meaning));
+    const fallback = shuffled([...new Set(words.map((word) => word.meaning))].filter((text) => text && text !== meaning && !local.includes(text)));
+    const alternatives = [...local, ...fallback].slice(0, 3);
     app.round = { options: shuffled([meaning, ...alternatives]), selected: '', answered: false, correct: false, difficultyAdded: 0, difficultyAfter: 0 };
   };
   const savePosition = () => {
     app.positions[app.session.key] = app.session.index;
-    persist([[`position:${app.session.key}`, app.session.index], ['prefs', { ...app.prefs }]]);
+    const entries = [[`position:${app.session.key}`, app.session.index], ['prefs', { ...app.prefs }]];
+    if (app.session.kind === 'group') {
+      app.libraryPositions[app.prefs.source] = { group: app.prefs.group, chapter: app.prefs.chapter };
+      entries.push([`libraryPosition:${app.prefs.source}`, { ...app.libraryPositions[app.prefs.source] }]);
+    }
+    persist(entries);
   };
   app.startSession = (items, label, key, kind = 'custom', index = 0, countExposure = true) => {
     app.stop();
     if (!items.length) { app.notify('当前没有可练习的单词。'); return; }
-    app.session = { items, label, key, kind, index: Math.max(0, Math.min(index, items.length - 1)) };
+    app.session = { items: [...items], label, key, kind, index: Math.max(0, Math.min(index, items.length - 1)) };
     app.prefs.view = 'study';
     app.search = '';
     exposed = '';
@@ -165,13 +233,22 @@ export function useLearning() {
     if (countExposure) { expose(); savePosition(); }
   };
   app.selectGroup = (id, countExposure = true) => {
-    const group = groups.find((entry) => entry.id === id) || groups[0];
+    if (groups.some((group) => group.id === id)) app.prefs.source = 'all';
+    const group = app.source.groups.find((entry) => entry.id === id) || app.source.groups[0];
     app.prefs.group = group.id;
-    app.prefs.chapter = group.chapter;
-    app.prefs.source = 'all';
-    app.startSession(group.words, `${app.chapter.title} · ${group.title}`, group.id, 'group', app.positions[group.id] || 0, countExposure);
+    if (!app.source.personal) app.prefs.chapter = group.chapter;
+    app.startSession(group.words, `${app.source.personal ? app.source.title : app.chapter.title} · ${group.title}`, group.id, 'group', app.positions[group.id] || 0, countExposure);
   };
-  app.selectSource = () => app.selectGroup(app.prefs.group);
+  app.selectSource = (id = 'all', countExposure = true) => {
+    app.stop();
+    if (countExposure && id !== app.prefs.source && app.libraryPositions[app.prefs.source]) {
+      persist([[`libraryPosition:${app.prefs.source}`, { ...app.libraryPositions[app.prefs.source] }]]);
+    }
+    app.prefs.source = app.sources.some((source) => source.id === id) ? id : 'all';
+    app.reviewSearch = ''; app.visibleCount = 40;
+    const position = app.libraryPositions[app.prefs.source];
+    app.selectGroup(position?.group || (app.source.personal ? app.source.groups[0].id : app.prefs.group), countExposure);
+  };
   app.selectChapter = () => app.selectGroup(app.chapter.groups[0].id);
   app.showView = (view) => {
     if (view !== 'study') app.stop();
@@ -208,15 +285,15 @@ export function useLearning() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
   app.startSearch = () => app.startSession(app.searchResults, '搜索结果', 'search');
-  app.startReview = (due = false) => app.startSession([...(due ? app.reviewDueWords : app.filteredReview)], due ? '到期复习' : '难度复习', 'review', 'review');
+  app.startReview = (due = false) => app.startSession([...(due ? app.reviewDueWords : app.filteredReview)], due ? '到期复习' : '难度复习', app.source.personal ? `personal:${app.source.id}:review` : 'review', 'review');
   app.openReviewWord = (word) => {
     const items = [...app.filteredReview];
     const index = items.findIndex((item) => item.key === word.key);
-    if (index >= 0) app.startSession(items, '难度复习', 'review', 'review', index);
+    if (index >= 0) app.startSession(items, '难度复习', app.source.personal ? `personal:${app.source.id}:review` : 'review', 'review', index);
   };
   app.openWord = (word) => {
-    const group = groups.find((entry) => entry.id === word.groupId);
-    app.prefs.source = 'all'; app.prefs.group = group.id; app.prefs.chapter = group.chapter;
+    const group = app.source.groups.find((entry) => entry.id === word.groupId);
+    app.prefs.group = group.id; if (!app.source.personal) app.prefs.chapter = group.chapter;
     app.startSession(group.words, `${word.chapterTitle} · ${word.groupTitle}`, group.id, 'group', word.wordIndex);
   };
   app.adjustDifficulty = (delta, word = app.current) => {
@@ -257,15 +334,18 @@ export function useLearning() {
     if (reviewed) today().reviewed += 1;
     saveWord(app.current);
   };
-  const play = (word, currentToken) => new Promise((resolve, reject) => {
-    audio = new Audio(word.audio);
-    audio.playbackRate = app.prefs.rate;
-    resolveAudio = resolve;
-    audio.onended = resolve;
-    audio.onerror = () => reject(new Error('Audio unavailable'));
-    audio.play().catch(reject);
-    if (currentToken !== token) resolve();
-  });
+  const play = (word, currentToken) => {
+    if (!word.audio) return speech.play(word.word, { voice: app.prefs.voice, rate: app.prefs.rate, preferGoogle: true });
+    return new Promise((resolve, reject) => {
+      audio = new Audio(word.audio);
+      audio.playbackRate = app.prefs.rate;
+      resolveAudio = resolve;
+      audio.onended = resolve;
+      audio.onerror = () => reject(new Error('此单词匹配的本地 MP3 暂时无法播放，请重播。'));
+      audio.play().catch(() => reject(new Error('此单词匹配的本地 MP3 暂时无法播放，请重播。')));
+      if (currentToken !== token) resolve();
+    });
+  };
   const playCurrent = async (currentToken) => {
     app.speaking = true;
     try {
@@ -278,7 +358,7 @@ export function useLearning() {
     app.stop(); expose();
     const currentToken = token;
     try { await playCurrent(currentToken); }
-    catch { if (currentToken === token) app.notify('此单词的本地音频暂时无法播放。'); }
+    catch (error) { if (currentToken === token) { app.stop(); app.notify(error.message); } }
   };
   app.toggleAuto = async () => {
     if (app.playing) { app.stop(); return; }
@@ -289,24 +369,30 @@ export function useLearning() {
         await playCurrent(currentToken);
         if (!app.playing || currentToken !== token) break;
         if (app.session.index === app.session.items.length - 1) { app.stop(); app.notify('本轮自动播放已完成。'); break; }
-        await new Promise((resolve) => setTimeout(resolve, app.prefs.interval * 1000));
+        await new Promise((resolve) => { resolveWait = resolve; waitTimer = setTimeout(() => { resolveWait = null; resolve(); }, app.prefs.interval * 1000); });
         if (app.playing && currentToken === token) app.move(1, true);
       }
-    } catch {
-      if (currentToken === token) { app.stop(); app.notify('音频暂时无法播放，自动播放已暂停。'); }
+    } catch (error) {
+      if (currentToken === token) { app.stop(); app.notify(`${error.message}自动播放已暂停。`); }
     }
   };
 
   function hydrate(entries) {
+    app.libraries = readWordLibraries(entries, audioForTerm);
     for (const [key, value] of entries) {
       if (key === 'prefs' && value && typeof value === 'object') {
         for (const field of Object.keys(app.prefs)) if (field in value) app.prefs[field] = value[field];
       }
       if (key.startsWith('position:')) app.positions[key.slice(9)] = number(value);
+      if (key.startsWith('libraryPosition:') && value && typeof value === 'object') app.libraryPositions[key.slice(16)] = value;
+      if (key.startsWith('libraryDay:') && value && typeof value === 'object') {
+        const [, id, date] = key.split(':');
+        const days = app.personalDays[id] ||= {}; days[date] = { ...emptyDay(), ...value };
+      }
       if (key.startsWith('day:') && value && /^\d{4}-\d{2}-\d{2}$/.test(key.slice(4))) {
         app.days[key.slice(4)] = { studied: number(value.studied), events: number(value.events), mastered: number(value.mastered), reviewed: number(value.reviewed), seen: typeof value.seen === 'string' ? value.seen : '' };
       }
-      if (key.startsWith('word:') && wordByKey.has(key.slice(5)) && value && typeof value === 'object') {
+      if (key.startsWith('word:') && byKey.value.has(key.slice(5)) && value && typeof value === 'object') {
         const wordKey = key.slice(5);
         const parts = Math.min(number(value.noteParts), 20000);
         app.records.set(wordKey, { ...defaultRecord(), count: number(value.count), mastered: value.mastered === true,
@@ -315,12 +401,17 @@ export function useLearning() {
           note: Array.from({ length: parts }, (_, index) => entries.get(`note:${wordKey}:${index}`) || '').join('') });
       }
     }
-    app.prefs.source = 'all';
+    if (!app.sources.some((source) => source.id === app.prefs.source)) app.prefs.source = 'all';
+    if (!app.libraryPositions.all) {
+      const group = groups.find((entry) => entry.id === app.prefs.group) || groups[0];
+      app.libraryPositions.all = { group: group.id, chapter: group.chapter };
+    }
     if (!['study', 'library', 'review', 'stats'].includes(app.prefs.view)) app.prefs.view = 'study';
     if (!['word', 'quiz', 'spell'].includes(app.prefs.mode)) app.prefs.mode = 'word';
     app.prefs.rate = Math.max(0.6, Math.min(2, Number(app.prefs.rate) || 1));
     app.prefs.repeat = Math.max(1, Math.min(5, number(app.prefs.repeat) || 1));
     app.prefs.interval = Math.max(0, Math.min(5, Number(app.prefs.interval) || 0));
+    app.prefs.voice = typeof app.prefs.voice === 'string' ? app.prefs.voice : '';
     app.prefs.showWord = app.prefs.showWord !== false;
     app.prefs.showMeaning = app.prefs.showMeaning !== false;
     app.prefs.reviewMin = normalizeDifficulty(app.prefs.reviewMin);
@@ -328,8 +419,20 @@ export function useLearning() {
     if (!['all', 'due'].includes(app.prefs.reviewFilter)) app.prefs.reviewFilter = 'all';
     if (!['desc', 'asc'].includes(app.prefs.reviewSort)) app.prefs.reviewSort = 'desc';
     const view = app.prefs.view;
-    app.selectGroup(app.prefs.group, false);
+    app.selectSource(app.prefs.source, false);
     app.prefs.view = view;
+  }
+
+  function prepareVoices() {
+    if (!app.ready || app.libraryBusy || libraryRetry) return;
+    const voices = globalThis.speechSynthesis?.getVoices() || [];
+    const selected = chooseEnglishVoice(voices, app.prefs.voice, true);
+    if (!selected) return;
+    const id = selected.voiceURI || selected.name;
+    if (app.prefs.voice !== id) {
+      app.voiceWarning = app.prefs.voice ? '已选语音暂不可用，已使用默认英语语音。' : '';
+      app.prefs.voice = id; app.savePrefs();
+    }
   }
 
   const onKeyboard = (event) => {
@@ -340,7 +443,7 @@ export function useLearning() {
     if (event.key === 'ArrowLeft') { event.preventDefault(); app.move(-1); }
   };
   const onBeforeUnload = (event) => {
-    if (store.pending.size) { event.preventDefault(); event.returnValue = ''; }
+    if (store.pending.size || libraryRetry) { event.preventDefault(); event.returnValue = ''; }
   };
   onMounted(async () => {
     try {
@@ -352,6 +455,8 @@ export function useLearning() {
       resetRound();
     }
     app.ready = true;
+    prepareVoices();
+    globalThis.speechSynthesis?.addEventListener('voiceschanged', prepareVoices);
     clockTimer = setInterval(() => { app.now = Date.now(); }, 60000);
     window.addEventListener('keydown', onKeyboard);
     window.addEventListener('beforeunload', onBeforeUnload);
@@ -360,6 +465,7 @@ export function useLearning() {
     app.stop(); clearInterval(clockTimer); clearTimeout(noticeTimer);
     window.removeEventListener('keydown', onKeyboard);
     window.removeEventListener('beforeunload', onBeforeUnload);
+    globalThis.speechSynthesis?.removeEventListener('voiceschanged', prepareVoices);
     store.db?.close();
   });
   return app;

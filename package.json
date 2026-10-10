@@ -6,9 +6,9 @@
   "scripts": {
     "prepare:words": "node scripts/prepare-words.mjs",
     "prepare:listening": "node scripts/prepare-listening.mjs",
-    "predev": "npm run prepare:words && npm run prepare:listening",
+    "predev": "npm run prepare:listening && npm run prepare:words",
     "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
-    "prebuild": "npm run prepare:words && npm run prepare:listening",
+    "prebuild": "npm run prepare:listening && npm run prepare:words",
     "build": "vite build && node scripts/copy-audio.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 5173 --strictPort",
     "test": "node --test tests/*.test.js"

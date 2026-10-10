@@ -1,3 +1,10 @@
+export function chooseEnglishVoice(voices, voice = '', preferGoogle = false) {
+  const english = voices.filter((entry) => /^en/i.test(entry.lang));
+  const selected = voice ? english.find((entry) => entry.voiceURI === voice || entry.name === voice) : undefined;
+  const google = preferGoogle ? english.filter((entry) => /google/i.test(entry.name)) : [];
+  return selected || google.find((entry) => /^en[-_]GB/i.test(entry.lang)) || google[0] || english.find((entry) => /^en[-_]GB/i.test(entry.lang)) || english[0];
+}
+
 export class SpeechPlayer {
   constructor({ synthesis = globalThis.speechSynthesis, createUtterance = (text) => new SpeechSynthesisUtterance(text), onState = () => {} } = {}) {
     Object.assign(this, { synthesis, createUtterance, onState });
@@ -13,7 +20,7 @@ export class SpeechPlayer {
     this.onState(false);
   }
 
-  play(text, { voice = '', rate = 1 } = {}) {
+  play(text, { voice = '', rate = 1, preferGoogle = false } = {}) {
     this.stop();
     const generation = this.generation;
     return new Promise((resolve, reject) => {
@@ -25,8 +32,7 @@ export class SpeechPlayer {
       this.cancel = () => resolve(false);
       try {
         if (!this.synthesis) throw new Error('当前浏览器不支持 Web 语音，请使用支持语音合成的浏览器。');
-        const voices = this.synthesis.getVoices().filter((entry) => /^en/i.test(entry.lang));
-        const selected = voices.find((entry) => entry.voiceURI === voice || entry.name === voice) || voices.find((entry) => /^en[-_]GB/i.test(entry.lang)) || voices[0];
+        const selected = chooseEnglishVoice(this.synthesis.getVoices(), voice, preferGoogle);
         const utterance = this.utterance = this.createUtterance(text);
         if (selected) utterance.voice = selected;
         utterance.lang = selected?.lang || 'en-GB'; utterance.rate = rate;

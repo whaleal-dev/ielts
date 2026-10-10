@@ -33,7 +33,7 @@ watch(() => props.learning.current?.key, async () => { if (props.learning.prefs.
       <div v-else class="word-heading">
         <div class="word-tags"><span v-if="learning.currentRecord.mastered" class="mastered-tag"><Icon name="check" :size="12" />已掌握</span></div>
         <h2 id="wordText" :class="{ 'word-detail-hidden': !wordVisible }">{{ learning.current?.word }}</h2>
-        <div class="phonetic"><span id="wordPhonetic" :class="{ 'word-detail-hidden': !wordVisible }">/{{ learning.current?.phonetic || '—' }}/</span><button class="pronounce-button" :class="{ speaking: learning.speaking }" aria-label="播放发音" @click="learning.pronounce"><Icon name="volume" :size="18" /><span>英音</span></button></div>
+        <div class="phonetic"><span v-if="learning.current?.phonetic" id="wordPhonetic" :class="{ 'word-detail-hidden': !wordVisible }">{{ learning.current.sourceId === 'all' ? `/${learning.current.phonetic}/` : learning.current.phonetic }}</span><button class="pronounce-button" :class="{ speaking: learning.speaking }" aria-label="播放发音" @click="learning.pronounce"><Icon name="volume" :size="18" /><span>发音</span></button></div>
       </div>
 
       <div v-if="learning.prefs.mode === 'word'" class="meaning-section">
